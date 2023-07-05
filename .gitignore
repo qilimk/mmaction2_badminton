@@ -141,3 +141,9 @@ mmaction/tools/*
 # unignore ipython notebook files in demo
 !demo/*.ipynb
 mmaction/.mim
+
+
+# badminton action recognition project
+work_dirs/*
+experiments/*
+badminton_dataset_for_classification_ncu_coach_ver_final/*
