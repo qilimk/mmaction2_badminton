@@ -1,0 +1,1097 @@
+/bin/sh: 1: /usr/local/cuda/bin/nvcc: not found
+07/14 05:33:12 - mmengine - INFO - 
+------------------------------------------------------------
+System environment:
+    sys.platform: linux
+    Python: 3.8.17 | packaged by conda-forge | (default, Jun 16 2023, 07:06:00) [GCC 11.4.0]
+    CUDA available: True
+    numpy_random_seed: 323
+    GPU 0: Tesla V100-SXM2-16GB
+    CUDA_HOME: /usr/local/cuda
+    NVCC: Not Available
+    GCC: gcc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
+    PyTorch: 1.13.1
+    PyTorch compiling details: PyTorch built with:
+  - GCC 9.3
+  - C++ Version: 201402
+  - Intel(R) oneAPI Math Kernel Library Version 2022.1-Product Build 20220311 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v2.6.0 (Git Hash 52b5f107dd9cf10910aaa19cb47f3abf9b349815)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 11.7
+  - NVCC architecture flags: -gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_37,code=compute_37
+  - CuDNN 8.5
+  - Magma 2.6.1
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=11.7, CUDNN_VERSION=8.5.0, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -fabi-version=11 -Wno-deprecated -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -fopenmp -DNDEBUG -DUSE_KINETO -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DEDGE_PROFILER_USE_KINETO -O2 -fPIC -Wno-narrowing -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wunused-local-typedefs -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-strict-overflow -Wno-strict-aliasing -Wno-error=deprecated-declarations -Wno-stringop-overflow -Wno-psabi -Wno-error=pedantic -Wno-error=redundant-decls -Wno-error=old-style-cast -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Werror=cast-function-type -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=1.13.1, USE_CUDA=ON, USE_CUDNN=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, 
+
+    TorchVision: 0.14.1
+    OpenCV: 4.7.0
+    MMEngine: 0.7.4
+
+Runtime environment:
+    cudnn_benchmark: False
+    mp_cfg: {'mp_start_method': 'fork', 'opencv_num_threads': 0}
+    dist_cfg: {'backend': 'nccl'}
+    seed: 323
+    diff_rank_seed: False
+    deterministic: False
+    Distributed launcher: none
+    Distributed training: False
+    GPU number: 1
+------------------------------------------------------------
+
+07/14 05:33:13 - mmengine - INFO - Config:
+default_scope = 'mmaction'
+default_hooks = dict(
+    runtime_info=dict(type='RuntimeInfoHook'),
+    timer=dict(type='IterTimerHook'),
+    logger=dict(type='LoggerHook', interval=100, ignore_last=False),
+    param_scheduler=dict(type='ParamSchedulerHook'),
+    checkpoint=dict(type='CheckpointHook', interval=1, save_best='auto'),
+    sampler_seed=dict(type='DistSamplerSeedHook'),
+    sync_buffers=dict(type='SyncBuffersHook'))
+env_cfg = dict(
+    cudnn_benchmark=False,
+    mp_cfg=dict(mp_start_method='fork', opencv_num_threads=0),
+    dist_cfg=dict(backend='nccl'))
+log_processor = dict(type='LogProcessor', window_size=20, by_epoch=True)
+vis_backends = [dict(type='LocalVisBackend')]
+visualizer = dict(
+    type='ActionVisualizer', vis_backends=[dict(type='LocalVisBackend')])
+log_level = 'INFO'
+load_from = None
+resume = True
+model = dict(
+    type='RecognizerGCN',
+    backbone=dict(
+        type='STGCN', graph_cfg=dict(layout='coco', mode='stgcn_spatial')),
+    cls_head=dict(type='GCNHead', num_classes=18, in_channels=256))
+dataset_type = 'PoseDataset'
+ann_file = 'data/skeleton/ntu60_2d.pkl'
+train_pipeline = [
+    dict(type='PreNormalize2D'),
+    dict(type='GenSkeFeat', dataset='coco', feats=['b']),
+    dict(type='UniformSampleFrames', clip_len=100),
+    dict(type='PoseDecode'),
+    dict(type='FormatGCNInput', num_person=2),
+    dict(type='PackActionInputs')
+]
+val_pipeline = [
+    dict(type='PreNormalize2D'),
+    dict(type='GenSkeFeat', dataset='coco', feats=['b']),
+    dict(
+        type='UniformSampleFrames', clip_len=100, num_clips=1, test_mode=True),
+    dict(type='PoseDecode'),
+    dict(type='FormatGCNInput', num_person=2),
+    dict(type='PackActionInputs')
+]
+test_pipeline = [
+    dict(type='PreNormalize2D'),
+    dict(type='GenSkeFeat', dataset='coco', feats=['b']),
+    dict(
+        type='UniformSampleFrames', clip_len=100, num_clips=10,
+        test_mode=True),
+    dict(type='PoseDecode'),
+    dict(type='FormatGCNInput', num_person=2),
+    dict(type='PackActionInputs')
+]
+train_dataloader = dict(
+    batch_size=16,
+    num_workers=2,
+    persistent_workers=True,
+    sampler=dict(type='DefaultSampler', shuffle=True),
+    dataset=dict(
+        type='RepeatDataset',
+        times=5,
+        dataset=dict(
+            type='PoseDataset',
+            ann_file=
+            'badminton_dataset_ncu_coach_train_labels_data_50_per_class.pkl',
+            pipeline=[
+                dict(type='PreNormalize2D'),
+                dict(type='GenSkeFeat', dataset='coco', feats=['b']),
+                dict(type='UniformSampleFrames', clip_len=100),
+                dict(type='PoseDecode'),
+                dict(type='FormatGCNInput', num_person=2),
+                dict(type='PackActionInputs')
+            ],
+            split=None)))
+val_dataloader = dict(
+    batch_size=16,
+    num_workers=2,
+    persistent_workers=True,
+    sampler=dict(type='DefaultSampler', shuffle=False),
+    dataset=dict(
+        type='PoseDataset',
+        ann_file='badminton_dataset_ncu_coach_val_labels_data.pkl',
+        pipeline=[
+            dict(type='PreNormalize2D'),
+            dict(type='GenSkeFeat', dataset='coco', feats=['b']),
+            dict(
+                type='UniformSampleFrames',
+                clip_len=100,
+                num_clips=1,
+                test_mode=True),
+            dict(type='PoseDecode'),
+            dict(type='FormatGCNInput', num_person=2),
+            dict(type='PackActionInputs')
+        ],
+        split=None,
+        test_mode=True))
+test_dataloader = dict(
+    batch_size=1,
+    num_workers=2,
+    persistent_workers=True,
+    sampler=dict(type='DefaultSampler', shuffle=False),
+    dataset=dict(
+        type='PoseDataset',
+        ann_file='badminton_dataset_ncu_coach_test_labels_data.pkl',
+        pipeline=[
+            dict(type='PreNormalize2D'),
+            dict(type='GenSkeFeat', dataset='coco', feats=['b']),
+            dict(
+                type='UniformSampleFrames',
+                clip_len=100,
+                num_clips=10,
+                test_mode=True),
+            dict(type='PoseDecode'),
+            dict(type='FormatGCNInput', num_person=2),
+            dict(type='PackActionInputs')
+        ],
+        split=None,
+        test_mode=True))
+val_evaluator = dict(
+    type='AccMetric', metric_list=('top_k_accuracy', 'mean_class_accuracy'))
+test_evaluator = dict(
+    type='AccMetric', metric_list=('top_k_accuracy', 'mean_class_accuracy'))
+train_cfg = dict(
+    type='EpochBasedTrainLoop', max_epochs=128, val_begin=1, val_interval=1)
+val_cfg = dict(type='ValLoop')
+test_cfg = dict(type='TestLoop')
+param_scheduler = [
+    dict(
+        type='CosineAnnealingLR',
+        eta_min=0,
+        T_max=16,
+        by_epoch=True,
+        convert_to_iter_based=True)
+]
+optim_wrapper = dict(
+    optimizer=dict(
+        type='SGD', lr=0.1, momentum=0.9, weight_decay=0.0005, nesterov=True))
+auto_scale_lr = dict(enable=False, base_batch_size=128)
+ann_file_train = 'badminton_dataset_ncu_coach_train_labels_data_50_per_class.pkl'
+ann_file_val = 'badminton_dataset_ncu_coach_val_labels_data.pkl'
+ann_file_test = 'badminton_dataset_ncu_coach_test_labels_data.pkl'
+work_dir = 'experiments/badminton_stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_50_per_class'
+launcher = 'none'
+randomness = dict(seed=323, diff_rank_seed=False, deterministic=False)
+
+07/14 05:33:17 - mmengine - INFO - Distributed training is not used, all SyncBatchNorm (SyncBN) layers in the model will be automatically reverted to BatchNormXd layers if they are used.
+07/14 05:33:17 - mmengine - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+before_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DistSamplerSeedHook                
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) SyncBuffersHook                    
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_val_epoch:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) SyncBuffersHook                    
+ -------------------- 
+before_val_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_val_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train:
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_test_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_test_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_test_iter:
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_run:
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+Did not find last_checkpoint to be resumed.
+07/14 05:33:19 - mmengine - INFO - Auto resumed from the latest checkpoint None.
+07/14 05:33:19 - mmengine - WARNING - "FileClient" will be deprecated in future. Please use io functions in https://mmengine.readthedocs.io/en/latest/api/fileio.html#file-io
+07/14 05:33:19 - mmengine - WARNING - "HardDiskBackend" is the alias of "LocalBackend" and the former will be deprecated in future.
+07/14 05:33:19 - mmengine - INFO - Checkpoints will be saved to /home/jovyan/local/mmaction2_badminton/experiments/badminton_stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_50_per_class.
+07/14 05:33:30 - mmengine - INFO - Epoch(train)   [1][100/282]  lr: 9.9881e-02  eta: 1:09:12  time: 0.0925  data_time: 0.0323  memory: 1227  loss: 2.8549  top1_acc: 0.1875  top5_acc: 0.4375  loss_cls: 2.8549
+07/14 05:33:39 - mmengine - INFO - Epoch(train)   [1][200/282]  lr: 9.9521e-02  eta: 0:59:31  time: 0.0816  data_time: 0.0237  memory: 1227  loss: 2.7924  top1_acc: 0.0000  top5_acc: 0.3125  loss_cls: 2.7924
+07/14 05:33:45 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:33:45 - mmengine - INFO - Epoch(train)   [1][282/282]  lr: 9.9046e-02  eta: 0:56:30  time: 0.0827  data_time: 0.0253  memory: 1227  loss: 2.7793  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.7793
+07/14 05:33:45 - mmengine - INFO - Saving checkpoint at 1 epochs
+07/14 05:33:50 - mmengine - INFO - Epoch(val) [1][62/62]    acc/top1: 0.0471  acc/top5: 0.3286  acc/mean1: 0.0646  data_time: 0.0374  time: 0.0618
+07/14 05:33:50 - mmengine - INFO - The best checkpoint with 0.0471 acc/top1 at 1 epoch is saved to best_acc_top1_epoch_1.pth.
+07/14 05:34:00 - mmengine - INFO - Epoch(train)   [2][100/282]  lr: 9.8251e-02  eta: 0:55:29  time: 0.0879  data_time: 0.0288  memory: 1227  loss: 2.6677  top1_acc: 0.3125  top5_acc: 0.6875  loss_cls: 2.6677
+07/14 05:34:08 - mmengine - INFO - Epoch(train)   [2][200/282]  lr: 9.7222e-02  eta: 0:54:09  time: 0.0824  data_time: 0.0244  memory: 1227  loss: 2.5197  top1_acc: 0.1250  top5_acc: 0.6250  loss_cls: 2.5197
+07/14 05:34:15 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:34:15 - mmengine - INFO - Epoch(train)   [2][282/282]  lr: 9.6207e-02  eta: 0:53:21  time: 0.0850  data_time: 0.0265  memory: 1227  loss: 2.3874  top1_acc: 0.2500  top5_acc: 0.7500  loss_cls: 2.3874
+07/14 05:34:15 - mmengine - INFO - Saving checkpoint at 2 epochs
+07/14 05:34:19 - mmengine - INFO - Epoch(val) [2][62/62]    acc/top1: 0.3132  acc/top5: 0.6888  acc/mean1: 0.1992  data_time: 0.0265  time: 0.0506
+07/14 05:34:19 - mmengine - INFO - The previous best checkpoint /home/jovyan/local/mmaction2_badminton/experiments/badminton_stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_50_per_class/best_acc_top1_epoch_1.pth is removed
+07/14 05:34:19 - mmengine - INFO - The best checkpoint with 0.3132 acc/top1 at 2 epoch is saved to best_acc_top1_epoch_2.pth.
+07/14 05:34:29 - mmengine - INFO - Epoch(train)   [3][100/282]  lr: 9.4766e-02  eta: 0:52:59  time: 0.0850  data_time: 0.0266  memory: 1227  loss: 2.4131  top1_acc: 0.2500  top5_acc: 0.6250  loss_cls: 2.4131
+07/14 05:34:38 - mmengine - INFO - Epoch(train)   [3][200/282]  lr: 9.3109e-02  eta: 0:52:51  time: 0.0856  data_time: 0.0275  memory: 1227  loss: 2.1570  top1_acc: 0.4375  top5_acc: 0.7500  loss_cls: 2.1570
+07/14 05:34:45 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:34:45 - mmengine - INFO - Epoch(train)   [3][282/282]  lr: 9.1593e-02  eta: 0:52:28  time: 0.0806  data_time: 0.0223  memory: 1227  loss: 2.1931  top1_acc: 0.0000  top5_acc: 0.7500  loss_cls: 2.1931
+07/14 05:34:45 - mmengine - INFO - Saving checkpoint at 3 epochs
+07/14 05:34:50 - mmengine - INFO - Epoch(val) [3][62/62]    acc/top1: 0.3470  acc/top5: 0.7124  acc/mean1: 0.2549  data_time: 0.0446  time: 0.0721
+07/14 05:34:50 - mmengine - INFO - The previous best checkpoint /home/jovyan/local/mmaction2_badminton/experiments/badminton_stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_50_per_class/best_acc_top1_epoch_2.pth is removed
+07/14 05:34:51 - mmengine - INFO - The best checkpoint with 0.3470 acc/top1 at 3 epoch is saved to best_acc_top1_epoch_3.pth.
+07/14 05:35:00 - mmengine - INFO - Epoch(train)   [4][100/282]  lr: 8.9561e-02  eta: 0:52:18  time: 0.0902  data_time: 0.0294  memory: 1227  loss: 2.0234  top1_acc: 0.2500  top5_acc: 0.8125  loss_cls: 2.0234
+07/14 05:35:05 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:35:09 - mmengine - INFO - Epoch(train)   [4][200/282]  lr: 8.7338e-02  eta: 0:52:03  time: 0.0917  data_time: 0.0330  memory: 1227  loss: 2.1288  top1_acc: 0.1875  top5_acc: 0.6875  loss_cls: 2.1288
+07/14 05:35:16 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:35:16 - mmengine - INFO - Epoch(train)   [4][282/282]  lr: 8.5380e-02  eta: 0:51:57  time: 0.0854  data_time: 0.0270  memory: 1227  loss: 1.9617  top1_acc: 0.2500  top5_acc: 0.7500  loss_cls: 1.9617
+07/14 05:35:16 - mmengine - INFO - Saving checkpoint at 4 epochs
+07/14 05:35:21 - mmengine - INFO - Epoch(val) [4][62/62]    acc/top1: 0.3224  acc/top5: 0.7410  acc/mean1: 0.2475  data_time: 0.0423  time: 0.0698
+07/14 05:35:30 - mmengine - INFO - Epoch(train)   [5][100/282]  lr: 8.2836e-02  eta: 0:51:56  time: 0.0900  data_time: 0.0248  memory: 1227  loss: 1.7375  top1_acc: 0.2500  top5_acc: 0.8750  loss_cls: 1.7375
+07/14 05:35:39 - mmengine - INFO - Epoch(train)   [5][200/282]  lr: 8.0133e-02  eta: 0:51:50  time: 0.0909  data_time: 0.0311  memory: 1227  loss: 1.7371  top1_acc: 0.5000  top5_acc: 0.8750  loss_cls: 1.7371
+07/14 05:35:46 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:35:46 - mmengine - INFO - Epoch(train)   [5][282/282]  lr: 7.7807e-02  eta: 0:51:36  time: 0.0805  data_time: 0.0222  memory: 1227  loss: 1.8431  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 1.8431
+07/14 05:35:46 - mmengine - INFO - Saving checkpoint at 5 epochs
+07/14 05:35:51 - mmengine - INFO - Epoch(val) [5][62/62]    acc/top1: 0.3122  acc/top5: 0.7226  acc/mean1: 0.2583  data_time: 0.0432  time: 0.0684
+07/14 05:36:01 - mmengine - INFO - Epoch(train)   [6][100/282]  lr: 7.4849e-02  eta: 0:51:37  time: 0.0852  data_time: 0.0259  memory: 1227  loss: 1.6736  top1_acc: 0.3750  top5_acc: 0.9375  loss_cls: 1.6736
+07/14 05:36:10 - mmengine - INFO - Epoch(train)   [6][200/282]  lr: 7.1770e-02  eta: 0:51:43  time: 0.0912  data_time: 0.0311  memory: 1227  loss: 1.6768  top1_acc: 0.4375  top5_acc: 0.7500  loss_cls: 1.6768
+07/14 05:36:17 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:36:17 - mmengine - INFO - Epoch(train)   [6][282/282]  lr: 6.9166e-02  eta: 0:51:34  time: 0.0854  data_time: 0.0272  memory: 1227  loss: 1.6706  top1_acc: 0.2500  top5_acc: 0.7500  loss_cls: 1.6706
+07/14 05:36:17 - mmengine - INFO - Saving checkpoint at 6 epochs
+07/14 05:36:23 - mmengine - INFO - Epoch(val) [6][62/62]    acc/top1: 0.3337  acc/top5: 0.7769  acc/mean1: 0.2816  data_time: 0.0464  time: 0.0740
+07/14 05:36:32 - mmengine - INFO - Epoch(train)   [7][100/282]  lr: 6.5907e-02  eta: 0:51:26  time: 0.0833  data_time: 0.0250  memory: 1227  loss: 1.7071  top1_acc: 0.3750  top5_acc: 0.7500  loss_cls: 1.7071
+07/14 05:36:41 - mmengine - INFO - Epoch(train)   [7][200/282]  lr: 6.2571e-02  eta: 0:51:16  time: 0.1022  data_time: 0.0373  memory: 1227  loss: 1.6267  top1_acc: 0.3750  top5_acc: 0.6875  loss_cls: 1.6267
+07/14 05:36:48 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:36:48 - mmengine - INFO - Epoch(train)   [7][282/282]  lr: 5.9789e-02  eta: 0:51:11  time: 0.0878  data_time: 0.0301  memory: 1227  loss: 1.6300  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 1.6300
+07/14 05:36:48 - mmengine - INFO - Saving checkpoint at 7 epochs
+07/14 05:36:53 - mmengine - INFO - Epoch(val) [7][62/62]    acc/top1: 0.4289  acc/top5: 0.8219  acc/mean1: 0.3771  data_time: 0.0403  time: 0.0678
+07/14 05:36:53 - mmengine - INFO - The previous best checkpoint /home/jovyan/local/mmaction2_badminton/experiments/badminton_stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_50_per_class/best_acc_top1_epoch_3.pth is removed
+07/14 05:36:54 - mmengine - INFO - The best checkpoint with 0.4289 acc/top1 at 7 epoch is saved to best_acc_top1_epoch_7.pth.
+07/14 05:36:57 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:37:03 - mmengine - INFO - Epoch(train)   [8][100/282]  lr: 5.6354e-02  eta: 0:51:04  time: 0.0950  data_time: 0.0343  memory: 1227  loss: 1.6381  top1_acc: 0.4375  top5_acc: 0.7500  loss_cls: 1.6381
+07/14 05:37:12 - mmengine - INFO - Epoch(train)   [8][200/282]  lr: 5.2888e-02  eta: 0:50:56  time: 0.1001  data_time: 0.0380  memory: 1227  loss: 1.5221  top1_acc: 0.3125  top5_acc: 0.8125  loss_cls: 1.5221
+07/14 05:37:20 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:37:20 - mmengine - INFO - Epoch(train)   [8][282/282]  lr: 5.0035e-02  eta: 0:50:48  time: 0.0978  data_time: 0.0371  memory: 1227  loss: 1.3350  top1_acc: 0.2500  top5_acc: 1.0000  loss_cls: 1.3350
+07/14 05:37:20 - mmengine - INFO - Saving checkpoint at 8 epochs
+07/14 05:37:25 - mmengine - INFO - Epoch(val) [8][62/62]    acc/top1: 0.4115  acc/top5: 0.8311  acc/mean1: 0.3877  data_time: 0.0414  time: 0.0675
+07/14 05:37:34 - mmengine - INFO - Epoch(train)   [9][100/282]  lr: 4.6556e-02  eta: 0:50:47  time: 0.0921  data_time: 0.0320  memory: 1227  loss: 1.2755  top1_acc: 0.5000  top5_acc: 0.6875  loss_cls: 1.2755
+07/14 05:37:43 - mmengine - INFO - Epoch(train)   [9][200/282]  lr: 4.3094e-02  eta: 0:50:39  time: 0.0936  data_time: 0.0340  memory: 1227  loss: 1.3594  top1_acc: 0.5625  top5_acc: 0.8750  loss_cls: 1.3594
+07/14 05:37:50 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:37:50 - mmengine - INFO - Epoch(train)   [9][282/282]  lr: 4.0280e-02  eta: 0:50:30  time: 0.0859  data_time: 0.0276  memory: 1227  loss: 1.2915  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 1.2915
+07/14 05:37:50 - mmengine - INFO - Saving checkpoint at 9 epochs
+07/14 05:37:55 - mmengine - INFO - Epoch(val) [9][62/62]    acc/top1: 0.4862  acc/top5: 0.8352  acc/mean1: 0.3902  data_time: 0.0405  time: 0.0667
+07/14 05:37:55 - mmengine - INFO - The previous best checkpoint /home/jovyan/local/mmaction2_badminton/experiments/badminton_stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_50_per_class/best_acc_top1_epoch_7.pth is removed
+07/14 05:37:56 - mmengine - INFO - The best checkpoint with 0.4862 acc/top1 at 9 epoch is saved to best_acc_top1_epoch_9.pth.
+07/14 05:38:06 - mmengine - INFO - Epoch(train)  [10][100/282]  lr: 3.6891e-02  eta: 0:50:26  time: 0.0971  data_time: 0.0361  memory: 1227  loss: 1.1016  top1_acc: 0.6250  top5_acc: 1.0000  loss_cls: 1.1016
+07/14 05:38:15 - mmengine - INFO - Epoch(train)  [10][200/282]  lr: 3.3566e-02  eta: 0:50:19  time: 0.0937  data_time: 0.0288  memory: 1227  loss: 1.1777  top1_acc: 0.6250  top5_acc: 0.9375  loss_cls: 1.1777
+07/14 05:38:23 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:38:23 - mmengine - INFO - Epoch(train)  [10][282/282]  lr: 3.0898e-02  eta: 0:50:14  time: 0.0834  data_time: 0.0249  memory: 1227  loss: 1.0968  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 1.0968
+07/14 05:38:23 - mmengine - INFO - Saving checkpoint at 10 epochs
+07/14 05:38:28 - mmengine - INFO - Epoch(val) [10][62/62]    acc/top1: 0.5415  acc/top5: 0.8659  acc/mean1: 0.4160  data_time: 0.0433  time: 0.0684
+07/14 05:38:28 - mmengine - INFO - The previous best checkpoint /home/jovyan/local/mmaction2_badminton/experiments/badminton_stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_50_per_class/best_acc_top1_epoch_9.pth is removed
+07/14 05:38:28 - mmengine - INFO - The best checkpoint with 0.5415 acc/top1 at 10 epoch is saved to best_acc_top1_epoch_10.pth.
+07/14 05:38:38 - mmengine - INFO - Epoch(train)  [11][100/282]  lr: 2.7730e-02  eta: 0:50:07  time: 0.0885  data_time: 0.0299  memory: 1227  loss: 0.9682  top1_acc: 0.6250  top5_acc: 0.9375  loss_cls: 0.9682
+07/14 05:38:46 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:38:48 - mmengine - INFO - Epoch(train)  [11][200/282]  lr: 2.4669e-02  eta: 0:50:02  time: 0.0972  data_time: 0.0374  memory: 1227  loss: 1.1202  top1_acc: 0.6250  top5_acc: 0.8125  loss_cls: 1.1202
+07/14 05:38:55 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:38:55 - mmengine - INFO - Epoch(train)  [11][282/282]  lr: 2.2250e-02  eta: 0:49:55  time: 0.0893  data_time: 0.0311  memory: 1227  loss: 0.9858  top1_acc: 0.5000  top5_acc: 0.7500  loss_cls: 0.9858
+07/14 05:38:55 - mmengine - INFO - Saving checkpoint at 11 epochs
+07/14 05:39:00 - mmengine - INFO - Epoch(val) [11][62/62]    acc/top1: 0.4800  acc/top5: 0.8240  acc/mean1: 0.3961  data_time: 0.0432  time: 0.0697
+07/14 05:39:09 - mmengine - INFO - Epoch(train)  [12][100/282]  lr: 1.9424e-02  eta: 0:49:45  time: 0.0917  data_time: 0.0285  memory: 1227  loss: 0.8417  top1_acc: 0.6250  top5_acc: 0.9375  loss_cls: 0.8417
+07/14 05:39:18 - mmengine - INFO - Epoch(train)  [12][200/282]  lr: 1.6746e-02  eta: 0:49:35  time: 0.0834  data_time: 0.0249  memory: 1227  loss: 0.7336  top1_acc: 0.5625  top5_acc: 1.0000  loss_cls: 0.7336
+07/14 05:39:25 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:39:25 - mmengine - INFO - Epoch(train)  [12][282/282]  lr: 1.4669e-02  eta: 0:49:25  time: 0.0809  data_time: 0.0231  memory: 1227  loss: 0.6822  top1_acc: 0.7500  top5_acc: 0.7500  loss_cls: 0.6822
+07/14 05:39:25 - mmengine - INFO - Saving checkpoint at 12 epochs
+07/14 05:39:30 - mmengine - INFO - Epoch(val) [12][62/62]    acc/top1: 0.5578  acc/top5: 0.8741  acc/mean1: 0.4820  data_time: 0.0414  time: 0.0694
+07/14 05:39:30 - mmengine - INFO - The previous best checkpoint /home/jovyan/local/mmaction2_badminton/experiments/badminton_stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_50_per_class/best_acc_top1_epoch_10.pth is removed
+07/14 05:39:31 - mmengine - INFO - The best checkpoint with 0.5578 acc/top1 at 12 epoch is saved to best_acc_top1_epoch_12.pth.
+07/14 05:39:41 - mmengine - INFO - Epoch(train)  [13][100/282]  lr: 1.2293e-02  eta: 0:49:19  time: 0.0926  data_time: 0.0324  memory: 1227  loss: 0.5990  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.5990
+07/14 05:39:50 - mmengine - INFO - Epoch(train)  [13][200/282]  lr: 1.0100e-02  eta: 0:49:10  time: 0.0900  data_time: 0.0313  memory: 1227  loss: 0.5839  top1_acc: 0.8125  top5_acc: 1.0000  loss_cls: 0.5839
+07/14 05:39:57 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:39:57 - mmengine - INFO - Epoch(train)  [13][282/282]  lr: 8.4459e-03  eta: 0:49:03  time: 0.0908  data_time: 0.0302  memory: 1227  loss: 0.6808  top1_acc: 0.5000  top5_acc: 0.5000  loss_cls: 0.6808
+07/14 05:39:57 - mmengine - INFO - Saving checkpoint at 13 epochs
+07/14 05:40:02 - mmengine - INFO - Epoch(val) [13][62/62]    acc/top1: 0.5118  acc/top5: 0.8506  acc/mean1: 0.4519  data_time: 0.0429  time: 0.0690
+07/14 05:40:12 - mmengine - INFO - Epoch(train)  [14][100/282]  lr: 6.6120e-03  eta: 0:48:58  time: 0.1001  data_time: 0.0370  memory: 1227  loss: 0.4825  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.4825
+07/14 05:40:21 - mmengine - INFO - Epoch(train)  [14][200/282]  lr: 4.9883e-03  eta: 0:48:49  time: 0.0846  data_time: 0.0265  memory: 1227  loss: 0.4217  top1_acc: 0.8125  top5_acc: 1.0000  loss_cls: 0.4217
+07/14 05:40:28 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:40:28 - mmengine - INFO - Epoch(train)  [14][282/282]  lr: 3.8194e-03  eta: 0:48:41  time: 0.0895  data_time: 0.0314  memory: 1227  loss: 0.3044  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3044
+07/14 05:40:28 - mmengine - INFO - Saving checkpoint at 14 epochs
+07/14 05:40:34 - mmengine - INFO - Epoch(val) [14][62/62]    acc/top1: 0.5292  acc/top5: 0.8495  acc/mean1: 0.4729  data_time: 0.0480  time: 0.0767
+07/14 05:40:39 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:40:43 - mmengine - INFO - Epoch(train)  [15][100/282]  lr: 2.5978e-03  eta: 0:48:32  time: 0.0850  data_time: 0.0267  memory: 1227  loss: 0.2462  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.2462
+07/14 05:40:52 - mmengine - INFO - Epoch(train)  [15][200/282]  lr: 1.6060e-03  eta: 0:48:26  time: 0.0956  data_time: 0.0316  memory: 1227  loss: 0.2598  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2598
+07/14 05:41:00 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:41:00 - mmengine - INFO - Epoch(train)  [15][282/282]  lr: 9.6754e-04  eta: 0:48:20  time: 0.0888  data_time: 0.0297  memory: 1227  loss: 0.2745  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.2745
+07/14 05:41:00 - mmengine - INFO - Saving checkpoint at 15 epochs
+07/14 05:41:05 - mmengine - INFO - Epoch(val) [15][62/62]    acc/top1: 0.5568  acc/top5: 0.8669  acc/mean1: 0.5011  data_time: 0.0424  time: 0.0687
+07/14 05:41:14 - mmengine - INFO - Epoch(train)  [16][100/282]  lr: 4.0534e-04  eta: 0:48:12  time: 0.0919  data_time: 0.0290  memory: 1227  loss: 0.2223  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.2223
+07/14 05:41:23 - mmengine - INFO - Epoch(train)  [16][200/282]  lr: 8.3471e-05  eta: 0:48:01  time: 0.0842  data_time: 0.0254  memory: 1227  loss: 0.2229  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.2229
+07/14 05:41:31 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:41:31 - mmengine - INFO - Epoch(train)  [16][282/282]  lr: 1.2120e-08  eta: 0:47:54  time: 0.0925  data_time: 0.0296  memory: 1227  loss: 0.2281  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2281
+07/14 05:41:31 - mmengine - INFO - Saving checkpoint at 16 epochs
+07/14 05:41:36 - mmengine - INFO - Epoch(val) [16][62/62]    acc/top1: 0.5558  acc/top5: 0.8588  acc/mean1: 0.4981  data_time: 0.0429  time: 0.0696
+07/14 05:41:45 - mmengine - INFO - Epoch(train)  [17][100/282]  lr: 1.1874e-04  eta: 0:47:45  time: 0.0978  data_time: 0.0362  memory: 1227  loss: 0.2065  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2065
+07/14 05:41:54 - mmengine - INFO - Epoch(train)  [17][200/282]  lr: 4.7920e-04  eta: 0:47:38  time: 0.1035  data_time: 0.0341  memory: 1227  loss: 0.2177  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.2177
+07/14 05:42:02 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:42:02 - mmengine - INFO - Epoch(train)  [17][282/282]  lr: 9.5396e-04  eta: 0:47:29  time: 0.0925  data_time: 0.0294  memory: 1227  loss: 0.2259  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.2259
+07/14 05:42:02 - mmengine - INFO - Saving checkpoint at 17 epochs
+07/14 05:42:07 - mmengine - INFO - Epoch(val) [17][62/62]    acc/top1: 0.5353  acc/top5: 0.8485  acc/mean1: 0.4912  data_time: 0.0427  time: 0.0715
+07/14 05:42:16 - mmengine - INFO - Epoch(train)  [18][100/282]  lr: 1.7491e-03  eta: 0:47:23  time: 0.0895  data_time: 0.0308  memory: 1227  loss: 0.2525  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2525
+07/14 05:42:26 - mmengine - INFO - Epoch(train)  [18][200/282]  lr: 2.7780e-03  eta: 0:47:17  time: 0.1051  data_time: 0.0377  memory: 1227  loss: 0.1709  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.1709
+07/14 05:42:26 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:42:33 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:42:33 - mmengine - INFO - Epoch(train)  [18][282/282]  lr: 3.7927e-03  eta: 0:47:09  time: 0.1080  data_time: 0.0382  memory: 1227  loss: 0.2429  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.2429
+07/14 05:42:33 - mmengine - INFO - Saving checkpoint at 18 epochs
+07/14 05:42:38 - mmengine - INFO - Epoch(val) [18][62/62]    acc/top1: 0.5476  acc/top5: 0.8618  acc/mean1: 0.4874  data_time: 0.0434  time: 0.0718
+07/14 05:42:47 - mmengine - INFO - Epoch(train)  [19][100/282]  lr: 5.2336e-03  eta: 0:47:00  time: 0.0893  data_time: 0.0259  memory: 1227  loss: 0.2369  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2369
+07/14 05:42:57 - mmengine - INFO - Epoch(train)  [19][200/282]  lr: 6.8915e-03  eta: 0:46:51  time: 0.0904  data_time: 0.0307  memory: 1227  loss: 0.3082  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.3082
+07/14 05:43:04 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:43:04 - mmengine - INFO - Epoch(train)  [19][282/282]  lr: 8.4072e-03  eta: 0:46:43  time: 0.0861  data_time: 0.0267  memory: 1227  loss: 0.4208  top1_acc: 0.5000  top5_acc: 0.5000  loss_cls: 0.4208
+07/14 05:43:04 - mmengine - INFO - Saving checkpoint at 19 epochs
+07/14 05:43:09 - mmengine - INFO - Epoch(val) [19][62/62]    acc/top1: 0.4483  acc/top5: 0.8475  acc/mean1: 0.4202  data_time: 0.0423  time: 0.0706
+07/14 05:43:18 - mmengine - INFO - Epoch(train)  [20][100/282]  lr: 1.0439e-02  eta: 0:46:34  time: 0.0912  data_time: 0.0320  memory: 1227  loss: 0.4365  top1_acc: 0.8125  top5_acc: 1.0000  loss_cls: 0.4365
+07/14 05:43:27 - mmengine - INFO - Epoch(train)  [20][200/282]  lr: 1.2662e-02  eta: 0:46:27  time: 0.1046  data_time: 0.0397  memory: 1227  loss: 0.4323  top1_acc: 0.8125  top5_acc: 1.0000  loss_cls: 0.4323
+07/14 05:43:35 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:43:35 - mmengine - INFO - Epoch(train)  [20][282/282]  lr: 1.4620e-02  eta: 0:46:21  time: 0.1005  data_time: 0.0316  memory: 1227  loss: 0.5648  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.5648
+07/14 05:43:35 - mmengine - INFO - Saving checkpoint at 20 epochs
+07/14 05:43:40 - mmengine - INFO - Epoch(val) [20][62/62]    acc/top1: 0.4831  acc/top5: 0.8485  acc/mean1: 0.4185  data_time: 0.0450  time: 0.0722
+07/14 05:43:50 - mmengine - INFO - Epoch(train)  [21][100/282]  lr: 1.7164e-02  eta: 0:46:12  time: 0.0910  data_time: 0.0321  memory: 1227  loss: 0.5095  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.5095
+07/14 05:43:59 - mmengine - INFO - Epoch(train)  [21][200/282]  lr: 1.9867e-02  eta: 0:46:02  time: 0.0837  data_time: 0.0252  memory: 1227  loss: 0.6431  top1_acc: 0.7500  top5_acc: 0.9375  loss_cls: 0.6431
+07/14 05:44:06 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:44:06 - mmengine - INFO - Epoch(train)  [21][282/282]  lr: 2.2193e-02  eta: 0:45:56  time: 0.1056  data_time: 0.0366  memory: 1227  loss: 0.7001  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.7001
+07/14 05:44:06 - mmengine - INFO - Saving checkpoint at 21 epochs
+07/14 05:44:11 - mmengine - INFO - Epoch(val) [21][62/62]    acc/top1: 0.4749  acc/top5: 0.8291  acc/mean1: 0.4049  data_time: 0.0412  time: 0.0656
+07/14 05:44:18 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:44:20 - mmengine - INFO - Epoch(train)  [22][100/282]  lr: 2.5151e-02  eta: 0:45:48  time: 0.0949  data_time: 0.0317  memory: 1227  loss: 0.6340  top1_acc: 0.6250  top5_acc: 1.0000  loss_cls: 0.6340
+07/14 05:44:30 - mmengine - INFO - Epoch(train)  [22][200/282]  lr: 2.8230e-02  eta: 0:45:39  time: 0.0853  data_time: 0.0263  memory: 1227  loss: 0.7127  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.7127
+07/14 05:44:38 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:44:38 - mmengine - INFO - Epoch(train)  [22][282/282]  lr: 3.0834e-02  eta: 0:45:34  time: 0.0995  data_time: 0.0358  memory: 1227  loss: 0.6459  top1_acc: 0.5000  top5_acc: 0.7500  loss_cls: 0.6459
+07/14 05:44:38 - mmengine - INFO - Saving checkpoint at 22 epochs
+07/14 05:44:43 - mmengine - INFO - Epoch(val) [22][62/62]    acc/top1: 0.3327  acc/top5: 0.7892  acc/mean1: 0.3681  data_time: 0.0457  time: 0.0733
+07/14 05:44:52 - mmengine - INFO - Epoch(train)  [23][100/282]  lr: 3.4093e-02  eta: 0:45:26  time: 0.0932  data_time: 0.0280  memory: 1227  loss: 0.7869  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.7869
+07/14 05:45:01 - mmengine - INFO - Epoch(train)  [23][200/282]  lr: 3.7429e-02  eta: 0:45:16  time: 0.0855  data_time: 0.0267  memory: 1227  loss: 0.8030  top1_acc: 0.6250  top5_acc: 0.9375  loss_cls: 0.8030
+07/14 05:45:09 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:45:09 - mmengine - INFO - Epoch(train)  [23][282/282]  lr: 4.0211e-02  eta: 0:45:10  time: 0.0974  data_time: 0.0333  memory: 1227  loss: 0.8283  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.8283
+07/14 05:45:09 - mmengine - INFO - Saving checkpoint at 23 epochs
+07/14 05:45:14 - mmengine - INFO - Epoch(val) [23][62/62]    acc/top1: 0.5241  acc/top5: 0.8414  acc/mean1: 0.4135  data_time: 0.0399  time: 0.0650
+07/14 05:45:24 - mmengine - INFO - Epoch(train)  [24][100/282]  lr: 4.3646e-02  eta: 0:45:03  time: 0.1018  data_time: 0.0355  memory: 1227  loss: 0.8266  top1_acc: 0.8125  top5_acc: 1.0000  loss_cls: 0.8266
+07/14 05:45:33 - mmengine - INFO - Epoch(train)  [24][200/282]  lr: 4.7112e-02  eta: 0:44:54  time: 0.0943  data_time: 0.0337  memory: 1227  loss: 0.7653  top1_acc: 0.7500  top5_acc: 0.9375  loss_cls: 0.7653
+07/14 05:45:40 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:45:40 - mmengine - INFO - Epoch(train)  [24][282/282]  lr: 4.9965e-02  eta: 0:44:47  time: 0.0837  data_time: 0.0249  memory: 1227  loss: 0.9479  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 0.9479
+07/14 05:45:40 - mmengine - INFO - Saving checkpoint at 24 epochs
+07/14 05:45:45 - mmengine - INFO - Epoch(val) [24][62/62]    acc/top1: 0.2682  acc/top5: 0.6663  acc/mean1: 0.2907  data_time: 0.0435  time: 0.0706
+07/14 05:45:55 - mmengine - INFO - Epoch(train)  [25][100/282]  lr: 5.3444e-02  eta: 0:44:39  time: 0.0970  data_time: 0.0366  memory: 1227  loss: 0.8197  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.8197
+07/14 05:46:05 - mmengine - INFO - Epoch(train)  [25][200/282]  lr: 5.6906e-02  eta: 0:44:33  time: 0.1021  data_time: 0.0394  memory: 1227  loss: 0.7346  top1_acc: 0.6875  top5_acc: 0.9375  loss_cls: 0.7346
+07/14 05:46:08 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:46:12 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:46:12 - mmengine - INFO - Epoch(train)  [25][282/282]  lr: 5.9720e-02  eta: 0:44:26  time: 0.0799  data_time: 0.0229  memory: 1227  loss: 0.8284  top1_acc: 0.0000  top5_acc: 0.7500  loss_cls: 0.8284
+07/14 05:46:12 - mmengine - INFO - Saving checkpoint at 25 epochs
+07/14 05:46:17 - mmengine - INFO - Epoch(val) [25][62/62]    acc/top1: 0.3685  acc/top5: 0.6796  acc/mean1: 0.3094  data_time: 0.0442  time: 0.0704
+07/14 05:46:27 - mmengine - INFO - Epoch(train)  [26][100/282]  lr: 6.3109e-02  eta: 0:44:17  time: 0.0871  data_time: 0.0260  memory: 1227  loss: 0.7575  top1_acc: 0.5625  top5_acc: 1.0000  loss_cls: 0.7575
+07/14 05:46:36 - mmengine - INFO - Epoch(train)  [26][200/282]  lr: 6.6434e-02  eta: 0:44:06  time: 0.0864  data_time: 0.0273  memory: 1227  loss: 0.6438  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.6438
+07/14 05:46:43 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:46:43 - mmengine - INFO - Epoch(train)  [26][282/282]  lr: 6.9102e-02  eta: 0:43:58  time: 0.0790  data_time: 0.0212  memory: 1227  loss: 0.8529  top1_acc: 0.2500  top5_acc: 0.7500  loss_cls: 0.8529
+07/14 05:46:43 - mmengine - INFO - Saving checkpoint at 26 epochs
+07/14 05:46:48 - mmengine - INFO - Epoch(val) [26][62/62]    acc/top1: 0.2856  acc/top5: 0.6755  acc/mean1: 0.3005  data_time: 0.0423  time: 0.0685
+07/14 05:46:57 - mmengine - INFO - Epoch(train)  [27][100/282]  lr: 7.2270e-02  eta: 0:43:50  time: 0.1034  data_time: 0.0378  memory: 1227  loss: 0.8171  top1_acc: 0.7500  top5_acc: 0.9375  loss_cls: 0.8171
+07/14 05:47:07 - mmengine - INFO - Epoch(train)  [27][200/282]  lr: 7.5331e-02  eta: 0:43:41  time: 0.0855  data_time: 0.0268  memory: 1227  loss: 0.6628  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.6628
+07/14 05:47:14 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:47:14 - mmengine - INFO - Epoch(train)  [27][282/282]  lr: 7.7750e-02  eta: 0:43:33  time: 0.0835  data_time: 0.0258  memory: 1227  loss: 0.4886  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.4886
+07/14 05:47:14 - mmengine - INFO - Saving checkpoint at 27 epochs
+07/14 05:47:19 - mmengine - INFO - Epoch(val) [27][62/62]    acc/top1: 0.4330  acc/top5: 0.7963  acc/mean1: 0.3818  data_time: 0.0444  time: 0.0710
+07/14 05:47:28 - mmengine - INFO - Epoch(train)  [28][100/282]  lr: 8.0576e-02  eta: 0:43:24  time: 0.0847  data_time: 0.0254  memory: 1227  loss: 0.8205  top1_acc: 0.3125  top5_acc: 0.6250  loss_cls: 0.8205
+07/14 05:47:37 - mmengine - INFO - Epoch(train)  [28][200/282]  lr: 8.3254e-02  eta: 0:43:14  time: 0.0900  data_time: 0.0300  memory: 1227  loss: 0.6223  top1_acc: 0.6875  top5_acc: 1.0000  loss_cls: 0.6223
+07/14 05:47:45 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:47:45 - mmengine - INFO - Epoch(train)  [28][282/282]  lr: 8.5331e-02  eta: 0:43:06  time: 0.0911  data_time: 0.0295  memory: 1227  loss: 0.6870  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.6870
+07/14 05:47:45 - mmengine - INFO - Saving checkpoint at 28 epochs
+07/14 05:47:49 - mmengine - INFO - Epoch(val) [28][62/62]    acc/top1: 0.3767  acc/top5: 0.7247  acc/mean1: 0.3641  data_time: 0.0419  time: 0.0670
+07/14 05:47:59 - mmengine - INFO - Epoch(train)  [29][100/282]  lr: 8.7707e-02  eta: 0:42:58  time: 0.0968  data_time: 0.0312  memory: 1227  loss: 0.6510  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.6510
+07/14 05:47:59 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:48:08 - mmengine - INFO - Epoch(train)  [29][200/282]  lr: 8.9900e-02  eta: 0:42:49  time: 0.0947  data_time: 0.0312  memory: 1227  loss: 0.9061  top1_acc: 0.6250  top5_acc: 1.0000  loss_cls: 0.9061
+07/14 05:48:16 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:48:16 - mmengine - INFO - Epoch(train)  [29][282/282]  lr: 9.1554e-02  eta: 0:42:41  time: 0.0856  data_time: 0.0266  memory: 1227  loss: 0.6184  top1_acc: 0.7500  top5_acc: 0.7500  loss_cls: 0.6184
+07/14 05:48:16 - mmengine - INFO - Saving checkpoint at 29 epochs
+07/14 05:48:21 - mmengine - INFO - Epoch(val) [29][62/62]    acc/top1: 0.3562  acc/top5: 0.8076  acc/mean1: 0.3538  data_time: 0.0438  time: 0.0728
+07/14 05:48:30 - mmengine - INFO - Epoch(train)  [30][100/282]  lr: 9.3388e-02  eta: 0:42:31  time: 0.0875  data_time: 0.0284  memory: 1227  loss: 0.8320  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.8320
+07/14 05:48:39 - mmengine - INFO - Epoch(train)  [30][200/282]  lr: 9.5012e-02  eta: 0:42:23  time: 0.0872  data_time: 0.0282  memory: 1227  loss: 0.5910  top1_acc: 0.8125  top5_acc: 0.9375  loss_cls: 0.5910
+07/14 05:48:47 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:48:47 - mmengine - INFO - Epoch(train)  [30][282/282]  lr: 9.6181e-02  eta: 0:42:16  time: 0.0874  data_time: 0.0273  memory: 1227  loss: 0.4955  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.4955
+07/14 05:48:47 - mmengine - INFO - Saving checkpoint at 30 epochs
+07/14 05:48:52 - mmengine - INFO - Epoch(val) [30][62/62]    acc/top1: 0.4299  acc/top5: 0.8240  acc/mean1: 0.4095  data_time: 0.0401  time: 0.0679
+07/14 05:49:01 - mmengine - INFO - Epoch(train)  [31][100/282]  lr: 9.7402e-02  eta: 0:42:08  time: 0.0907  data_time: 0.0321  memory: 1227  loss: 0.5364  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.5364
+07/14 05:49:11 - mmengine - INFO - Epoch(train)  [31][200/282]  lr: 9.8394e-02  eta: 0:42:00  time: 0.0977  data_time: 0.0336  memory: 1227  loss: 0.6610  top1_acc: 0.6250  top5_acc: 0.9375  loss_cls: 0.6610
+07/14 05:49:19 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:49:19 - mmengine - INFO - Epoch(train)  [31][282/282]  lr: 9.9032e-02  eta: 0:41:53  time: 0.0851  data_time: 0.0266  memory: 1227  loss: 0.6122  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.6122
+07/14 05:49:19 - mmengine - INFO - Saving checkpoint at 31 epochs
+07/14 05:49:24 - mmengine - INFO - Epoch(val) [31][62/62]    acc/top1: 0.4739  acc/top5: 0.8280  acc/mean1: 0.3770  data_time: 0.0441  time: 0.0715
+07/14 05:49:33 - mmengine - INFO - Epoch(train)  [32][100/282]  lr: 9.9595e-02  eta: 0:41:45  time: 0.0911  data_time: 0.0312  memory: 1227  loss: 0.6177  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.6177
+07/14 05:49:42 - mmengine - INFO - Epoch(train)  [32][200/282]  lr: 9.9917e-02  eta: 0:41:35  time: 0.0874  data_time: 0.0264  memory: 1227  loss: 0.6110  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.6110
+07/14 05:49:48 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:49:50 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:49:50 - mmengine - INFO - Epoch(train)  [32][282/282]  lr: 1.0000e-01  eta: 0:41:27  time: 0.0818  data_time: 0.0239  memory: 1227  loss: 0.7209  top1_acc: 0.7500  top5_acc: 0.7500  loss_cls: 0.7209
+07/14 05:49:50 - mmengine - INFO - Saving checkpoint at 32 epochs
+07/14 05:49:55 - mmengine - INFO - Epoch(val) [32][62/62]    acc/top1: 0.3183  acc/top5: 0.7595  acc/mean1: 0.3050  data_time: 0.0425  time: 0.0692
+07/14 05:50:04 - mmengine - INFO - Epoch(train)  [33][100/282]  lr: 9.9881e-02  eta: 0:41:18  time: 0.0884  data_time: 0.0290  memory: 1227  loss: 0.3519  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3519
+07/14 05:50:13 - mmengine - INFO - Epoch(train)  [33][200/282]  lr: 9.9521e-02  eta: 0:41:09  time: 0.0916  data_time: 0.0307  memory: 1227  loss: 0.5694  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.5694
+07/14 05:50:21 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:50:21 - mmengine - INFO - Epoch(train)  [33][282/282]  lr: 9.9046e-02  eta: 0:41:02  time: 0.0833  data_time: 0.0245  memory: 1227  loss: 0.5341  top1_acc: 0.5000  top5_acc: 0.7500  loss_cls: 0.5341
+07/14 05:50:21 - mmengine - INFO - Saving checkpoint at 33 epochs
+07/14 05:50:26 - mmengine - INFO - Epoch(val) [33][62/62]    acc/top1: 0.2590  acc/top5: 0.7718  acc/mean1: 0.2433  data_time: 0.0418  time: 0.0682
+07/14 05:50:35 - mmengine - INFO - Epoch(train)  [34][100/282]  lr: 9.8251e-02  eta: 0:40:53  time: 0.0905  data_time: 0.0302  memory: 1227  loss: 0.4025  top1_acc: 0.7500  top5_acc: 0.9375  loss_cls: 0.4025
+07/14 05:50:44 - mmengine - INFO - Epoch(train)  [34][200/282]  lr: 9.7222e-02  eta: 0:40:42  time: 0.0820  data_time: 0.0238  memory: 1227  loss: 0.4455  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.4455
+07/14 05:50:51 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:50:51 - mmengine - INFO - Epoch(train)  [34][282/282]  lr: 9.6207e-02  eta: 0:40:34  time: 0.0893  data_time: 0.0325  memory: 1227  loss: 0.4419  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 0.4419
+07/14 05:50:51 - mmengine - INFO - Saving checkpoint at 34 epochs
+07/14 05:50:56 - mmengine - INFO - Epoch(val) [34][62/62]    acc/top1: 0.4340  acc/top5: 0.8199  acc/mean1: 0.3902  data_time: 0.0444  time: 0.0713
+07/14 05:51:05 - mmengine - INFO - Epoch(train)  [35][100/282]  lr: 9.4766e-02  eta: 0:40:24  time: 0.0834  data_time: 0.0248  memory: 1227  loss: 0.4070  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4070
+07/14 05:51:14 - mmengine - INFO - Epoch(train)  [35][200/282]  lr: 9.3109e-02  eta: 0:40:15  time: 0.0921  data_time: 0.0325  memory: 1227  loss: 0.3409  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.3409
+07/14 05:51:22 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:51:22 - mmengine - INFO - Epoch(train)  [35][282/282]  lr: 9.1593e-02  eta: 0:40:08  time: 0.0867  data_time: 0.0276  memory: 1227  loss: 0.4041  top1_acc: 0.2500  top5_acc: 0.5000  loss_cls: 0.4041
+07/14 05:51:22 - mmengine - INFO - Saving checkpoint at 35 epochs
+07/14 05:51:27 - mmengine - INFO - Epoch(val) [35][62/62]    acc/top1: 0.3480  acc/top5: 0.7687  acc/mean1: 0.3789  data_time: 0.0426  time: 0.0691
+07/14 05:51:36 - mmengine - INFO - Epoch(train)  [36][100/282]  lr: 8.9561e-02  eta: 0:39:59  time: 0.0892  data_time: 0.0308  memory: 1227  loss: 0.3743  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3743
+07/14 05:51:39 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:51:45 - mmengine - INFO - Epoch(train)  [36][200/282]  lr: 8.7338e-02  eta: 0:39:49  time: 0.0873  data_time: 0.0283  memory: 1227  loss: 0.1917  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.1917
+07/14 05:51:53 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:51:53 - mmengine - INFO - Epoch(train)  [36][282/282]  lr: 8.5380e-02  eta: 0:39:42  time: 0.1000  data_time: 0.0320  memory: 1227  loss: 0.4137  top1_acc: 0.5000  top5_acc: 0.7500  loss_cls: 0.4137
+07/14 05:51:53 - mmengine - INFO - Saving checkpoint at 36 epochs
+07/14 05:51:58 - mmengine - INFO - Epoch(val) [36][62/62]    acc/top1: 0.3552  acc/top5: 0.7840  acc/mean1: 0.3854  data_time: 0.0408  time: 0.0654
+07/14 05:52:07 - mmengine - INFO - Epoch(train)  [37][100/282]  lr: 8.2836e-02  eta: 0:39:34  time: 0.0956  data_time: 0.0318  memory: 1227  loss: 0.2612  top1_acc: 0.6250  top5_acc: 1.0000  loss_cls: 0.2612
+07/14 05:52:16 - mmengine - INFO - Epoch(train)  [37][200/282]  lr: 8.0133e-02  eta: 0:39:24  time: 0.0938  data_time: 0.0352  memory: 1227  loss: 0.2104  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.2104
+07/14 05:52:24 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:52:24 - mmengine - INFO - Epoch(train)  [37][282/282]  lr: 7.7807e-02  eta: 0:39:17  time: 0.0908  data_time: 0.0327  memory: 1227  loss: 0.4286  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4286
+07/14 05:52:24 - mmengine - INFO - Saving checkpoint at 37 epochs
+07/14 05:52:29 - mmengine - INFO - Epoch(val) [37][62/62]    acc/top1: 0.4125  acc/top5: 0.7973  acc/mean1: 0.3931  data_time: 0.0413  time: 0.0696
+07/14 05:52:38 - mmengine - INFO - Epoch(train)  [38][100/282]  lr: 7.4849e-02  eta: 0:39:08  time: 0.0880  data_time: 0.0291  memory: 1227  loss: 0.1826  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.1826
+07/14 05:52:47 - mmengine - INFO - Epoch(train)  [38][200/282]  lr: 7.1770e-02  eta: 0:38:58  time: 0.0815  data_time: 0.0223  memory: 1227  loss: 0.1835  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.1835
+07/14 05:52:55 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:52:55 - mmengine - INFO - Epoch(train)  [38][282/282]  lr: 6.9166e-02  eta: 0:38:51  time: 0.0905  data_time: 0.0307  memory: 1227  loss: 0.1475  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.1475
+07/14 05:52:55 - mmengine - INFO - Saving checkpoint at 38 epochs
+07/14 05:53:00 - mmengine - INFO - Epoch(val) [38][62/62]    acc/top1: 0.4954  acc/top5: 0.8127  acc/mean1: 0.4595  data_time: 0.0431  time: 0.0681
+07/14 05:53:10 - mmengine - INFO - Epoch(train)  [39][100/282]  lr: 6.5907e-02  eta: 0:38:43  time: 0.1156  data_time: 0.0490  memory: 1227  loss: 0.2015  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2015
+07/14 05:53:19 - mmengine - INFO - Epoch(train)  [39][200/282]  lr: 6.2571e-02  eta: 0:38:34  time: 0.0939  data_time: 0.0331  memory: 1227  loss: 0.1624  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.1624
+07/14 05:53:26 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:53:26 - mmengine - INFO - Epoch(train)  [39][282/282]  lr: 5.9789e-02  eta: 0:38:26  time: 0.0849  data_time: 0.0259  memory: 1227  loss: 0.0547  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0547
+07/14 05:53:26 - mmengine - INFO - Saving checkpoint at 39 epochs
+07/14 05:53:31 - mmengine - INFO - Epoch(val) [39][62/62]    acc/top1: 0.5507  acc/top5: 0.8301  acc/mean1: 0.4968  data_time: 0.0421  time: 0.0693
+07/14 05:53:31 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:53:40 - mmengine - INFO - Epoch(train)  [40][100/282]  lr: 5.6354e-02  eta: 0:38:17  time: 0.0963  data_time: 0.0376  memory: 1227  loss: 0.0637  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0637
+07/14 05:53:49 - mmengine - INFO - Epoch(train)  [40][200/282]  lr: 5.2888e-02  eta: 0:38:06  time: 0.0854  data_time: 0.0276  memory: 1227  loss: 0.0404  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0404
+07/14 05:53:56 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:53:56 - mmengine - INFO - Epoch(train)  [40][282/282]  lr: 5.0035e-02  eta: 0:37:59  time: 0.0915  data_time: 0.0318  memory: 1227  loss: 0.0301  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0301
+07/14 05:53:57 - mmengine - INFO - Saving checkpoint at 40 epochs
+07/14 05:54:02 - mmengine - INFO - Epoch(val) [40][62/62]    acc/top1: 0.5548  acc/top5: 0.8526  acc/mean1: 0.5240  data_time: 0.0467  time: 0.0746
+07/14 05:54:11 - mmengine - INFO - Epoch(train)  [41][100/282]  lr: 4.6556e-02  eta: 0:37:51  time: 0.1083  data_time: 0.0417  memory: 1227  loss: 0.0230  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0230
+07/14 05:54:20 - mmengine - INFO - Epoch(train)  [41][200/282]  lr: 4.3094e-02  eta: 0:37:40  time: 0.0808  data_time: 0.0226  memory: 1227  loss: 0.0242  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.0242
+07/14 05:54:27 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:54:27 - mmengine - INFO - Epoch(train)  [41][282/282]  lr: 4.0280e-02  eta: 0:37:32  time: 0.0879  data_time: 0.0292  memory: 1227  loss: 0.0282  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.0282
+07/14 05:54:27 - mmengine - INFO - Saving checkpoint at 41 epochs
+07/14 05:54:32 - mmengine - INFO - Epoch(val) [41][62/62]    acc/top1: 0.5793  acc/top5: 0.8659  acc/mean1: 0.5314  data_time: 0.0415  time: 0.0682
+07/14 05:54:32 - mmengine - INFO - The previous best checkpoint /home/jovyan/local/mmaction2_badminton/experiments/badminton_stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_50_per_class/best_acc_top1_epoch_12.pth is removed
+07/14 05:54:33 - mmengine - INFO - The best checkpoint with 0.5793 acc/top1 at 41 epoch is saved to best_acc_top1_epoch_41.pth.
+07/14 05:54:42 - mmengine - INFO - Epoch(train)  [42][100/282]  lr: 3.6891e-02  eta: 0:37:23  time: 0.0934  data_time: 0.0336  memory: 1227  loss: 0.0094  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0094
+07/14 05:54:52 - mmengine - INFO - Epoch(train)  [42][200/282]  lr: 3.3566e-02  eta: 0:37:14  time: 0.0926  data_time: 0.0334  memory: 1227  loss: 0.0077  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0077
+07/14 05:54:59 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:54:59 - mmengine - INFO - Epoch(train)  [42][282/282]  lr: 3.0898e-02  eta: 0:37:07  time: 0.0849  data_time: 0.0278  memory: 1227  loss: 0.0128  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0128
+07/14 05:54:59 - mmengine - INFO - Saving checkpoint at 42 epochs
+07/14 05:55:04 - mmengine - INFO - Epoch(val) [42][62/62]    acc/top1: 0.5722  acc/top5: 0.8577  acc/mean1: 0.5554  data_time: 0.0441  time: 0.0715
+07/14 05:55:14 - mmengine - INFO - Epoch(train)  [43][100/282]  lr: 2.7730e-02  eta: 0:36:58  time: 0.0941  data_time: 0.0346  memory: 1227  loss: 0.0099  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0099
+07/14 05:55:19 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:55:23 - mmengine - INFO - Epoch(train)  [43][200/282]  lr: 2.4669e-02  eta: 0:36:49  time: 0.0966  data_time: 0.0306  memory: 1227  loss: 0.0047  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0047
+07/14 05:55:31 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:55:31 - mmengine - INFO - Epoch(train)  [43][282/282]  lr: 2.2250e-02  eta: 0:36:41  time: 0.0831  data_time: 0.0225  memory: 1227  loss: 0.1022  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.1022
+07/14 05:55:31 - mmengine - INFO - Saving checkpoint at 43 epochs
+07/14 05:55:36 - mmengine - INFO - Epoch(val) [43][62/62]    acc/top1: 0.5640  acc/top5: 0.8659  acc/mean1: 0.5339  data_time: 0.0429  time: 0.0717
+07/14 05:55:45 - mmengine - INFO - Epoch(train)  [44][100/282]  lr: 1.9424e-02  eta: 0:36:32  time: 0.1009  data_time: 0.0395  memory: 1227  loss: 0.0131  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0131
+07/14 05:55:54 - mmengine - INFO - Epoch(train)  [44][200/282]  lr: 1.6746e-02  eta: 0:36:23  time: 0.0893  data_time: 0.0309  memory: 1227  loss: 0.0090  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0090
+07/14 05:56:02 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:56:02 - mmengine - INFO - Epoch(train)  [44][282/282]  lr: 1.4669e-02  eta: 0:36:16  time: 0.0892  data_time: 0.0297  memory: 1227  loss: 0.0115  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0115
+07/14 05:56:02 - mmengine - INFO - Saving checkpoint at 44 epochs
+07/14 05:56:07 - mmengine - INFO - Epoch(val) [44][62/62]    acc/top1: 0.5589  acc/top5: 0.8485  acc/mean1: 0.5397  data_time: 0.0403  time: 0.0690
+07/14 05:56:16 - mmengine - INFO - Epoch(train)  [45][100/282]  lr: 1.2293e-02  eta: 0:36:08  time: 0.0953  data_time: 0.0342  memory: 1227  loss: 0.0098  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0098
+07/14 05:56:26 - mmengine - INFO - Epoch(train)  [45][200/282]  lr: 1.0100e-02  eta: 0:35:58  time: 0.0898  data_time: 0.0296  memory: 1227  loss: 0.0081  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0081
+07/14 05:56:33 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:56:33 - mmengine - INFO - Epoch(train)  [45][282/282]  lr: 8.4459e-03  eta: 0:35:50  time: 0.0913  data_time: 0.0321  memory: 1227  loss: 0.0195  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0195
+07/14 05:56:33 - mmengine - INFO - Saving checkpoint at 45 epochs
+07/14 05:56:38 - mmengine - INFO - Epoch(val) [45][62/62]    acc/top1: 0.5793  acc/top5: 0.8588  acc/mean1: 0.5444  data_time: 0.0453  time: 0.0724
+07/14 05:56:47 - mmengine - INFO - Epoch(train)  [46][100/282]  lr: 6.6120e-03  eta: 0:35:41  time: 0.0872  data_time: 0.0268  memory: 1227  loss: 0.0046  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0046
+07/14 05:56:57 - mmengine - INFO - Epoch(train)  [46][200/282]  lr: 4.9883e-03  eta: 0:35:32  time: 0.1065  data_time: 0.0408  memory: 1227  loss: 0.0086  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0086
+07/14 05:57:04 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:57:04 - mmengine - INFO - Epoch(train)  [46][282/282]  lr: 3.8194e-03  eta: 0:35:24  time: 0.0979  data_time: 0.0299  memory: 1227  loss: 0.0091  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0091
+07/14 05:57:04 - mmengine - INFO - Saving checkpoint at 46 epochs
+07/14 05:57:09 - mmengine - INFO - Epoch(val) [46][62/62]    acc/top1: 0.5752  acc/top5: 0.8588  acc/mean1: 0.5477  data_time: 0.0445  time: 0.0695
+07/14 05:57:11 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:57:18 - mmengine - INFO - Epoch(train)  [47][100/282]  lr: 2.5978e-03  eta: 0:35:15  time: 0.0847  data_time: 0.0252  memory: 1227  loss: 0.0056  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0056
+07/14 05:57:27 - mmengine - INFO - Epoch(train)  [47][200/282]  lr: 1.6060e-03  eta: 0:35:06  time: 0.0923  data_time: 0.0309  memory: 1227  loss: 0.0045  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0045
+07/14 05:57:34 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:57:34 - mmengine - INFO - Epoch(train)  [47][282/282]  lr: 9.6754e-04  eta: 0:34:58  time: 0.0878  data_time: 0.0275  memory: 1227  loss: 0.0223  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0223
+07/14 05:57:34 - mmengine - INFO - Saving checkpoint at 47 epochs
+07/14 05:57:39 - mmengine - INFO - Epoch(val) [47][62/62]    acc/top1: 0.5865  acc/top5: 0.8649  acc/mean1: 0.5530  data_time: 0.0419  time: 0.0691
+07/14 05:57:39 - mmengine - INFO - The previous best checkpoint /home/jovyan/local/mmaction2_badminton/experiments/badminton_stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_50_per_class/best_acc_top1_epoch_41.pth is removed
+07/14 05:57:40 - mmengine - INFO - The best checkpoint with 0.5865 acc/top1 at 47 epoch is saved to best_acc_top1_epoch_47.pth.
+07/14 05:57:50 - mmengine - INFO - Epoch(train)  [48][100/282]  lr: 4.0534e-04  eta: 0:34:49  time: 0.0973  data_time: 0.0334  memory: 1227  loss: 0.0065  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0065
+07/14 05:57:59 - mmengine - INFO - Epoch(train)  [48][200/282]  lr: 8.3471e-05  eta: 0:34:39  time: 0.0923  data_time: 0.0291  memory: 1227  loss: 0.0072  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0072
+07/14 05:58:06 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:58:06 - mmengine - INFO - Epoch(train)  [48][282/282]  lr: 1.2120e-08  eta: 0:34:32  time: 0.0907  data_time: 0.0310  memory: 1227  loss: 0.0238  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0238
+07/14 05:58:06 - mmengine - INFO - Saving checkpoint at 48 epochs
+07/14 05:58:11 - mmengine - INFO - Epoch(val) [48][62/62]    acc/top1: 0.5732  acc/top5: 0.8721  acc/mean1: 0.5501  data_time: 0.0430  time: 0.0714
+07/14 05:58:21 - mmengine - INFO - Epoch(train)  [49][100/282]  lr: 1.1874e-04  eta: 0:34:23  time: 0.0871  data_time: 0.0283  memory: 1227  loss: 0.0054  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0054
+07/14 05:58:30 - mmengine - INFO - Epoch(train)  [49][200/282]  lr: 4.7920e-04  eta: 0:34:14  time: 0.0931  data_time: 0.0332  memory: 1227  loss: 0.0052  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0052
+07/14 05:58:38 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:58:38 - mmengine - INFO - Epoch(train)  [49][282/282]  lr: 9.5396e-04  eta: 0:34:06  time: 0.0878  data_time: 0.0285  memory: 1227  loss: 0.0227  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0227
+07/14 05:58:38 - mmengine - INFO - Saving checkpoint at 49 epochs
+07/14 05:58:43 - mmengine - INFO - Epoch(val) [49][62/62]    acc/top1: 0.5844  acc/top5: 0.8669  acc/mean1: 0.5581  data_time: 0.0443  time: 0.0716
+07/14 05:58:52 - mmengine - INFO - Epoch(train)  [50][100/282]  lr: 1.7491e-03  eta: 0:33:57  time: 0.0847  data_time: 0.0260  memory: 1227  loss: 0.0048  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0048
+07/14 05:58:59 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:59:01 - mmengine - INFO - Epoch(train)  [50][200/282]  lr: 2.7780e-03  eta: 0:33:48  time: 0.1031  data_time: 0.0376  memory: 1227  loss: 0.0074  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0074
+07/14 05:59:09 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:59:09 - mmengine - INFO - Epoch(train)  [50][282/282]  lr: 3.7927e-03  eta: 0:33:40  time: 0.0851  data_time: 0.0263  memory: 1227  loss: 0.0132  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0132
+07/14 05:59:09 - mmengine - INFO - Saving checkpoint at 50 epochs
+07/14 05:59:13 - mmengine - INFO - Epoch(val) [50][62/62]    acc/top1: 0.5834  acc/top5: 0.8690  acc/mean1: 0.5449  data_time: 0.0413  time: 0.0679
+07/14 05:59:23 - mmengine - INFO - Epoch(train)  [51][100/282]  lr: 5.2336e-03  eta: 0:33:31  time: 0.0958  data_time: 0.0305  memory: 1227  loss: 0.0071  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0071
+07/14 05:59:32 - mmengine - INFO - Epoch(train)  [51][200/282]  lr: 6.8915e-03  eta: 0:33:22  time: 0.0914  data_time: 0.0306  memory: 1227  loss: 0.0077  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0077
+07/14 05:59:39 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 05:59:39 - mmengine - INFO - Epoch(train)  [51][282/282]  lr: 8.4072e-03  eta: 0:33:15  time: 0.0948  data_time: 0.0336  memory: 1227  loss: 0.0190  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.0190
+07/14 05:59:39 - mmengine - INFO - Saving checkpoint at 51 epochs
+07/14 05:59:45 - mmengine - INFO - Epoch(val) [51][62/62]    acc/top1: 0.5885  acc/top5: 0.8628  acc/mean1: 0.5568  data_time: 0.0467  time: 0.0748
+07/14 05:59:45 - mmengine - INFO - The previous best checkpoint /home/jovyan/local/mmaction2_badminton/experiments/badminton_stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_50_per_class/best_acc_top1_epoch_47.pth is removed
+07/14 05:59:45 - mmengine - INFO - The best checkpoint with 0.5885 acc/top1 at 51 epoch is saved to best_acc_top1_epoch_51.pth.
+07/14 05:59:55 - mmengine - INFO - Epoch(train)  [52][100/282]  lr: 1.0439e-02  eta: 0:33:06  time: 0.0991  data_time: 0.0352  memory: 1227  loss: 0.0052  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0052
+07/14 06:00:04 - mmengine - INFO - Epoch(train)  [52][200/282]  lr: 1.2662e-02  eta: 0:32:56  time: 0.0893  data_time: 0.0273  memory: 1227  loss: 0.0062  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0062
+07/14 06:00:11 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:00:11 - mmengine - INFO - Epoch(train)  [52][282/282]  lr: 1.4620e-02  eta: 0:32:48  time: 0.0870  data_time: 0.0264  memory: 1227  loss: 0.0388  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.0388
+07/14 06:00:11 - mmengine - INFO - Saving checkpoint at 52 epochs
+07/14 06:00:16 - mmengine - INFO - Epoch(val) [52][62/62]    acc/top1: 0.5916  acc/top5: 0.8588  acc/mean1: 0.5564  data_time: 0.0446  time: 0.0696
+07/14 06:00:16 - mmengine - INFO - The previous best checkpoint /home/jovyan/local/mmaction2_badminton/experiments/badminton_stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_50_per_class/best_acc_top1_epoch_51.pth is removed
+07/14 06:00:17 - mmengine - INFO - The best checkpoint with 0.5916 acc/top1 at 52 epoch is saved to best_acc_top1_epoch_52.pth.
+07/14 06:00:27 - mmengine - INFO - Epoch(train)  [53][100/282]  lr: 1.7164e-02  eta: 0:32:39  time: 0.0899  data_time: 0.0288  memory: 1227  loss: 0.0061  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0061
+07/14 06:00:36 - mmengine - INFO - Epoch(train)  [53][200/282]  lr: 1.9867e-02  eta: 0:32:30  time: 0.0899  data_time: 0.0307  memory: 1227  loss: 0.0074  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0074
+07/14 06:00:44 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:00:44 - mmengine - INFO - Epoch(train)  [53][282/282]  lr: 2.2193e-02  eta: 0:32:23  time: 0.0941  data_time: 0.0315  memory: 1227  loss: 0.0101  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0101
+07/14 06:00:44 - mmengine - INFO - Saving checkpoint at 53 epochs
+07/14 06:00:49 - mmengine - INFO - Epoch(val) [53][62/62]    acc/top1: 0.5906  acc/top5: 0.8588  acc/mean1: 0.5485  data_time: 0.0408  time: 0.0706
+07/14 06:00:54 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:00:59 - mmengine - INFO - Epoch(train)  [54][100/282]  lr: 2.5151e-02  eta: 0:32:14  time: 0.0910  data_time: 0.0319  memory: 1227  loss: 0.0070  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0070
+07/14 06:01:08 - mmengine - INFO - Epoch(train)  [54][200/282]  lr: 2.8230e-02  eta: 0:32:06  time: 0.0879  data_time: 0.0283  memory: 1227  loss: 0.0048  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0048
+07/14 06:01:16 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:01:16 - mmengine - INFO - Epoch(train)  [54][282/282]  lr: 3.0834e-02  eta: 0:31:58  time: 0.0828  data_time: 0.0248  memory: 1227  loss: 0.0073  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0073
+07/14 06:01:16 - mmengine - INFO - Saving checkpoint at 54 epochs
+07/14 06:01:21 - mmengine - INFO - Epoch(val) [54][62/62]    acc/top1: 0.5742  acc/top5: 0.8577  acc/mean1: 0.5313  data_time: 0.0426  time: 0.0679
+07/14 06:01:30 - mmengine - INFO - Epoch(train)  [55][100/282]  lr: 3.4093e-02  eta: 0:31:49  time: 0.1035  data_time: 0.0379  memory: 1227  loss: 0.0045  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0045
+07/14 06:01:39 - mmengine - INFO - Epoch(train)  [55][200/282]  lr: 3.7429e-02  eta: 0:31:40  time: 0.0989  data_time: 0.0325  memory: 1227  loss: 0.0087  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0087
+07/14 06:01:46 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:01:46 - mmengine - INFO - Epoch(train)  [55][282/282]  lr: 4.0211e-02  eta: 0:31:32  time: 0.0832  data_time: 0.0254  memory: 1227  loss: 0.0116  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0116
+07/14 06:01:46 - mmengine - INFO - Saving checkpoint at 55 epochs
+07/14 06:01:51 - mmengine - INFO - Epoch(val) [55][62/62]    acc/top1: 0.5711  acc/top5: 0.8628  acc/mean1: 0.5378  data_time: 0.0421  time: 0.0694
+07/14 06:02:00 - mmengine - INFO - Epoch(train)  [56][100/282]  lr: 4.3646e-02  eta: 0:31:23  time: 0.0864  data_time: 0.0269  memory: 1227  loss: 0.0101  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0101
+07/14 06:02:10 - mmengine - INFO - Epoch(train)  [56][200/282]  lr: 4.7112e-02  eta: 0:31:14  time: 0.0868  data_time: 0.0274  memory: 1227  loss: 0.0089  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0089
+07/14 06:02:17 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:02:17 - mmengine - INFO - Epoch(train)  [56][282/282]  lr: 4.9965e-02  eta: 0:31:06  time: 0.0924  data_time: 0.0331  memory: 1227  loss: 0.0167  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0167
+07/14 06:02:17 - mmengine - INFO - Saving checkpoint at 56 epochs
+07/14 06:02:22 - mmengine - INFO - Epoch(val) [56][62/62]    acc/top1: 0.5466  acc/top5: 0.8639  acc/mean1: 0.5240  data_time: 0.0405  time: 0.0662
+07/14 06:02:31 - mmengine - INFO - Epoch(train)  [57][100/282]  lr: 5.3444e-02  eta: 0:30:57  time: 0.0930  data_time: 0.0305  memory: 1227  loss: 0.2446  top1_acc: 0.8125  top5_acc: 1.0000  loss_cls: 0.2446
+07/14 06:02:40 - mmengine - INFO - Epoch(train)  [57][200/282]  lr: 5.6906e-02  eta: 0:30:47  time: 0.1010  data_time: 0.0347  memory: 1227  loss: 0.6865  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.6865
+07/14 06:02:41 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:02:47 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:02:47 - mmengine - INFO - Epoch(train)  [57][282/282]  lr: 5.9720e-02  eta: 0:30:40  time: 0.0890  data_time: 0.0273  memory: 1227  loss: 0.6442  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.6442
+07/14 06:02:47 - mmengine - INFO - Saving checkpoint at 57 epochs
+07/14 06:02:53 - mmengine - INFO - Epoch(val) [57][62/62]    acc/top1: 0.1054  acc/top5: 0.4790  acc/mean1: 0.2013  data_time: 0.0410  time: 0.0719
+07/14 06:03:02 - mmengine - INFO - Epoch(train)  [58][100/282]  lr: 6.3109e-02  eta: 0:30:30  time: 0.0826  data_time: 0.0239  memory: 1227  loss: 0.4566  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.4566
+07/14 06:03:11 - mmengine - INFO - Epoch(train)  [58][200/282]  lr: 6.6434e-02  eta: 0:30:21  time: 0.0942  data_time: 0.0346  memory: 1227  loss: 0.4167  top1_acc: 0.8125  top5_acc: 1.0000  loss_cls: 0.4167
+07/14 06:03:18 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:03:18 - mmengine - INFO - Epoch(train)  [58][282/282]  lr: 6.9102e-02  eta: 0:30:13  time: 0.0875  data_time: 0.0295  memory: 1227  loss: 0.4424  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4424
+07/14 06:03:18 - mmengine - INFO - Saving checkpoint at 58 epochs
+07/14 06:03:23 - mmengine - INFO - Epoch(val) [58][62/62]    acc/top1: 0.3050  acc/top5: 0.7021  acc/mean1: 0.3611  data_time: 0.0411  time: 0.0696
+07/14 06:03:32 - mmengine - INFO - Epoch(train)  [59][100/282]  lr: 7.2270e-02  eta: 0:30:04  time: 0.0947  data_time: 0.0285  memory: 1227  loss: 0.4614  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.4614
+07/14 06:03:42 - mmengine - INFO - Epoch(train)  [59][200/282]  lr: 7.5331e-02  eta: 0:29:55  time: 0.0872  data_time: 0.0279  memory: 1227  loss: 0.4729  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.4729
+07/14 06:03:49 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:03:49 - mmengine - INFO - Epoch(train)  [59][282/282]  lr: 7.7750e-02  eta: 0:29:48  time: 0.0847  data_time: 0.0258  memory: 1227  loss: 0.4847  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4847
+07/14 06:03:49 - mmengine - INFO - Saving checkpoint at 59 epochs
+07/14 06:03:54 - mmengine - INFO - Epoch(val) [59][62/62]    acc/top1: 0.3767  acc/top5: 0.8352  acc/mean1: 0.3804  data_time: 0.0428  time: 0.0707
+07/14 06:04:04 - mmengine - INFO - Epoch(train)  [60][100/282]  lr: 8.0576e-02  eta: 0:29:38  time: 0.0804  data_time: 0.0220  memory: 1227  loss: 0.3960  top1_acc: 0.9375  top5_acc: 0.9375  loss_cls: 0.3960
+07/14 06:04:13 - mmengine - INFO - Epoch(train)  [60][200/282]  lr: 8.3254e-02  eta: 0:29:30  time: 0.0970  data_time: 0.0349  memory: 1227  loss: 0.4187  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.4187
+07/14 06:04:21 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:04:21 - mmengine - INFO - Epoch(train)  [60][282/282]  lr: 8.5331e-02  eta: 0:29:22  time: 0.1002  data_time: 0.0379  memory: 1227  loss: 0.3138  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3138
+07/14 06:04:21 - mmengine - INFO - Saving checkpoint at 60 epochs
+07/14 06:04:26 - mmengine - INFO - Epoch(val) [60][62/62]    acc/top1: 0.2436  acc/top5: 0.7073  acc/mean1: 0.3156  data_time: 0.0446  time: 0.0707
+07/14 06:04:33 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:04:35 - mmengine - INFO - Epoch(train)  [61][100/282]  lr: 8.7707e-02  eta: 0:29:13  time: 0.0874  data_time: 0.0274  memory: 1227  loss: 0.3583  top1_acc: 0.8125  top5_acc: 1.0000  loss_cls: 0.3583
+07/14 06:04:44 - mmengine - INFO - Epoch(train)  [61][200/282]  lr: 8.9900e-02  eta: 0:29:04  time: 0.0894  data_time: 0.0294  memory: 1227  loss: 0.5565  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.5565
+07/14 06:04:51 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:04:51 - mmengine - INFO - Epoch(train)  [61][282/282]  lr: 9.1554e-02  eta: 0:28:56  time: 0.0864  data_time: 0.0286  memory: 1227  loss: 0.4647  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.4647
+07/14 06:04:51 - mmengine - INFO - Saving checkpoint at 61 epochs
+07/14 06:04:57 - mmengine - INFO - Epoch(val) [61][62/62]    acc/top1: 0.3971  acc/top5: 0.7554  acc/mean1: 0.4119  data_time: 0.0433  time: 0.0713
+07/14 06:05:06 - mmengine - INFO - Epoch(train)  [62][100/282]  lr: 9.3388e-02  eta: 0:28:47  time: 0.0890  data_time: 0.0276  memory: 1227  loss: 0.3649  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.3649
+07/14 06:05:15 - mmengine - INFO - Epoch(train)  [62][200/282]  lr: 9.5012e-02  eta: 0:28:38  time: 0.0883  data_time: 0.0294  memory: 1227  loss: 0.3992  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.3992
+07/14 06:05:23 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:05:23 - mmengine - INFO - Epoch(train)  [62][282/282]  lr: 9.6181e-02  eta: 0:28:30  time: 0.0873  data_time: 0.0291  memory: 1227  loss: 0.3049  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.3049
+07/14 06:05:23 - mmengine - INFO - Saving checkpoint at 62 epochs
+07/14 06:05:27 - mmengine - INFO - Epoch(val) [62][62/62]    acc/top1: 0.3183  acc/top5: 0.7564  acc/mean1: 0.3229  data_time: 0.0424  time: 0.0697
+07/14 06:05:37 - mmengine - INFO - Epoch(train)  [63][100/282]  lr: 9.7402e-02  eta: 0:28:21  time: 0.0899  data_time: 0.0295  memory: 1227  loss: 0.3591  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3591
+07/14 06:05:46 - mmengine - INFO - Epoch(train)  [63][200/282]  lr: 9.8394e-02  eta: 0:28:12  time: 0.0943  data_time: 0.0345  memory: 1227  loss: 0.3666  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.3666
+07/14 06:05:54 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:05:54 - mmengine - INFO - Epoch(train)  [63][282/282]  lr: 9.9032e-02  eta: 0:28:04  time: 0.0924  data_time: 0.0332  memory: 1227  loss: 0.5659  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.5659
+07/14 06:05:54 - mmengine - INFO - Saving checkpoint at 63 epochs
+07/14 06:05:58 - mmengine - INFO - Epoch(val) [63][62/62]    acc/top1: 0.2764  acc/top5: 0.7267  acc/mean1: 0.2971  data_time: 0.0432  time: 0.0692
+07/14 06:06:08 - mmengine - INFO - Epoch(train)  [64][100/282]  lr: 9.9595e-02  eta: 0:27:55  time: 0.0889  data_time: 0.0292  memory: 1227  loss: 0.3167  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.3167
+07/14 06:06:16 - mmengine - INFO - Epoch(train)  [64][200/282]  lr: 9.9917e-02  eta: 0:27:45  time: 0.0895  data_time: 0.0277  memory: 1227  loss: 0.1614  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.1614
+07/14 06:06:19 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:06:24 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:06:24 - mmengine - INFO - Epoch(train)  [64][282/282]  lr: 1.0000e-01  eta: 0:27:37  time: 0.0897  data_time: 0.0312  memory: 1227  loss: 0.5148  top1_acc: 0.5000  top5_acc: 0.7500  loss_cls: 0.5148
+07/14 06:06:24 - mmengine - INFO - Saving checkpoint at 64 epochs
+07/14 06:06:29 - mmengine - INFO - Epoch(val) [64][62/62]    acc/top1: 0.3593  acc/top5: 0.8209  acc/mean1: 0.3233  data_time: 0.0428  time: 0.0707
+07/14 06:06:38 - mmengine - INFO - Epoch(train)  [65][100/282]  lr: 9.9881e-02  eta: 0:27:28  time: 0.0953  data_time: 0.0343  memory: 1227  loss: 0.3536  top1_acc: 0.8125  top5_acc: 1.0000  loss_cls: 0.3536
+07/14 06:06:47 - mmengine - INFO - Epoch(train)  [65][200/282]  lr: 9.9521e-02  eta: 0:27:19  time: 0.0825  data_time: 0.0238  memory: 1227  loss: 0.2996  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.2996
+07/14 06:06:54 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:06:54 - mmengine - INFO - Epoch(train)  [65][282/282]  lr: 9.9046e-02  eta: 0:27:11  time: 0.0917  data_time: 0.0294  memory: 1227  loss: 0.4615  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4615
+07/14 06:06:54 - mmengine - INFO - Saving checkpoint at 65 epochs
+07/14 06:06:59 - mmengine - INFO - Epoch(val) [65][62/62]    acc/top1: 0.3961  acc/top5: 0.7697  acc/mean1: 0.3939  data_time: 0.0424  time: 0.0678
+07/14 06:07:08 - mmengine - INFO - Epoch(train)  [66][100/282]  lr: 9.8251e-02  eta: 0:27:02  time: 0.0858  data_time: 0.0256  memory: 1227  loss: 0.1087  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.1087
+07/14 06:07:17 - mmengine - INFO - Epoch(train)  [66][200/282]  lr: 9.7222e-02  eta: 0:26:53  time: 0.0980  data_time: 0.0348  memory: 1227  loss: 0.2724  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.2724
+07/14 06:07:25 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:07:25 - mmengine - INFO - Epoch(train)  [66][282/282]  lr: 9.6207e-02  eta: 0:26:45  time: 0.0970  data_time: 0.0335  memory: 1227  loss: 0.2414  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2414
+07/14 06:07:25 - mmengine - INFO - Saving checkpoint at 66 epochs
+07/14 06:07:30 - mmengine - INFO - Epoch(val) [66][62/62]    acc/top1: 0.5179  acc/top5: 0.8383  acc/mean1: 0.4676  data_time: 0.0409  time: 0.0673
+07/14 06:07:39 - mmengine - INFO - Epoch(train)  [67][100/282]  lr: 9.4766e-02  eta: 0:26:36  time: 0.0856  data_time: 0.0268  memory: 1227  loss: 0.1771  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.1771
+07/14 06:07:48 - mmengine - INFO - Epoch(train)  [67][200/282]  lr: 9.3109e-02  eta: 0:26:27  time: 0.0914  data_time: 0.0329  memory: 1227  loss: 0.4341  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.4341
+07/14 06:07:56 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:07:56 - mmengine - INFO - Epoch(train)  [67][282/282]  lr: 9.1593e-02  eta: 0:26:19  time: 0.0879  data_time: 0.0292  memory: 1227  loss: 0.3094  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3094
+07/14 06:07:56 - mmengine - INFO - Saving checkpoint at 67 epochs
+07/14 06:08:01 - mmengine - INFO - Epoch(val) [67][62/62]    acc/top1: 0.4176  acc/top5: 0.8547  acc/mean1: 0.3979  data_time: 0.0429  time: 0.0693
+07/14 06:08:10 - mmengine - INFO - Epoch(train)  [68][100/282]  lr: 8.9561e-02  eta: 0:26:10  time: 0.0867  data_time: 0.0267  memory: 1227  loss: 0.1001  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.1001
+07/14 06:08:11 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:08:19 - mmengine - INFO - Epoch(train)  [68][200/282]  lr: 8.7338e-02  eta: 0:26:01  time: 0.0885  data_time: 0.0291  memory: 1227  loss: 0.2880  top1_acc: 0.8125  top5_acc: 1.0000  loss_cls: 0.2880
+07/14 06:08:27 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:08:27 - mmengine - INFO - Epoch(train)  [68][282/282]  lr: 8.5380e-02  eta: 0:25:53  time: 0.0806  data_time: 0.0217  memory: 1227  loss: 0.2217  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2217
+07/14 06:08:27 - mmengine - INFO - Saving checkpoint at 68 epochs
+07/14 06:08:31 - mmengine - INFO - Epoch(val) [68][62/62]    acc/top1: 0.3900  acc/top5: 0.7943  acc/mean1: 0.4008  data_time: 0.0382  time: 0.0661
+07/14 06:08:40 - mmengine - INFO - Epoch(train)  [69][100/282]  lr: 8.2836e-02  eta: 0:25:44  time: 0.0862  data_time: 0.0271  memory: 1227  loss: 0.2162  top1_acc: 0.8750  top5_acc: 0.9375  loss_cls: 0.2162
+07/14 06:08:49 - mmengine - INFO - Epoch(train)  [69][200/282]  lr: 8.0133e-02  eta: 0:25:35  time: 0.0926  data_time: 0.0330  memory: 1227  loss: 0.1587  top1_acc: 0.8125  top5_acc: 1.0000  loss_cls: 0.1587
+07/14 06:08:57 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:08:57 - mmengine - INFO - Epoch(train)  [69][282/282]  lr: 7.7807e-02  eta: 0:25:27  time: 0.0811  data_time: 0.0225  memory: 1227  loss: 0.1784  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.1784
+07/14 06:08:57 - mmengine - INFO - Saving checkpoint at 69 epochs
+07/14 06:09:02 - mmengine - INFO - Epoch(val) [69][62/62]    acc/top1: 0.4135  acc/top5: 0.8066  acc/mean1: 0.4081  data_time: 0.0403  time: 0.0673
+07/14 06:09:11 - mmengine - INFO - Epoch(train)  [70][100/282]  lr: 7.4849e-02  eta: 0:25:18  time: 0.0934  data_time: 0.0317  memory: 1227  loss: 0.1845  top1_acc: 0.8125  top5_acc: 1.0000  loss_cls: 0.1845
+07/14 06:09:20 - mmengine - INFO - Epoch(train)  [70][200/282]  lr: 7.1770e-02  eta: 0:25:08  time: 0.1020  data_time: 0.0402  memory: 1227  loss: 0.1659  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.1659
+07/14 06:09:27 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:09:27 - mmengine - INFO - Epoch(train)  [70][282/282]  lr: 6.9166e-02  eta: 0:25:01  time: 0.0924  data_time: 0.0281  memory: 1227  loss: 0.1288  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.1288
+07/14 06:09:27 - mmengine - INFO - Saving checkpoint at 70 epochs
+07/14 06:09:32 - mmengine - INFO - Epoch(val) [70][62/62]    acc/top1: 0.3490  acc/top5: 0.7523  acc/mean1: 0.3222  data_time: 0.0413  time: 0.0665
+07/14 06:09:42 - mmengine - INFO - Epoch(train)  [71][100/282]  lr: 6.5907e-02  eta: 0:24:52  time: 0.0959  data_time: 0.0357  memory: 1227  loss: 0.0466  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0466
+07/14 06:09:51 - mmengine - INFO - Epoch(train)  [71][200/282]  lr: 6.2571e-02  eta: 0:24:43  time: 0.0972  data_time: 0.0364  memory: 1227  loss: 0.0772  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0772
+07/14 06:09:57 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:09:59 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:09:59 - mmengine - INFO - Epoch(train)  [71][282/282]  lr: 5.9789e-02  eta: 0:24:35  time: 0.0896  data_time: 0.0292  memory: 1227  loss: 0.0583  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.0583
+07/14 06:09:59 - mmengine - INFO - Saving checkpoint at 71 epochs
+07/14 06:10:03 - mmengine - INFO - Epoch(val) [71][62/62]    acc/top1: 0.5374  acc/top5: 0.8516  acc/mean1: 0.5004  data_time: 0.0389  time: 0.0652
+07/14 06:10:13 - mmengine - INFO - Epoch(train)  [72][100/282]  lr: 5.6354e-02  eta: 0:24:26  time: 0.0945  data_time: 0.0342  memory: 1227  loss: 0.0728  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0728
+07/14 06:10:22 - mmengine - INFO - Epoch(train)  [72][200/282]  lr: 5.2888e-02  eta: 0:24:17  time: 0.1009  data_time: 0.0351  memory: 1227  loss: 0.0124  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0124
+07/14 06:10:30 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:10:30 - mmengine - INFO - Epoch(train)  [72][282/282]  lr: 5.0035e-02  eta: 0:24:10  time: 0.0945  data_time: 0.0303  memory: 1227  loss: 0.0095  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0095
+07/14 06:10:30 - mmengine - INFO - Saving checkpoint at 72 epochs
+07/14 06:10:34 - mmengine - INFO - Epoch(val) [72][62/62]    acc/top1: 0.5906  acc/top5: 0.8731  acc/mean1: 0.5532  data_time: 0.0395  time: 0.0652
+07/14 06:10:44 - mmengine - INFO - Epoch(train)  [73][100/282]  lr: 4.6556e-02  eta: 0:24:01  time: 0.0924  data_time: 0.0328  memory: 1227  loss: 0.0039  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0039
+07/14 06:10:53 - mmengine - INFO - Epoch(train)  [73][200/282]  lr: 4.3094e-02  eta: 0:23:51  time: 0.0857  data_time: 0.0269  memory: 1227  loss: 0.0079  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0079
+07/14 06:11:00 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:11:00 - mmengine - INFO - Epoch(train)  [73][282/282]  lr: 4.0280e-02  eta: 0:23:44  time: 0.0862  data_time: 0.0274  memory: 1227  loss: 0.0125  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0125
+07/14 06:11:00 - mmengine - INFO - Saving checkpoint at 73 epochs
+07/14 06:11:05 - mmengine - INFO - Epoch(val) [73][62/62]    acc/top1: 0.5793  acc/top5: 0.8782  acc/mean1: 0.5471  data_time: 0.0436  time: 0.0723
+07/14 06:11:15 - mmengine - INFO - Epoch(train)  [74][100/282]  lr: 3.6891e-02  eta: 0:23:35  time: 0.0876  data_time: 0.0277  memory: 1227  loss: 0.0051  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0051
+07/14 06:11:24 - mmengine - INFO - Epoch(train)  [74][200/282]  lr: 3.3566e-02  eta: 0:23:26  time: 0.0912  data_time: 0.0314  memory: 1227  loss: 0.0094  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0094
+07/14 06:11:32 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:11:32 - mmengine - INFO - Epoch(train)  [74][282/282]  lr: 3.0898e-02  eta: 0:23:18  time: 0.0927  data_time: 0.0312  memory: 1227  loss: 0.0102  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0102
+07/14 06:11:32 - mmengine - INFO - Saving checkpoint at 74 epochs
+07/14 06:11:37 - mmengine - INFO - Epoch(val) [74][62/62]    acc/top1: 0.5814  acc/top5: 0.8762  acc/mean1: 0.5551  data_time: 0.0407  time: 0.0657
+07/14 06:11:46 - mmengine - INFO - Epoch(train)  [75][100/282]  lr: 2.7730e-02  eta: 0:23:09  time: 0.0940  data_time: 0.0313  memory: 1227  loss: 0.0038  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0038
+07/14 06:11:49 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:11:55 - mmengine - INFO - Epoch(train)  [75][200/282]  lr: 2.4669e-02  eta: 0:23:00  time: 0.0904  data_time: 0.0315  memory: 1227  loss: 0.0076  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0076
+07/14 06:12:02 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:12:02 - mmengine - INFO - Epoch(train)  [75][282/282]  lr: 2.2250e-02  eta: 0:22:52  time: 0.0875  data_time: 0.0294  memory: 1227  loss: 0.0094  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0094
+07/14 06:12:02 - mmengine - INFO - Saving checkpoint at 75 epochs
+07/14 06:12:07 - mmengine - INFO - Epoch(val) [75][62/62]    acc/top1: 0.5773  acc/top5: 0.8721  acc/mean1: 0.5519  data_time: 0.0446  time: 0.0723
+07/14 06:12:17 - mmengine - INFO - Epoch(train)  [76][100/282]  lr: 1.9424e-02  eta: 0:22:43  time: 0.0995  data_time: 0.0344  memory: 1227  loss: 0.0069  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0069
+07/14 06:12:26 - mmengine - INFO - Epoch(train)  [76][200/282]  lr: 1.6746e-02  eta: 0:22:34  time: 0.0854  data_time: 0.0267  memory: 1227  loss: 0.0046  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0046
+07/14 06:12:33 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:12:33 - mmengine - INFO - Epoch(train)  [76][282/282]  lr: 1.4669e-02  eta: 0:22:26  time: 0.0899  data_time: 0.0291  memory: 1227  loss: 0.0184  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0184
+07/14 06:12:33 - mmengine - INFO - Saving checkpoint at 76 epochs
+07/14 06:12:39 - mmengine - INFO - Epoch(val) [76][62/62]    acc/top1: 0.5783  acc/top5: 0.8731  acc/mean1: 0.5450  data_time: 0.0406  time: 0.0674
+07/14 06:12:48 - mmengine - INFO - Epoch(train)  [77][100/282]  lr: 1.2293e-02  eta: 0:22:17  time: 0.0865  data_time: 0.0274  memory: 1227  loss: 0.0054  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0054
+07/14 06:12:57 - mmengine - INFO - Epoch(train)  [77][200/282]  lr: 1.0100e-02  eta: 0:22:08  time: 0.0942  data_time: 0.0312  memory: 1227  loss: 0.0046  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0046
+07/14 06:13:05 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:13:05 - mmengine - INFO - Epoch(train)  [77][282/282]  lr: 8.4459e-03  eta: 0:22:01  time: 0.0889  data_time: 0.0287  memory: 1227  loss: 0.0045  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0045
+07/14 06:13:05 - mmengine - INFO - Saving checkpoint at 77 epochs
+07/14 06:13:10 - mmengine - INFO - Epoch(val) [77][62/62]    acc/top1: 0.5803  acc/top5: 0.8751  acc/mean1: 0.5460  data_time: 0.0426  time: 0.0683
+07/14 06:13:19 - mmengine - INFO - Epoch(train)  [78][100/282]  lr: 6.6120e-03  eta: 0:21:51  time: 0.0876  data_time: 0.0297  memory: 1227  loss: 0.0046  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0046
+07/14 06:13:28 - mmengine - INFO - Epoch(train)  [78][200/282]  lr: 4.9883e-03  eta: 0:21:43  time: 0.0906  data_time: 0.0303  memory: 1227  loss: 0.0045  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0045
+07/14 06:13:36 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:13:36 - mmengine - INFO - Epoch(train)  [78][282/282]  lr: 3.8194e-03  eta: 0:21:35  time: 0.0889  data_time: 0.0273  memory: 1227  loss: 0.0059  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0059
+07/14 06:13:36 - mmengine - INFO - Saving checkpoint at 78 epochs
+07/14 06:13:41 - mmengine - INFO - Epoch(val) [78][62/62]    acc/top1: 0.5855  acc/top5: 0.8792  acc/mean1: 0.5560  data_time: 0.0399  time: 0.0657
+07/14 06:13:41 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:13:50 - mmengine - INFO - Epoch(train)  [79][100/282]  lr: 2.5978e-03  eta: 0:21:26  time: 0.0999  data_time: 0.0309  memory: 1227  loss: 0.0042  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0042
+07/14 06:13:59 - mmengine - INFO - Epoch(train)  [79][200/282]  lr: 1.6060e-03  eta: 0:21:17  time: 0.0825  data_time: 0.0240  memory: 1227  loss: 0.0079  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0079
+07/14 06:14:06 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:14:06 - mmengine - INFO - Epoch(train)  [79][282/282]  lr: 9.6754e-04  eta: 0:21:09  time: 0.0813  data_time: 0.0238  memory: 1227  loss: 0.0323  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.0323
+07/14 06:14:06 - mmengine - INFO - Saving checkpoint at 79 epochs
+07/14 06:14:12 - mmengine - INFO - Epoch(val) [79][62/62]    acc/top1: 0.5865  acc/top5: 0.8782  acc/mean1: 0.5475  data_time: 0.0430  time: 0.0708
+07/14 06:14:21 - mmengine - INFO - Epoch(train)  [80][100/282]  lr: 4.0534e-04  eta: 0:21:00  time: 0.0988  data_time: 0.0343  memory: 1227  loss: 0.0047  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0047
+07/14 06:14:30 - mmengine - INFO - Epoch(train)  [80][200/282]  lr: 8.3471e-05  eta: 0:20:50  time: 0.0948  data_time: 0.0315  memory: 1227  loss: 0.0039  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0039
+07/14 06:14:37 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:14:37 - mmengine - INFO - Epoch(train)  [80][282/282]  lr: 1.2120e-08  eta: 0:20:43  time: 0.0862  data_time: 0.0270  memory: 1227  loss: 0.0080  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0080
+07/14 06:14:37 - mmengine - INFO - Saving checkpoint at 80 epochs
+07/14 06:14:42 - mmengine - INFO - Epoch(val) [80][62/62]    acc/top1: 0.5865  acc/top5: 0.8792  acc/mean1: 0.5526  data_time: 0.0438  time: 0.0717
+07/14 06:14:51 - mmengine - INFO - Epoch(train)  [81][100/282]  lr: 1.1874e-04  eta: 0:20:34  time: 0.0839  data_time: 0.0254  memory: 1227  loss: 0.0043  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0043
+07/14 06:15:00 - mmengine - INFO - Epoch(train)  [81][200/282]  lr: 4.7920e-04  eta: 0:20:24  time: 0.0866  data_time: 0.0274  memory: 1227  loss: 0.0046  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0046
+07/14 06:15:08 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:15:08 - mmengine - INFO - Epoch(train)  [81][282/282]  lr: 9.5396e-04  eta: 0:20:17  time: 0.0935  data_time: 0.0345  memory: 1227  loss: 0.0085  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0085
+07/14 06:15:08 - mmengine - INFO - Saving checkpoint at 81 epochs
+07/14 06:15:13 - mmengine - INFO - Epoch(val) [81][62/62]    acc/top1: 0.5834  acc/top5: 0.8710  acc/mean1: 0.5518  data_time: 0.0425  time: 0.0675
+07/14 06:15:22 - mmengine - INFO - Epoch(train)  [82][100/282]  lr: 1.7491e-03  eta: 0:20:08  time: 0.0882  data_time: 0.0282  memory: 1227  loss: 0.0036  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0036
+07/14 06:15:28 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:15:31 - mmengine - INFO - Epoch(train)  [82][200/282]  lr: 2.7780e-03  eta: 0:19:58  time: 0.0968  data_time: 0.0317  memory: 1227  loss: 0.0043  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0043
+07/14 06:15:39 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:15:39 - mmengine - INFO - Epoch(train)  [82][282/282]  lr: 3.7927e-03  eta: 0:19:51  time: 0.0912  data_time: 0.0275  memory: 1227  loss: 0.0079  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0079
+07/14 06:15:39 - mmengine - INFO - Saving checkpoint at 82 epochs
+07/14 06:15:44 - mmengine - INFO - Epoch(val) [82][62/62]    acc/top1: 0.5834  acc/top5: 0.8721  acc/mean1: 0.5546  data_time: 0.0442  time: 0.0715
+07/14 06:15:53 - mmengine - INFO - Epoch(train)  [83][100/282]  lr: 5.2336e-03  eta: 0:19:42  time: 0.0835  data_time: 0.0253  memory: 1227  loss: 0.0063  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0063
+07/14 06:16:03 - mmengine - INFO - Epoch(train)  [83][200/282]  lr: 6.8915e-03  eta: 0:19:33  time: 0.0935  data_time: 0.0277  memory: 1227  loss: 0.0059  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0059
+07/14 06:16:10 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:16:10 - mmengine - INFO - Epoch(train)  [83][282/282]  lr: 8.4072e-03  eta: 0:19:25  time: 0.0846  data_time: 0.0259  memory: 1227  loss: 0.0050  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0050
+07/14 06:16:10 - mmengine - INFO - Saving checkpoint at 83 epochs
+07/14 06:16:15 - mmengine - INFO - Epoch(val) [83][62/62]    acc/top1: 0.5844  acc/top5: 0.8751  acc/mean1: 0.5520  data_time: 0.0423  time: 0.0679
+07/14 06:16:25 - mmengine - INFO - Epoch(train)  [84][100/282]  lr: 1.0439e-02  eta: 0:19:16  time: 0.0865  data_time: 0.0263  memory: 1227  loss: 0.0059  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0059
+07/14 06:16:34 - mmengine - INFO - Epoch(train)  [84][200/282]  lr: 1.2662e-02  eta: 0:19:07  time: 0.0922  data_time: 0.0316  memory: 1227  loss: 0.0042  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0042
+07/14 06:16:41 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:16:41 - mmengine - INFO - Epoch(train)  [84][282/282]  lr: 1.4620e-02  eta: 0:18:59  time: 0.0926  data_time: 0.0338  memory: 1227  loss: 0.0072  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0072
+07/14 06:16:41 - mmengine - INFO - Saving checkpoint at 84 epochs
+07/14 06:16:46 - mmengine - INFO - Epoch(val) [84][62/62]    acc/top1: 0.5834  acc/top5: 0.8813  acc/mean1: 0.5514  data_time: 0.0427  time: 0.0676
+07/14 06:16:55 - mmengine - INFO - Epoch(train)  [85][100/282]  lr: 1.7164e-02  eta: 0:18:50  time: 0.0895  data_time: 0.0301  memory: 1227  loss: 0.0047  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0047
+07/14 06:17:04 - mmengine - INFO - Epoch(train)  [85][200/282]  lr: 1.9867e-02  eta: 0:18:41  time: 0.0930  data_time: 0.0317  memory: 1227  loss: 0.0046  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0046
+07/14 06:17:12 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:17:12 - mmengine - INFO - Epoch(train)  [85][282/282]  lr: 2.2193e-02  eta: 0:18:33  time: 0.0970  data_time: 0.0312  memory: 1227  loss: 0.0061  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0061
+07/14 06:17:12 - mmengine - INFO - Saving checkpoint at 85 epochs
+07/14 06:17:17 - mmengine - INFO - Epoch(val) [85][62/62]    acc/top1: 0.5875  acc/top5: 0.8823  acc/mean1: 0.5458  data_time: 0.0428  time: 0.0701
+07/14 06:17:20 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:17:26 - mmengine - INFO - Epoch(train)  [86][100/282]  lr: 2.5151e-02  eta: 0:18:24  time: 0.0917  data_time: 0.0310  memory: 1227  loss: 0.0078  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0078
+07/14 06:17:35 - mmengine - INFO - Epoch(train)  [86][200/282]  lr: 2.8230e-02  eta: 0:18:15  time: 0.0960  data_time: 0.0338  memory: 1227  loss: 0.0055  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0055
+07/14 06:17:43 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:17:43 - mmengine - INFO - Epoch(train)  [86][282/282]  lr: 3.0834e-02  eta: 0:18:07  time: 0.0799  data_time: 0.0228  memory: 1227  loss: 0.0163  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0163
+07/14 06:17:43 - mmengine - INFO - Saving checkpoint at 86 epochs
+07/14 06:17:48 - mmengine - INFO - Epoch(val) [86][62/62]    acc/top1: 0.5629  acc/top5: 0.8639  acc/mean1: 0.5546  data_time: 0.0416  time: 0.0753
+07/14 06:17:57 - mmengine - INFO - Epoch(train)  [87][100/282]  lr: 3.4093e-02  eta: 0:17:58  time: 0.0839  data_time: 0.0246  memory: 1227  loss: 0.0078  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0078
+07/14 06:18:06 - mmengine - INFO - Epoch(train)  [87][200/282]  lr: 3.7429e-02  eta: 0:17:49  time: 0.0993  data_time: 0.0315  memory: 1227  loss: 0.0042  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0042
+07/14 06:18:14 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:18:14 - mmengine - INFO - Epoch(train)  [87][282/282]  lr: 4.0211e-02  eta: 0:17:41  time: 0.0942  data_time: 0.0322  memory: 1227  loss: 0.0073  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0073
+07/14 06:18:14 - mmengine - INFO - Saving checkpoint at 87 epochs
+07/14 06:18:19 - mmengine - INFO - Epoch(val) [87][62/62]    acc/top1: 0.5865  acc/top5: 0.8833  acc/mean1: 0.5526  data_time: 0.0433  time: 0.0710
+07/14 06:18:28 - mmengine - INFO - Epoch(train)  [88][100/282]  lr: 4.3646e-02  eta: 0:17:32  time: 0.0965  data_time: 0.0351  memory: 1227  loss: 0.0064  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0064
+07/14 06:18:37 - mmengine - INFO - Epoch(train)  [88][200/282]  lr: 4.7112e-02  eta: 0:17:23  time: 0.0935  data_time: 0.0329  memory: 1227  loss: 0.0081  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0081
+07/14 06:18:45 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:18:45 - mmengine - INFO - Epoch(train)  [88][282/282]  lr: 4.9965e-02  eta: 0:17:15  time: 0.0812  data_time: 0.0230  memory: 1227  loss: 0.0301  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0301
+07/14 06:18:45 - mmengine - INFO - Saving checkpoint at 88 epochs
+07/14 06:18:50 - mmengine - INFO - Epoch(val) [88][62/62]    acc/top1: 0.6039  acc/top5: 0.8833  acc/mean1: 0.5239  data_time: 0.0447  time: 0.0713
+07/14 06:18:50 - mmengine - INFO - The previous best checkpoint /home/jovyan/local/mmaction2_badminton/experiments/badminton_stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_50_per_class/best_acc_top1_epoch_52.pth is removed
+07/14 06:18:50 - mmengine - INFO - The best checkpoint with 0.6039 acc/top1 at 88 epoch is saved to best_acc_top1_epoch_88.pth.
+07/14 06:19:00 - mmengine - INFO - Epoch(train)  [89][100/282]  lr: 5.3444e-02  eta: 0:17:06  time: 0.0896  data_time: 0.0290  memory: 1227  loss: 0.0417  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.0417
+07/14 06:19:08 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:19:10 - mmengine - INFO - Epoch(train)  [89][200/282]  lr: 5.6906e-02  eta: 0:16:57  time: 0.0915  data_time: 0.0299  memory: 1227  loss: 0.5568  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.5568
+07/14 06:19:17 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:19:17 - mmengine - INFO - Epoch(train)  [89][282/282]  lr: 5.9720e-02  eta: 0:16:50  time: 0.0933  data_time: 0.0338  memory: 1227  loss: 0.6060  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.6060
+07/14 06:19:17 - mmengine - INFO - Saving checkpoint at 89 epochs
+07/14 06:19:22 - mmengine - INFO - Epoch(val) [89][62/62]    acc/top1: 0.2968  acc/top5: 0.7871  acc/mean1: 0.2860  data_time: 0.0388  time: 0.0664
+07/14 06:19:32 - mmengine - INFO - Epoch(train)  [90][100/282]  lr: 6.3109e-02  eta: 0:16:41  time: 0.0933  data_time: 0.0306  memory: 1227  loss: 0.4085  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.4085
+07/14 06:19:41 - mmengine - INFO - Epoch(train)  [90][200/282]  lr: 6.6434e-02  eta: 0:16:31  time: 0.0947  data_time: 0.0337  memory: 1227  loss: 0.5324  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.5324
+07/14 06:19:48 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:19:48 - mmengine - INFO - Epoch(train)  [90][282/282]  lr: 6.9102e-02  eta: 0:16:24  time: 0.0888  data_time: 0.0277  memory: 1227  loss: 0.5110  top1_acc: 0.2500  top5_acc: 1.0000  loss_cls: 0.5110
+07/14 06:19:48 - mmengine - INFO - Saving checkpoint at 90 epochs
+07/14 06:19:53 - mmengine - INFO - Epoch(val) [90][62/62]    acc/top1: 0.3869  acc/top5: 0.7533  acc/mean1: 0.3588  data_time: 0.0446  time: 0.0718
+07/14 06:20:03 - mmengine - INFO - Epoch(train)  [91][100/282]  lr: 7.2270e-02  eta: 0:16:15  time: 0.1139  data_time: 0.0460  memory: 1227  loss: 0.3889  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3889
+07/14 06:20:12 - mmengine - INFO - Epoch(train)  [91][200/282]  lr: 7.5331e-02  eta: 0:16:06  time: 0.1010  data_time: 0.0376  memory: 1227  loss: 0.3144  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.3144
+07/14 06:20:20 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:20:20 - mmengine - INFO - Epoch(train)  [91][282/282]  lr: 7.7750e-02  eta: 0:15:58  time: 0.0876  data_time: 0.0286  memory: 1227  loss: 0.3519  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.3519
+07/14 06:20:20 - mmengine - INFO - Saving checkpoint at 91 epochs
+07/14 06:20:25 - mmengine - INFO - Epoch(val) [91][62/62]    acc/top1: 0.4012  acc/top5: 0.7984  acc/mean1: 0.3694  data_time: 0.0447  time: 0.0715
+07/14 06:20:34 - mmengine - INFO - Epoch(train)  [92][100/282]  lr: 8.0576e-02  eta: 0:15:49  time: 0.0900  data_time: 0.0292  memory: 1227  loss: 0.3042  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3042
+07/14 06:20:43 - mmengine - INFO - Epoch(train)  [92][200/282]  lr: 8.3254e-02  eta: 0:15:40  time: 0.0930  data_time: 0.0321  memory: 1227  loss: 0.4440  top1_acc: 0.8125  top5_acc: 1.0000  loss_cls: 0.4440
+07/14 06:20:51 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:20:51 - mmengine - INFO - Epoch(train)  [92][282/282]  lr: 8.5331e-02  eta: 0:15:32  time: 0.1007  data_time: 0.0316  memory: 1227  loss: 0.4067  top1_acc: 0.5000  top5_acc: 0.7500  loss_cls: 0.4067
+07/14 06:20:51 - mmengine - INFO - Saving checkpoint at 92 epochs
+07/14 06:20:56 - mmengine - INFO - Epoch(val) [92][62/62]    acc/top1: 0.4084  acc/top5: 0.7932  acc/mean1: 0.3597  data_time: 0.0487  time: 0.0753
+07/14 06:21:02 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:21:06 - mmengine - INFO - Epoch(train)  [93][100/282]  lr: 8.7707e-02  eta: 0:15:23  time: 0.0881  data_time: 0.0281  memory: 1227  loss: 0.3651  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3651
+07/14 06:21:15 - mmengine - INFO - Epoch(train)  [93][200/282]  lr: 8.9900e-02  eta: 0:15:14  time: 0.0929  data_time: 0.0309  memory: 1227  loss: 0.3943  top1_acc: 0.8125  top5_acc: 1.0000  loss_cls: 0.3943
+07/14 06:21:22 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:21:22 - mmengine - INFO - Epoch(train)  [93][282/282]  lr: 9.1554e-02  eta: 0:15:06  time: 0.0847  data_time: 0.0259  memory: 1227  loss: 0.4560  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4560
+07/14 06:21:22 - mmengine - INFO - Saving checkpoint at 93 epochs
+07/14 06:21:27 - mmengine - INFO - Epoch(val) [93][62/62]    acc/top1: 0.4043  acc/top5: 0.8045  acc/mean1: 0.3663  data_time: 0.0424  time: 0.0702
+07/14 06:21:36 - mmengine - INFO - Epoch(train)  [94][100/282]  lr: 9.3388e-02  eta: 0:14:57  time: 0.0900  data_time: 0.0292  memory: 1227  loss: 0.4837  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.4837
+07/14 06:21:46 - mmengine - INFO - Epoch(train)  [94][200/282]  lr: 9.5012e-02  eta: 0:14:48  time: 0.1006  data_time: 0.0359  memory: 1227  loss: 0.1361  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.1361
+07/14 06:21:53 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:21:53 - mmengine - INFO - Epoch(train)  [94][282/282]  lr: 9.6181e-02  eta: 0:14:41  time: 0.1018  data_time: 0.0339  memory: 1227  loss: 0.2554  top1_acc: 0.7500  top5_acc: 0.7500  loss_cls: 0.2554
+07/14 06:21:53 - mmengine - INFO - Saving checkpoint at 94 epochs
+07/14 06:21:58 - mmengine - INFO - Epoch(val) [94][62/62]    acc/top1: 0.4882  acc/top5: 0.8506  acc/mean1: 0.4323  data_time: 0.0431  time: 0.0696
+07/14 06:22:08 - mmengine - INFO - Epoch(train)  [95][100/282]  lr: 9.7402e-02  eta: 0:14:31  time: 0.0912  data_time: 0.0296  memory: 1227  loss: 0.3422  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3422
+07/14 06:22:17 - mmengine - INFO - Epoch(train)  [95][200/282]  lr: 9.8394e-02  eta: 0:14:22  time: 0.1002  data_time: 0.0337  memory: 1227  loss: 0.1890  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.1890
+07/14 06:22:24 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:22:24 - mmengine - INFO - Epoch(train)  [95][282/282]  lr: 9.9032e-02  eta: 0:14:15  time: 0.0862  data_time: 0.0273  memory: 1227  loss: 0.2825  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2825
+07/14 06:22:24 - mmengine - INFO - Saving checkpoint at 95 epochs
+07/14 06:22:30 - mmengine - INFO - Epoch(val) [95][62/62]    acc/top1: 0.4954  acc/top5: 0.8495  acc/mean1: 0.4707  data_time: 0.0431  time: 0.0732
+07/14 06:22:39 - mmengine - INFO - Epoch(train)  [96][100/282]  lr: 9.9595e-02  eta: 0:14:06  time: 0.0990  data_time: 0.0362  memory: 1227  loss: 0.2456  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.2456
+07/14 06:22:49 - mmengine - INFO - Epoch(train)  [96][200/282]  lr: 9.9917e-02  eta: 0:13:56  time: 0.0893  data_time: 0.0300  memory: 1227  loss: 0.3637  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.3637
+07/14 06:22:49 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:22:56 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:22:56 - mmengine - INFO - Epoch(train)  [96][282/282]  lr: 1.0000e-01  eta: 0:13:49  time: 0.0917  data_time: 0.0310  memory: 1227  loss: 0.2451  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2451
+07/14 06:22:56 - mmengine - INFO - Saving checkpoint at 96 epochs
+07/14 06:23:01 - mmengine - INFO - Epoch(val) [96][62/62]    acc/top1: 0.4770  acc/top5: 0.8025  acc/mean1: 0.4446  data_time: 0.0432  time: 0.0710
+07/14 06:23:10 - mmengine - INFO - Epoch(train)  [97][100/282]  lr: 9.9881e-02  eta: 0:13:40  time: 0.0883  data_time: 0.0293  memory: 1227  loss: 0.2588  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.2588
+07/14 06:23:19 - mmengine - INFO - Epoch(train)  [97][200/282]  lr: 9.9521e-02  eta: 0:13:30  time: 0.0897  data_time: 0.0286  memory: 1227  loss: 0.1644  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.1644
+07/14 06:23:27 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:23:27 - mmengine - INFO - Epoch(train)  [97][282/282]  lr: 9.9046e-02  eta: 0:13:23  time: 0.0922  data_time: 0.0298  memory: 1227  loss: 0.1929  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.1929
+07/14 06:23:27 - mmengine - INFO - Saving checkpoint at 97 epochs
+07/14 06:23:31 - mmengine - INFO - Epoch(val) [97][62/62]    acc/top1: 0.4166  acc/top5: 0.7932  acc/mean1: 0.3433  data_time: 0.0406  time: 0.0663
+07/14 06:23:41 - mmengine - INFO - Epoch(train)  [98][100/282]  lr: 9.8251e-02  eta: 0:13:14  time: 0.0871  data_time: 0.0276  memory: 1227  loss: 0.2692  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2692
+07/14 06:23:50 - mmengine - INFO - Epoch(train)  [98][200/282]  lr: 9.7222e-02  eta: 0:13:04  time: 0.0876  data_time: 0.0284  memory: 1227  loss: 0.1984  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.1984
+07/14 06:23:57 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:23:57 - mmengine - INFO - Epoch(train)  [98][282/282]  lr: 9.6207e-02  eta: 0:12:57  time: 0.0906  data_time: 0.0272  memory: 1227  loss: 0.2790  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.2790
+07/14 06:23:57 - mmengine - INFO - Saving checkpoint at 98 epochs
+07/14 06:24:02 - mmengine - INFO - Epoch(val) [98][62/62]    acc/top1: 0.3357  acc/top5: 0.6919  acc/mean1: 0.3272  data_time: 0.0435  time: 0.0696
+07/14 06:24:12 - mmengine - INFO - Epoch(train)  [99][100/282]  lr: 9.4766e-02  eta: 0:12:48  time: 0.0977  data_time: 0.0371  memory: 1227  loss: 0.2044  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.2044
+07/14 06:24:21 - mmengine - INFO - Epoch(train)  [99][200/282]  lr: 9.3109e-02  eta: 0:12:39  time: 0.0883  data_time: 0.0288  memory: 1227  loss: 0.1250  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.1250
+07/14 06:24:29 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:24:29 - mmengine - INFO - Epoch(train)  [99][282/282]  lr: 9.1593e-02  eta: 0:12:31  time: 0.0843  data_time: 0.0256  memory: 1227  loss: 0.0799  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0799
+07/14 06:24:29 - mmengine - INFO - Saving checkpoint at 99 epochs
+07/14 06:24:34 - mmengine - INFO - Epoch(val) [99][62/62]    acc/top1: 0.4667  acc/top5: 0.8045  acc/mean1: 0.4661  data_time: 0.0408  time: 0.0698
+07/14 06:24:42 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:24:43 - mmengine - INFO - Epoch(train) [100][100/282]  lr: 8.9561e-02  eta: 0:12:22  time: 0.0889  data_time: 0.0291  memory: 1227  loss: 0.1375  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.1375
+07/14 06:24:52 - mmengine - INFO - Epoch(train) [100][200/282]  lr: 8.7338e-02  eta: 0:12:13  time: 0.0899  data_time: 0.0291  memory: 1227  loss: 0.1833  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.1833
+07/14 06:25:00 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:25:00 - mmengine - INFO - Epoch(train) [100][282/282]  lr: 8.5380e-02  eta: 0:12:05  time: 0.0853  data_time: 0.0267  memory: 1227  loss: 0.2415  top1_acc: 0.5000  top5_acc: 0.7500  loss_cls: 0.2415
+07/14 06:25:00 - mmengine - INFO - Saving checkpoint at 100 epochs
+07/14 06:25:04 - mmengine - INFO - Epoch(val) [100][62/62]    acc/top1: 0.4534  acc/top5: 0.7994  acc/mean1: 0.4146  data_time: 0.0371  time: 0.0627
+07/14 06:25:14 - mmengine - INFO - Epoch(train) [101][100/282]  lr: 8.2836e-02  eta: 0:11:56  time: 0.0845  data_time: 0.0256  memory: 1227  loss: 0.0850  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0850
+07/14 06:25:23 - mmengine - INFO - Epoch(train) [101][200/282]  lr: 8.0133e-02  eta: 0:11:47  time: 0.0908  data_time: 0.0311  memory: 1227  loss: 0.0871  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0871
+07/14 06:25:30 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:25:30 - mmengine - INFO - Epoch(train) [101][282/282]  lr: 7.7807e-02  eta: 0:11:39  time: 0.0882  data_time: 0.0285  memory: 1227  loss: 0.0773  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0773
+07/14 06:25:30 - mmengine - INFO - Saving checkpoint at 101 epochs
+07/14 06:25:35 - mmengine - INFO - Epoch(val) [101][62/62]    acc/top1: 0.4964  acc/top5: 0.8219  acc/mean1: 0.4973  data_time: 0.0445  time: 0.0695
+07/14 06:25:45 - mmengine - INFO - Epoch(train) [102][100/282]  lr: 7.4849e-02  eta: 0:11:30  time: 0.0953  data_time: 0.0288  memory: 1227  loss: 0.0387  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0387
+07/14 06:25:54 - mmengine - INFO - Epoch(train) [102][200/282]  lr: 7.1770e-02  eta: 0:11:21  time: 0.0836  data_time: 0.0251  memory: 1227  loss: 0.0540  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0540
+07/14 06:26:02 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:26:02 - mmengine - INFO - Epoch(train) [102][282/282]  lr: 6.9166e-02  eta: 0:11:13  time: 0.0906  data_time: 0.0298  memory: 1227  loss: 0.0488  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.0488
+07/14 06:26:02 - mmengine - INFO - Saving checkpoint at 102 epochs
+07/14 06:26:07 - mmengine - INFO - Epoch(val) [102][62/62]    acc/top1: 0.5507  acc/top5: 0.8414  acc/mean1: 0.5241  data_time: 0.0433  time: 0.0693
+07/14 06:26:16 - mmengine - INFO - Epoch(train) [103][100/282]  lr: 6.5907e-02  eta: 0:11:04  time: 0.0841  data_time: 0.0257  memory: 1227  loss: 0.1236  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.1236
+07/14 06:26:25 - mmengine - INFO - Epoch(train) [103][200/282]  lr: 6.2571e-02  eta: 0:10:55  time: 0.0918  data_time: 0.0306  memory: 1227  loss: 0.0367  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0367
+07/14 06:26:28 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:26:32 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:26:32 - mmengine - INFO - Epoch(train) [103][282/282]  lr: 5.9789e-02  eta: 0:10:47  time: 0.0854  data_time: 0.0253  memory: 1227  loss: 0.0090  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0090
+07/14 06:26:32 - mmengine - INFO - Saving checkpoint at 103 epochs
+07/14 06:26:38 - mmengine - INFO - Epoch(val) [103][62/62]    acc/top1: 0.5732  acc/top5: 0.8588  acc/mean1: 0.5364  data_time: 0.0432  time: 0.0718
+07/14 06:26:47 - mmengine - INFO - Epoch(train) [104][100/282]  lr: 5.6354e-02  eta: 0:10:38  time: 0.0988  data_time: 0.0321  memory: 1227  loss: 0.0213  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0213
+07/14 06:26:56 - mmengine - INFO - Epoch(train) [104][200/282]  lr: 5.2888e-02  eta: 0:10:29  time: 0.0872  data_time: 0.0259  memory: 1227  loss: 0.0075  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0075
+07/14 06:27:03 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:27:03 - mmengine - INFO - Epoch(train) [104][282/282]  lr: 5.0035e-02  eta: 0:10:22  time: 0.0846  data_time: 0.0263  memory: 1227  loss: 0.0111  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0111
+07/14 06:27:03 - mmengine - INFO - Saving checkpoint at 104 epochs
+07/14 06:27:08 - mmengine - INFO - Epoch(val) [104][62/62]    acc/top1: 0.5855  acc/top5: 0.8751  acc/mean1: 0.5363  data_time: 0.0449  time: 0.0705
+07/14 06:27:18 - mmengine - INFO - Epoch(train) [105][100/282]  lr: 4.6556e-02  eta: 0:10:12  time: 0.0906  data_time: 0.0307  memory: 1227  loss: 0.0053  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0053
+07/14 06:27:27 - mmengine - INFO - Epoch(train) [105][200/282]  lr: 4.3094e-02  eta: 0:10:03  time: 0.0934  data_time: 0.0316  memory: 1227  loss: 0.0039  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0039
+07/14 06:27:35 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:27:35 - mmengine - INFO - Epoch(train) [105][282/282]  lr: 4.0280e-02  eta: 0:09:56  time: 0.0978  data_time: 0.0353  memory: 1227  loss: 0.0166  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0166
+07/14 06:27:35 - mmengine - INFO - Saving checkpoint at 105 epochs
+07/14 06:27:40 - mmengine - INFO - Epoch(val) [105][62/62]    acc/top1: 0.5803  acc/top5: 0.8721  acc/mean1: 0.5377  data_time: 0.0431  time: 0.0697
+07/14 06:27:50 - mmengine - INFO - Epoch(train) [106][100/282]  lr: 3.6891e-02  eta: 0:09:47  time: 0.1006  data_time: 0.0372  memory: 1227  loss: 0.0045  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0045
+07/14 06:27:59 - mmengine - INFO - Epoch(train) [106][200/282]  lr: 3.3566e-02  eta: 0:09:37  time: 0.0900  data_time: 0.0275  memory: 1227  loss: 0.0025  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0025
+07/14 06:28:06 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:28:06 - mmengine - INFO - Epoch(train) [106][282/282]  lr: 3.0898e-02  eta: 0:09:30  time: 0.0907  data_time: 0.0293  memory: 1227  loss: 0.0045  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0045
+07/14 06:28:06 - mmengine - INFO - Saving checkpoint at 106 epochs
+07/14 06:28:11 - mmengine - INFO - Epoch(val) [106][62/62]    acc/top1: 0.5763  acc/top5: 0.8710  acc/mean1: 0.5469  data_time: 0.0437  time: 0.0703
+07/14 06:28:20 - mmengine - INFO - Epoch(train) [107][100/282]  lr: 2.7730e-02  eta: 0:09:21  time: 0.0830  data_time: 0.0235  memory: 1227  loss: 0.0052  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0052
+07/14 06:28:21 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:28:29 - mmengine - INFO - Epoch(train) [107][200/282]  lr: 2.4669e-02  eta: 0:09:11  time: 0.0931  data_time: 0.0328  memory: 1227  loss: 0.0038  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0038
+07/14 06:28:37 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:28:37 - mmengine - INFO - Epoch(train) [107][282/282]  lr: 2.2250e-02  eta: 0:09:04  time: 0.0856  data_time: 0.0256  memory: 1227  loss: 0.0059  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0059
+07/14 06:28:37 - mmengine - INFO - Saving checkpoint at 107 epochs
+07/14 06:28:42 - mmengine - INFO - Epoch(val) [107][62/62]    acc/top1: 0.5793  acc/top5: 0.8813  acc/mean1: 0.5478  data_time: 0.0448  time: 0.0709
+07/14 06:28:51 - mmengine - INFO - Epoch(train) [108][100/282]  lr: 1.9424e-02  eta: 0:08:55  time: 0.0948  data_time: 0.0340  memory: 1227  loss: 0.0038  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0038
+07/14 06:29:00 - mmengine - INFO - Epoch(train) [108][200/282]  lr: 1.6746e-02  eta: 0:08:45  time: 0.0968  data_time: 0.0340  memory: 1227  loss: 0.0044  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0044
+07/14 06:29:08 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:29:08 - mmengine - INFO - Epoch(train) [108][282/282]  lr: 1.4669e-02  eta: 0:08:38  time: 0.0994  data_time: 0.0350  memory: 1227  loss: 0.0067  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0067
+07/14 06:29:08 - mmengine - INFO - Saving checkpoint at 108 epochs
+07/14 06:29:13 - mmengine - INFO - Epoch(val) [108][62/62]    acc/top1: 0.5865  acc/top5: 0.8833  acc/mean1: 0.5425  data_time: 0.0410  time: 0.0677
+07/14 06:29:23 - mmengine - INFO - Epoch(train) [109][100/282]  lr: 1.2293e-02  eta: 0:08:29  time: 0.0936  data_time: 0.0345  memory: 1227  loss: 0.0046  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0046
+07/14 06:29:32 - mmengine - INFO - Epoch(train) [109][200/282]  lr: 1.0100e-02  eta: 0:08:20  time: 0.0893  data_time: 0.0279  memory: 1227  loss: 0.0054  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0054
+07/14 06:29:39 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:29:39 - mmengine - INFO - Epoch(train) [109][282/282]  lr: 8.4459e-03  eta: 0:08:12  time: 0.0921  data_time: 0.0288  memory: 1227  loss: 0.0044  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0044
+07/14 06:29:39 - mmengine - INFO - Saving checkpoint at 109 epochs
+07/14 06:29:44 - mmengine - INFO - Epoch(val) [109][62/62]    acc/top1: 0.5977  acc/top5: 0.8884  acc/mean1: 0.5452  data_time: 0.0407  time: 0.0656
+07/14 06:29:53 - mmengine - INFO - Epoch(train) [110][100/282]  lr: 6.6120e-03  eta: 0:08:03  time: 0.0928  data_time: 0.0335  memory: 1227  loss: 0.0040  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0040
+07/14 06:30:03 - mmengine - INFO - Epoch(train) [110][200/282]  lr: 4.9883e-03  eta: 0:07:54  time: 0.0949  data_time: 0.0328  memory: 1227  loss: 0.0050  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0050
+07/14 06:30:09 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:30:10 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:30:10 - mmengine - INFO - Epoch(train) [110][282/282]  lr: 3.8194e-03  eta: 0:07:46  time: 0.0842  data_time: 0.0257  memory: 1227  loss: 0.0070  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0070
+07/14 06:30:10 - mmengine - INFO - Saving checkpoint at 110 epochs
+07/14 06:30:16 - mmengine - INFO - Epoch(val) [110][62/62]    acc/top1: 0.5896  acc/top5: 0.8833  acc/mean1: 0.5512  data_time: 0.0423  time: 0.0726
+07/14 06:30:25 - mmengine - INFO - Epoch(train) [111][100/282]  lr: 2.5978e-03  eta: 0:07:37  time: 0.0853  data_time: 0.0260  memory: 1227  loss: 0.0035  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0035
+07/14 06:30:34 - mmengine - INFO - Epoch(train) [111][200/282]  lr: 1.6060e-03  eta: 0:07:28  time: 0.0969  data_time: 0.0382  memory: 1227  loss: 0.0054  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0054
+07/14 06:30:42 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:30:42 - mmengine - INFO - Epoch(train) [111][282/282]  lr: 9.6754e-04  eta: 0:07:20  time: 0.0817  data_time: 0.0233  memory: 1227  loss: 0.0055  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0055
+07/14 06:30:42 - mmengine - INFO - Saving checkpoint at 111 epochs
+07/14 06:30:47 - mmengine - INFO - Epoch(val) [111][62/62]    acc/top1: 0.5824  acc/top5: 0.8782  acc/mean1: 0.5463  data_time: 0.0403  time: 0.0665
+07/14 06:30:56 - mmengine - INFO - Epoch(train) [112][100/282]  lr: 4.0534e-04  eta: 0:07:11  time: 0.0993  data_time: 0.0352  memory: 1227  loss: 0.0041  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0041
+07/14 06:31:05 - mmengine - INFO - Epoch(train) [112][200/282]  lr: 8.3471e-05  eta: 0:07:02  time: 0.0952  data_time: 0.0331  memory: 1227  loss: 0.0048  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0048
+07/14 06:31:13 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:31:13 - mmengine - INFO - Epoch(train) [112][282/282]  lr: 1.2120e-08  eta: 0:06:54  time: 0.0892  data_time: 0.0286  memory: 1227  loss: 0.0117  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0117
+07/14 06:31:13 - mmengine - INFO - Saving checkpoint at 112 epochs
+07/14 06:31:18 - mmengine - INFO - Epoch(val) [112][62/62]    acc/top1: 0.5885  acc/top5: 0.8833  acc/mean1: 0.5513  data_time: 0.0412  time: 0.0659
+07/14 06:31:27 - mmengine - INFO - Epoch(train) [113][100/282]  lr: 1.1874e-04  eta: 0:06:45  time: 0.0854  data_time: 0.0258  memory: 1227  loss: 0.0044  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0044
+07/14 06:31:36 - mmengine - INFO - Epoch(train) [113][200/282]  lr: 4.7920e-04  eta: 0:06:36  time: 0.0918  data_time: 0.0326  memory: 1227  loss: 0.0046  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0046
+07/14 06:31:44 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:31:44 - mmengine - INFO - Epoch(train) [113][282/282]  lr: 9.5396e-04  eta: 0:06:29  time: 0.0979  data_time: 0.0369  memory: 1227  loss: 0.0165  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0165
+07/14 06:31:44 - mmengine - INFO - Saving checkpoint at 113 epochs
+07/14 06:31:49 - mmengine - INFO - Epoch(val) [113][62/62]    acc/top1: 0.5896  acc/top5: 0.8833  acc/mean1: 0.5536  data_time: 0.0418  time: 0.0689
+07/14 06:31:58 - mmengine - INFO - Epoch(train) [114][100/282]  lr: 1.7491e-03  eta: 0:06:19  time: 0.0882  data_time: 0.0271  memory: 1227  loss: 0.0052  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0052
+07/14 06:32:01 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:32:07 - mmengine - INFO - Epoch(train) [114][200/282]  lr: 2.7780e-03  eta: 0:06:10  time: 0.0946  data_time: 0.0340  memory: 1227  loss: 0.0066  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0066
+07/14 06:32:15 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:32:15 - mmengine - INFO - Epoch(train) [114][282/282]  lr: 3.7927e-03  eta: 0:06:03  time: 0.0852  data_time: 0.0272  memory: 1227  loss: 0.0094  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0094
+07/14 06:32:15 - mmengine - INFO - Saving checkpoint at 114 epochs
+07/14 06:32:20 - mmengine - INFO - Epoch(val) [114][62/62]    acc/top1: 0.5967  acc/top5: 0.8823  acc/mean1: 0.5536  data_time: 0.0413  time: 0.0689
+07/14 06:32:30 - mmengine - INFO - Epoch(train) [115][100/282]  lr: 5.2336e-03  eta: 0:05:53  time: 0.0883  data_time: 0.0283  memory: 1227  loss: 0.0037  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0037
+07/14 06:32:39 - mmengine - INFO - Epoch(train) [115][200/282]  lr: 6.8915e-03  eta: 0:05:44  time: 0.0861  data_time: 0.0252  memory: 1227  loss: 0.0036  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0036
+07/14 06:32:46 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:32:46 - mmengine - INFO - Epoch(train) [115][282/282]  lr: 8.4072e-03  eta: 0:05:37  time: 0.0812  data_time: 0.0229  memory: 1227  loss: 0.0202  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0202
+07/14 06:32:46 - mmengine - INFO - Saving checkpoint at 115 epochs
+07/14 06:32:51 - mmengine - INFO - Epoch(val) [115][62/62]    acc/top1: 0.5865  acc/top5: 0.8874  acc/mean1: 0.5509  data_time: 0.0424  time: 0.0698
+07/14 06:33:00 - mmengine - INFO - Epoch(train) [116][100/282]  lr: 1.0439e-02  eta: 0:05:28  time: 0.0771  data_time: 0.0188  memory: 1227  loss: 0.0042  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0042
+07/14 06:33:08 - mmengine - INFO - Epoch(train) [116][200/282]  lr: 1.2662e-02  eta: 0:05:18  time: 0.0827  data_time: 0.0240  memory: 1227  loss: 0.0054  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0054
+07/14 06:33:15 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:33:15 - mmengine - INFO - Epoch(train) [116][282/282]  lr: 1.4620e-02  eta: 0:05:11  time: 0.0839  data_time: 0.0254  memory: 1227  loss: 0.0064  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0064
+07/14 06:33:15 - mmengine - INFO - Saving checkpoint at 116 epochs
+07/14 06:33:20 - mmengine - INFO - Epoch(val) [116][62/62]    acc/top1: 0.5906  acc/top5: 0.8854  acc/mean1: 0.5495  data_time: 0.0382  time: 0.0631
+07/14 06:33:29 - mmengine - INFO - Epoch(train) [117][100/282]  lr: 1.7164e-02  eta: 0:05:01  time: 0.0872  data_time: 0.0283  memory: 1227  loss: 0.0044  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0044
+07/14 06:33:38 - mmengine - INFO - Epoch(train) [117][200/282]  lr: 1.9867e-02  eta: 0:04:52  time: 0.0892  data_time: 0.0286  memory: 1227  loss: 0.0048  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0048
+07/14 06:33:45 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:33:45 - mmengine - INFO - Epoch(train) [117][282/282]  lr: 2.2193e-02  eta: 0:04:45  time: 0.0838  data_time: 0.0251  memory: 1227  loss: 0.0071  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0071
+07/14 06:33:45 - mmengine - INFO - Saving checkpoint at 117 epochs
+07/14 06:33:49 - mmengine - INFO - Epoch(val) [117][62/62]    acc/top1: 0.5967  acc/top5: 0.8895  acc/mean1: 0.5604  data_time: 0.0375  time: 0.0629
+07/14 06:33:50 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:33:58 - mmengine - INFO - Epoch(train) [118][100/282]  lr: 2.5151e-02  eta: 0:04:35  time: 0.0897  data_time: 0.0304  memory: 1227  loss: 0.0059  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0059
+07/14 06:34:07 - mmengine - INFO - Epoch(train) [118][200/282]  lr: 2.8230e-02  eta: 0:04:26  time: 0.0834  data_time: 0.0241  memory: 1227  loss: 0.0037  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0037
+07/14 06:34:14 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:34:14 - mmengine - INFO - Epoch(train) [118][282/282]  lr: 3.0834e-02  eta: 0:04:19  time: 0.0848  data_time: 0.0243  memory: 1227  loss: 0.0154  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0154
+07/14 06:34:14 - mmengine - INFO - Saving checkpoint at 118 epochs
+07/14 06:34:18 - mmengine - INFO - Epoch(val) [118][62/62]    acc/top1: 0.5742  acc/top5: 0.8833  acc/mean1: 0.5463  data_time: 0.0369  time: 0.0622
+07/14 06:34:27 - mmengine - INFO - Epoch(train) [119][100/282]  lr: 3.4093e-02  eta: 0:04:09  time: 0.0917  data_time: 0.0293  memory: 1227  loss: 0.0061  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0061
+07/14 06:34:36 - mmengine - INFO - Epoch(train) [119][200/282]  lr: 3.7429e-02  eta: 0:04:00  time: 0.1009  data_time: 0.0369  memory: 1227  loss: 0.0049  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0049
+07/14 06:34:43 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:34:43 - mmengine - INFO - Epoch(train) [119][282/282]  lr: 4.0211e-02  eta: 0:03:53  time: 0.0839  data_time: 0.0250  memory: 1227  loss: 0.0294  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0294
+07/14 06:34:43 - mmengine - INFO - Saving checkpoint at 119 epochs
+07/14 06:34:48 - mmengine - INFO - Epoch(val) [119][62/62]    acc/top1: 0.6070  acc/top5: 0.8925  acc/mean1: 0.5486  data_time: 0.0394  time: 0.0646
+07/14 06:34:48 - mmengine - INFO - The previous best checkpoint /home/jovyan/local/mmaction2_badminton/experiments/badminton_stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_50_per_class/best_acc_top1_epoch_88.pth is removed
+07/14 06:34:48 - mmengine - INFO - The best checkpoint with 0.6070 acc/top1 at 119 epoch is saved to best_acc_top1_epoch_119.pth.
+07/14 06:34:57 - mmengine - INFO - Epoch(train) [120][100/282]  lr: 4.3646e-02  eta: 0:03:43  time: 0.0804  data_time: 0.0211  memory: 1227  loss: 0.0094  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0094
+07/14 06:35:06 - mmengine - INFO - Epoch(train) [120][200/282]  lr: 4.7112e-02  eta: 0:03:34  time: 0.0823  data_time: 0.0233  memory: 1227  loss: 0.0067  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0067
+07/14 06:35:13 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:35:13 - mmengine - INFO - Epoch(train) [120][282/282]  lr: 4.9965e-02  eta: 0:03:27  time: 0.0814  data_time: 0.0219  memory: 1227  loss: 0.0131  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0131
+07/14 06:35:13 - mmengine - INFO - Saving checkpoint at 120 epochs
+07/14 06:35:18 - mmengine - INFO - Epoch(val) [120][62/62]    acc/top1: 0.5967  acc/top5: 0.8792  acc/mean1: 0.5386  data_time: 0.0379  time: 0.0621
+07/14 06:35:26 - mmengine - INFO - Epoch(train) [121][100/282]  lr: 5.3444e-02  eta: 0:03:17  time: 0.0858  data_time: 0.0253  memory: 1227  loss: 0.0654  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.0654
+07/14 06:35:31 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:35:34 - mmengine - INFO - Epoch(train) [121][200/282]  lr: 5.6906e-02  eta: 0:03:08  time: 0.0812  data_time: 0.0196  memory: 1227  loss: 0.7776  top1_acc: 0.6250  top5_acc: 1.0000  loss_cls: 0.7776
+07/14 06:35:41 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:35:41 - mmengine - INFO - Epoch(train) [121][282/282]  lr: 5.9720e-02  eta: 0:03:01  time: 0.0737  data_time: 0.0165  memory: 1227  loss: 0.5251  top1_acc: 0.7500  top5_acc: 0.7500  loss_cls: 0.5251
+07/14 06:35:41 - mmengine - INFO - Saving checkpoint at 121 epochs
+07/14 06:35:46 - mmengine - INFO - Epoch(val) [121][62/62]    acc/top1: 0.2487  acc/top5: 0.6397  acc/mean1: 0.2474  data_time: 0.0370  time: 0.0632
+07/14 06:35:54 - mmengine - INFO - Epoch(train) [122][100/282]  lr: 6.3109e-02  eta: 0:02:51  time: 0.0920  data_time: 0.0315  memory: 1227  loss: 0.4975  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.4975
+07/14 06:36:04 - mmengine - INFO - Epoch(train) [122][200/282]  lr: 6.6434e-02  eta: 0:02:42  time: 0.0930  data_time: 0.0303  memory: 1227  loss: 0.4221  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.4221
+07/14 06:36:11 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:36:11 - mmengine - INFO - Epoch(train) [122][282/282]  lr: 6.9102e-02  eta: 0:02:35  time: 0.0819  data_time: 0.0229  memory: 1227  loss: 0.4245  top1_acc: 0.7500  top5_acc: 0.7500  loss_cls: 0.4245
+07/14 06:36:11 - mmengine - INFO - Saving checkpoint at 122 epochs
+07/14 06:36:16 - mmengine - INFO - Epoch(val) [122][62/62]    acc/top1: 0.3664  acc/top5: 0.7257  acc/mean1: 0.3633  data_time: 0.0423  time: 0.0668
+07/14 06:36:25 - mmengine - INFO - Epoch(train) [123][100/282]  lr: 7.2270e-02  eta: 0:02:25  time: 0.0911  data_time: 0.0290  memory: 1227  loss: 0.3722  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.3722
+07/14 06:36:34 - mmengine - INFO - Epoch(train) [123][200/282]  lr: 7.5331e-02  eta: 0:02:16  time: 0.0962  data_time: 0.0337  memory: 1227  loss: 0.4024  top1_acc: 0.8125  top5_acc: 1.0000  loss_cls: 0.4024
+07/14 06:36:42 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:36:42 - mmengine - INFO - Epoch(train) [123][282/282]  lr: 7.7750e-02  eta: 0:02:09  time: 0.0854  data_time: 0.0265  memory: 1227  loss: 0.2665  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.2665
+07/14 06:36:42 - mmengine - INFO - Saving checkpoint at 123 epochs
+07/14 06:36:47 - mmengine - INFO - Epoch(val) [123][62/62]    acc/top1: 0.4811  acc/top5: 0.7963  acc/mean1: 0.4732  data_time: 0.0434  time: 0.0712
+07/14 06:36:56 - mmengine - INFO - Epoch(train) [124][100/282]  lr: 8.0576e-02  eta: 0:02:00  time: 0.0909  data_time: 0.0307  memory: 1227  loss: 0.3162  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.3162
+07/14 06:37:05 - mmengine - INFO - Epoch(train) [124][200/282]  lr: 8.3254e-02  eta: 0:01:50  time: 0.0890  data_time: 0.0298  memory: 1227  loss: 0.3101  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3101
+07/14 06:37:13 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:37:13 - mmengine - INFO - Epoch(train) [124][282/282]  lr: 8.5331e-02  eta: 0:01:43  time: 0.0860  data_time: 0.0274  memory: 1227  loss: 0.2824  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.2824
+07/14 06:37:13 - mmengine - INFO - Saving checkpoint at 124 epochs
+07/14 06:37:18 - mmengine - INFO - Epoch(val) [124][62/62]    acc/top1: 0.4084  acc/top5: 0.7595  acc/mean1: 0.3783  data_time: 0.0420  time: 0.0689
+07/14 06:37:21 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:37:27 - mmengine - INFO - Epoch(train) [125][100/282]  lr: 8.7707e-02  eta: 0:01:34  time: 0.0853  data_time: 0.0259  memory: 1227  loss: 0.2623  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2623
+07/14 06:37:36 - mmengine - INFO - Epoch(train) [125][200/282]  lr: 8.9900e-02  eta: 0:01:25  time: 0.1015  data_time: 0.0344  memory: 1227  loss: 0.1950  top1_acc: 0.8125  top5_acc: 1.0000  loss_cls: 0.1950
+07/14 06:37:43 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:37:43 - mmengine - INFO - Epoch(train) [125][282/282]  lr: 9.1554e-02  eta: 0:01:17  time: 0.0836  data_time: 0.0249  memory: 1227  loss: 0.1051  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.1051
+07/14 06:37:43 - mmengine - INFO - Saving checkpoint at 125 epochs
+07/14 06:37:48 - mmengine - INFO - Epoch(val) [125][62/62]    acc/top1: 0.4913  acc/top5: 0.8076  acc/mean1: 0.4407  data_time: 0.0450  time: 0.0716
+07/14 06:37:58 - mmengine - INFO - Epoch(train) [126][100/282]  lr: 9.3388e-02  eta: 0:01:08  time: 0.0915  data_time: 0.0313  memory: 1227  loss: 0.2517  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2517
+07/14 06:38:07 - mmengine - INFO - Epoch(train) [126][200/282]  lr: 9.5012e-02  eta: 0:00:59  time: 0.0873  data_time: 0.0272  memory: 1227  loss: 0.3969  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3969
+07/14 06:38:14 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:38:14 - mmengine - INFO - Epoch(train) [126][282/282]  lr: 9.6181e-02  eta: 0:00:51  time: 0.0894  data_time: 0.0250  memory: 1227  loss: 0.2222  top1_acc: 0.5000  top5_acc: 0.7500  loss_cls: 0.2222
+07/14 06:38:14 - mmengine - INFO - Saving checkpoint at 126 epochs
+07/14 06:38:19 - mmengine - INFO - Epoch(val) [126][62/62]    acc/top1: 0.4821  acc/top5: 0.8147  acc/mean1: 0.4588  data_time: 0.0400  time: 0.0651
+07/14 06:38:28 - mmengine - INFO - Epoch(train) [127][100/282]  lr: 9.7402e-02  eta: 0:00:42  time: 0.0953  data_time: 0.0352  memory: 1227  loss: 0.3860  top1_acc: 0.9375  top5_acc: 1.0000  loss_cls: 0.3860
+07/14 06:38:38 - mmengine - INFO - Epoch(train) [127][200/282]  lr: 9.8394e-02  eta: 0:00:33  time: 0.0829  data_time: 0.0241  memory: 1227  loss: 0.3844  top1_acc: 0.6875  top5_acc: 1.0000  loss_cls: 0.3844
+07/14 06:38:45 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:38:45 - mmengine - INFO - Epoch(train) [127][282/282]  lr: 9.9032e-02  eta: 0:00:25  time: 0.0877  data_time: 0.0281  memory: 1227  loss: 0.2128  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2128
+07/14 06:38:45 - mmengine - INFO - Saving checkpoint at 127 epochs
+07/14 06:38:50 - mmengine - INFO - Epoch(val) [127][62/62]    acc/top1: 0.3511  acc/top5: 0.7932  acc/mean1: 0.3276  data_time: 0.0408  time: 0.0706
+07/14 06:38:59 - mmengine - INFO - Epoch(train) [128][100/282]  lr: 9.9595e-02  eta: 0:00:16  time: 0.0869  data_time: 0.0274  memory: 1227  loss: 0.2028  top1_acc: 0.8125  top5_acc: 1.0000  loss_cls: 0.2028
+07/14 06:39:07 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:39:08 - mmengine - INFO - Epoch(train) [128][200/282]  lr: 9.9917e-02  eta: 0:00:07  time: 0.0916  data_time: 0.0289  memory: 1227  loss: 0.1788  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.1788
+07/14 06:39:16 - mmengine - INFO - Exp name: stgcn_8xb16-bone-u100-80e_ntu60-xsub-keypoint-2d_badminton_video_50_per_class_20230714_053311
+07/14 06:39:16 - mmengine - INFO - Epoch(train) [128][282/282]  lr: 1.0000e-01  eta: 0:00:00  time: 0.0960  data_time: 0.0349  memory: 1227  loss: 0.1741  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.1741
+07/14 06:39:16 - mmengine - INFO - Saving checkpoint at 128 epochs
+07/14 06:39:20 - mmengine - INFO - Epoch(val) [128][62/62]    acc/top1: 0.3767  acc/top5: 0.8229  acc/mean1: 0.4185  data_time: 0.0428  time: 0.0676

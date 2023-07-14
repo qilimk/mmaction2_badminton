@@ -13,7 +13,7 @@ model = dict(
 dataset_type = 'VideoDataset'
 data_root = 'badminton_dataset_for_classification_ncu_coach_ver_final'
 data_root_val = 'badminton_dataset_for_classification_ncu_coach_ver_final'
-ann_file_train = 'badminton_dataset_ncu_coach_train_labels_10_per_class.txt'
+ann_file_train = 'badminton_dataset_ncu_coach_train_labels_50_per_class.txt'
 ann_file_val = 'badminton_dataset_ncu_coach_val_labels.txt'
 ann_file_test = 'badminton_dataset_ncu_coach_test_labels.txt'
 
@@ -122,4 +122,4 @@ auto_scale_lr = dict(enable=False, base_batch_size=8)     # change it from 64 to
 # training settting for badminton actions dataset
 
 load_from = 'pre_trained_models/r2plus1d_r34_8xb8-8x8x1-180e_kinetics400-rgb_20220812-47cfe041.pth'
-work_dir = 'experiments/badminton_r2plus1d_r34_8xb8-8x8x1-180e_kinetics400-rgb_10_per_class'
+work_dir = 'experiments/badminton_r2plus1d_r34_8xb8-8x8x1-180e_kinetics400-rgb_50_per_class'

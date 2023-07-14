@@ -1,0 +1,704 @@
+/bin/sh: 1: /usr/local/cuda/bin/nvcc: not found
+07/12 04:09:33 - mmengine - INFO - 
+------------------------------------------------------------
+System environment:
+    sys.platform: linux
+    Python: 3.8.17 | packaged by conda-forge | (default, Jun 16 2023, 07:06:00) [GCC 11.4.0]
+    CUDA available: True
+    numpy_random_seed: 323
+    GPU 0: Tesla V100-SXM2-16GB
+    CUDA_HOME: /usr/local/cuda
+    NVCC: Not Available
+    GCC: gcc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
+    PyTorch: 1.13.1
+    PyTorch compiling details: PyTorch built with:
+  - GCC 9.3
+  - C++ Version: 201402
+  - Intel(R) oneAPI Math Kernel Library Version 2022.1-Product Build 20220311 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v2.6.0 (Git Hash 52b5f107dd9cf10910aaa19cb47f3abf9b349815)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 11.7
+  - NVCC architecture flags: -gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_37,code=compute_37
+  - CuDNN 8.5
+  - Magma 2.6.1
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=11.7, CUDNN_VERSION=8.5.0, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -fabi-version=11 -Wno-deprecated -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -fopenmp -DNDEBUG -DUSE_KINETO -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DEDGE_PROFILER_USE_KINETO -O2 -fPIC -Wno-narrowing -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wunused-local-typedefs -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-strict-overflow -Wno-strict-aliasing -Wno-error=deprecated-declarations -Wno-stringop-overflow -Wno-psabi -Wno-error=pedantic -Wno-error=redundant-decls -Wno-error=old-style-cast -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Werror=cast-function-type -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=1.13.1, USE_CUDA=ON, USE_CUDNN=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, 
+
+    TorchVision: 0.14.1
+    OpenCV: 4.7.0
+    MMEngine: 0.7.4
+
+Runtime environment:
+    cudnn_benchmark: False
+    mp_cfg: {'mp_start_method': 'fork', 'opencv_num_threads': 0}
+    dist_cfg: {'backend': 'nccl'}
+    seed: 323
+    diff_rank_seed: False
+    deterministic: False
+    Distributed launcher: none
+    Distributed training: False
+    GPU number: 1
+------------------------------------------------------------
+
+07/12 04:09:33 - mmengine - INFO - Config:
+model = dict(
+    type='Recognizer3D',
+    backbone=dict(
+        type='ResNet3dSlowFast',
+        pretrained=None,
+        resample_rate=8,
+        speed_ratio=8,
+        channel_ratio=8,
+        slow_pathway=dict(
+            type='resnet3d',
+            depth=50,
+            pretrained=None,
+            lateral=True,
+            conv1_kernel=(1, 7, 7),
+            dilations=(1, 1, 1, 1),
+            conv1_stride_t=1,
+            pool1_stride_t=1,
+            inflate=(0, 0, 1, 1),
+            norm_eval=False),
+        fast_pathway=dict(
+            type='resnet3d',
+            depth=50,
+            pretrained=None,
+            lateral=False,
+            base_channels=8,
+            conv1_kernel=(5, 7, 7),
+            conv1_stride_t=1,
+            pool1_stride_t=1,
+            norm_eval=False)),
+    cls_head=dict(
+        type='SlowFastHead',
+        in_channels=2304,
+        num_classes=18,
+        spatial_type='avg',
+        dropout_ratio=0.5,
+        average_clips='prob'),
+    data_preprocessor=dict(
+        type='ActionDataPreprocessor',
+        mean=[123.675, 116.28, 103.53],
+        std=[58.395, 57.12, 57.375],
+        format_shape='NCTHW'))
+default_scope = 'mmaction'
+default_hooks = dict(
+    runtime_info=dict(type='RuntimeInfoHook'),
+    timer=dict(type='IterTimerHook'),
+    logger=dict(type='LoggerHook', interval=50, ignore_last=False),
+    param_scheduler=dict(type='ParamSchedulerHook'),
+    checkpoint=dict(
+        type='CheckpointHook', interval=4, save_best='auto', max_keep_ckpts=3),
+    sampler_seed=dict(type='DistSamplerSeedHook'),
+    sync_buffers=dict(type='SyncBuffersHook'))
+env_cfg = dict(
+    cudnn_benchmark=False,
+    mp_cfg=dict(mp_start_method='fork', opencv_num_threads=0),
+    dist_cfg=dict(backend='nccl'))
+log_processor = dict(type='LogProcessor', window_size=20, by_epoch=True)
+vis_backends = [dict(type='LocalVisBackend')]
+visualizer = dict(
+    type='ActionVisualizer', vis_backends=[dict(type='LocalVisBackend')])
+log_level = 'INFO'
+load_from = None
+resume = True
+dataset_type = 'VideoDataset'
+data_root = 'badminton_dataset_for_classification_ncu_coach_ver_final'
+data_root_val = 'badminton_dataset_for_classification_ncu_coach_ver_final'
+ann_file_train = 'badminton_dataset_ncu_coach_train_labels_10_per_class.txt'
+ann_file_val = 'badminton_dataset_ncu_coach_val_labels.txt'
+ann_file_test = 'badminton_dataset_ncu_coach_test_labels.txt'
+file_client_args = dict(io_backend='disk')
+train_pipeline = [
+    dict(type='DecordInit', io_backend='disk'),
+    dict(type='SampleFrames', clip_len=32, frame_interval=2, num_clips=1),
+    dict(type='DecordDecode'),
+    dict(type='Resize', scale=(-1, 256)),
+    dict(type='RandomResizedCrop'),
+    dict(type='Resize', scale=(224, 224), keep_ratio=False),
+    dict(type='Flip', flip_ratio=0.5),
+    dict(type='FormatShape', input_format='NCTHW'),
+    dict(type='PackActionInputs')
+]
+val_pipeline = [
+    dict(type='DecordInit', io_backend='disk'),
+    dict(
+        type='SampleFrames',
+        clip_len=32,
+        frame_interval=2,
+        num_clips=1,
+        test_mode=True),
+    dict(type='DecordDecode'),
+    dict(type='Resize', scale=(-1, 256)),
+    dict(type='CenterCrop', crop_size=224),
+    dict(type='FormatShape', input_format='NCTHW'),
+    dict(type='PackActionInputs')
+]
+test_pipeline = [
+    dict(type='DecordInit', io_backend='disk'),
+    dict(
+        type='SampleFrames',
+        clip_len=32,
+        frame_interval=2,
+        num_clips=10,
+        test_mode=True),
+    dict(type='DecordDecode'),
+    dict(type='Resize', scale=(-1, 256)),
+    dict(type='ThreeCrop', crop_size=256),
+    dict(type='FormatShape', input_format='NCTHW'),
+    dict(type='PackActionInputs')
+]
+train_dataloader = dict(
+    batch_size=8,
+    num_workers=8,
+    persistent_workers=True,
+    sampler=dict(type='DefaultSampler', shuffle=True),
+    dataset=dict(
+        type='VideoDataset',
+        ann_file='badminton_dataset_ncu_coach_train_labels_10_per_class.txt',
+        data_prefix=dict(
+            video='badminton_dataset_for_classification_ncu_coach_ver_final'),
+        pipeline=[
+            dict(type='DecordInit', io_backend='disk'),
+            dict(
+                type='SampleFrames',
+                clip_len=32,
+                frame_interval=2,
+                num_clips=1),
+            dict(type='DecordDecode'),
+            dict(type='Resize', scale=(-1, 256)),
+            dict(type='RandomResizedCrop'),
+            dict(type='Resize', scale=(224, 224), keep_ratio=False),
+            dict(type='Flip', flip_ratio=0.5),
+            dict(type='FormatShape', input_format='NCTHW'),
+            dict(type='PackActionInputs')
+        ]))
+val_dataloader = dict(
+    batch_size=8,
+    num_workers=8,
+    persistent_workers=True,
+    sampler=dict(type='DefaultSampler', shuffle=False),
+    dataset=dict(
+        type='VideoDataset',
+        ann_file='badminton_dataset_ncu_coach_val_labels.txt',
+        data_prefix=dict(
+            video='badminton_dataset_for_classification_ncu_coach_ver_final'),
+        pipeline=[
+            dict(type='DecordInit', io_backend='disk'),
+            dict(
+                type='SampleFrames',
+                clip_len=32,
+                frame_interval=2,
+                num_clips=1,
+                test_mode=True),
+            dict(type='DecordDecode'),
+            dict(type='Resize', scale=(-1, 256)),
+            dict(type='CenterCrop', crop_size=224),
+            dict(type='FormatShape', input_format='NCTHW'),
+            dict(type='PackActionInputs')
+        ],
+        test_mode=True))
+test_dataloader = dict(
+    batch_size=1,
+    num_workers=8,
+    persistent_workers=True,
+    sampler=dict(type='DefaultSampler', shuffle=False),
+    dataset=dict(
+        type='VideoDataset',
+        ann_file='badminton_dataset_ncu_coach_test_labels.txt',
+        data_prefix=dict(
+            video='badminton_dataset_for_classification_ncu_coach_ver_final'),
+        pipeline=[
+            dict(type='DecordInit', io_backend='disk'),
+            dict(
+                type='SampleFrames',
+                clip_len=32,
+                frame_interval=2,
+                num_clips=10,
+                test_mode=True),
+            dict(type='DecordDecode'),
+            dict(type='Resize', scale=(-1, 256)),
+            dict(type='ThreeCrop', crop_size=256),
+            dict(type='FormatShape', input_format='NCTHW'),
+            dict(type='PackActionInputs')
+        ],
+        test_mode=True))
+val_evaluator = dict(
+    type='AccMetric', metric_list=('top_k_accuracy', 'mean_class_accuracy'))
+test_evaluator = dict(
+    type='AccMetric', metric_list=('top_k_accuracy', 'mean_class_accuracy'))
+train_cfg = dict(
+    type='EpochBasedTrainLoop', max_epochs=128, val_begin=1, val_interval=5)
+val_cfg = dict(type='ValLoop')
+test_cfg = dict(type='TestLoop')
+optim_wrapper = dict(
+    optimizer=dict(type='SGD', lr=0.02, momentum=0.9, weight_decay=0.0001),
+    clip_grad=dict(max_norm=40, norm_type=2))
+param_scheduler = [
+    dict(
+        type='LinearLR',
+        start_factor=0.02,
+        by_epoch=True,
+        begin=0,
+        end=17,
+        convert_to_iter_based=True),
+    dict(
+        type='CosineAnnealingLR',
+        T_max=128,
+        eta_min=0,
+        by_epoch=True,
+        begin=0,
+        end=128)
+]
+work_dir = 'experiments/badminton_slowfast_r50_8xb8-4x16x1-256e_kinetics400-rgb_10_per_class'
+launcher = 'none'
+randomness = dict(seed=323, diff_rank_seed=False, deterministic=False)
+
+07/12 04:09:38 - mmengine - INFO - Distributed training is not used, all SyncBatchNorm (SyncBN) layers in the model will be automatically reverted to BatchNormXd layers if they are used.
+07/12 04:09:38 - mmengine - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+before_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DistSamplerSeedHook                
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) SyncBuffersHook                    
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_val_epoch:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) SyncBuffersHook                    
+ -------------------- 
+before_val_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_val_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train:
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_test_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_test_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_test_iter:
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_run:
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+Did not find last_checkpoint to be resumed.
+07/12 04:09:40 - mmengine - INFO - Auto resumed from the latest checkpoint None.
+07/12 04:09:40 - mmengine - WARNING - "FileClient" will be deprecated in future. Please use io functions in https://mmengine.readthedocs.io/en/latest/api/fileio.html#file-io
+07/12 04:09:40 - mmengine - WARNING - "HardDiskBackend" is the alias of "LocalBackend" and the former will be deprecated in future.
+07/12 04:09:40 - mmengine - INFO - Checkpoints will be saved to /home/jovyan/local/mmaction2_badminton/experiments/badminton_slowfast_r50_8xb8-4x16x1-256e_kinetics400-rgb_10_per_class.
+07/12 04:11:05 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 04:11:05 - mmengine - INFO - Epoch(train)   [1][23/23]  lr: 1.5056e-03  eta: 2:59:59  time: 2.7860  data_time: 2.3503  memory: 6308  grad_norm: 9.9280  loss: 3.0115  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 3.0115
+07/12 04:12:28 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 04:12:28 - mmengine - INFO - Epoch(train)   [2][23/23]  lr: 2.6611e-03  eta: 2:56:15  time: 2.6390  data_time: 2.2040  memory: 6308  grad_norm: 10.0625  loss: 3.0830  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 3.0830
+07/12 04:13:58 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 04:13:58 - mmengine - INFO - Epoch(train)   [3][23/23]  lr: 3.8151e-03  eta: 2:59:01  time: 2.8818  data_time: 2.4506  memory: 6308  grad_norm: 10.3856  loss: 3.1981  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 3.1981
+07/12 04:15:30 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 04:15:30 - mmengine - INFO - Epoch(train)   [4][23/23]  lr: 4.9666e-03  eta: 3:00:55  time: 3.0390  data_time: 2.6063  memory: 6308  grad_norm: 10.5605  loss: 3.3212  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 3.3212
+07/12 04:15:30 - mmengine - INFO - Saving checkpoint at 4 epochs
+07/12 04:17:03 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 04:17:03 - mmengine - INFO - Epoch(train)   [5][23/23]  lr: 6.1145e-03  eta: 3:01:14  time: 2.9301  data_time: 2.4944  memory: 6308  grad_norm: 9.8835  loss: 3.3078  top1_acc: 0.2500  top5_acc: 0.2500  loss_cls: 3.3078
+07/12 04:19:32 - mmengine - INFO - Epoch(val)   [5][ 50/123]    eta: 0:03:37  time: 2.9962  data_time: 2.8903  memory: 989  
+07/12 04:22:39 - mmengine - INFO - Epoch(val)   [5][100/123]    eta: 0:01:17  time: 4.8538  data_time: 4.7436  memory: 989  
+07/12 04:23:52 - mmengine - INFO - Epoch(val) [5][123/123]    acc/top1: 0.0553  acc/top5: 0.2641  acc/mean1: 0.1008  data_time: 3.2161  time: 3.3237
+07/12 04:23:53 - mmengine - INFO - The best checkpoint with 0.0553 acc/top1 at 5 epoch is saved to best_acc_top1_epoch_5.pth.
+07/12 04:25:53 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 04:25:53 - mmengine - INFO - Epoch(train)   [6][23/23]  lr: 7.2577e-03  eta: 3:09:36  time: 3.9569  data_time: 3.4974  memory: 6308  grad_norm: 9.7320  loss: 3.2604  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 3.2604
+07/12 04:27:55 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 04:27:55 - mmengine - INFO - Epoch(train)   [7][23/23]  lr: 8.3953e-03  eta: 3:16:24  time: 3.8695  data_time: 3.4126  memory: 6308  grad_norm: 9.6937  loss: 3.3911  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 3.3911
+07/12 04:29:47 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 04:29:47 - mmengine - INFO - Epoch(train)   [8][23/23]  lr: 9.5263e-03  eta: 3:18:33  time: 3.4979  data_time: 3.0638  memory: 6308  grad_norm: 8.7699  loss: 3.5529  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 3.5529
+07/12 04:29:47 - mmengine - INFO - Saving checkpoint at 8 epochs
+07/12 04:31:33 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 04:31:33 - mmengine - INFO - Epoch(train)   [9][23/23]  lr: 1.0650e-02  eta: 3:17:58  time: 3.2966  data_time: 2.8619  memory: 6308  grad_norm: 7.6949  loss: 3.3687  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 3.3687
+07/12 04:33:15 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 04:33:15 - mmengine - INFO - Epoch(train)  [10][23/23]  lr: 1.1764e-02  eta: 3:16:47  time: 3.3131  data_time: 2.8773  memory: 6308  grad_norm: 6.7173  loss: 3.3252  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 3.3252
+07/12 04:36:11 - mmengine - INFO - Epoch(val)  [10][ 50/123]    eta: 0:04:16  time: 3.4542  data_time: 3.3499  memory: 989  
+07/12 04:39:36 - mmengine - INFO - Epoch(val)  [10][100/123]    eta: 0:01:27  time: 4.8746  data_time: 4.7672  memory: 989  
+07/12 04:40:57 - mmengine - INFO - Epoch(val) [10][123/123]    acc/top1: 0.1279  acc/top5: 0.3808  acc/mean1: 0.0997  data_time: 3.6195  time: 3.7239
+07/12 04:40:57 - mmengine - INFO - The previous best checkpoint /home/jovyan/local/mmaction2_badminton/experiments/badminton_slowfast_r50_8xb8-4x16x1-256e_kinetics400-rgb_10_per_class/best_acc_top1_epoch_5.pth is removed
+07/12 04:40:58 - mmengine - INFO - The best checkpoint with 0.1279 acc/top1 at 10 epoch is saved to best_acc_top1_epoch_10.pth.
+07/12 04:43:04 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 04:43:04 - mmengine - INFO - Epoch(train)  [11][23/23]  lr: 1.2869e-02  eta: 3:19:20  time: 4.0234  data_time: 3.5670  memory: 6308  grad_norm: 6.4339  loss: 3.3710  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 3.3710
+07/12 04:45:04 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 04:45:04 - mmengine - INFO - Epoch(train)  [12][23/23]  lr: 1.3963e-02  eta: 3:20:29  time: 3.9766  data_time: 3.5207  memory: 6308  grad_norm: 6.1294  loss: 3.1858  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 3.1858
+07/12 04:45:04 - mmengine - INFO - Saving checkpoint at 12 epochs
+07/12 04:47:06 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 04:47:06 - mmengine - INFO - Epoch(train)  [13][23/23]  lr: 1.5045e-02  eta: 3:21:13  time: 3.8275  data_time: 3.3658  memory: 6308  grad_norm: 6.6057  loss: 3.6575  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 3.6575
+07/12 04:49:00 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 04:49:00 - mmengine - INFO - Epoch(train)  [14][23/23]  lr: 1.6115e-02  eta: 3:20:45  time: 3.7825  data_time: 3.3241  memory: 6308  grad_norm: 5.5235  loss: 3.4794  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 3.4794
+07/12 04:51:04 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 04:51:04 - mmengine - INFO - Epoch(train)  [15][23/23]  lr: 1.7171e-02  eta: 3:21:11  time: 4.2353  data_time: 3.7665  memory: 6308  grad_norm: 4.9013  loss: 3.3205  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 3.3205
+07/12 04:54:44 - mmengine - INFO - Epoch(val)  [15][ 50/123]    eta: 0:05:22  time: 4.5525  data_time: 4.4303  memory: 989  
+07/12 04:58:57 - mmengine - INFO - Epoch(val)  [15][100/123]    eta: 0:01:48  time: 5.8010  data_time: 5.6823  memory: 989  
+07/12 05:00:25 - mmengine - INFO - Epoch(val) [15][123/123]    acc/top1: 0.1238  acc/top5: 0.3971  acc/mean1: 0.0974  data_time: 4.4084  time: 4.5274
+07/12 05:02:55 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 05:02:55 - mmengine - INFO - Epoch(train)  [16][23/23]  lr: 1.8213e-02  eta: 3:24:30  time: 3.9691  data_time: 3.4701  memory: 6308  grad_norm: 4.8005  loss: 3.1760  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 3.1760
+07/12 05:02:55 - mmengine - INFO - Saving checkpoint at 16 epochs
+07/12 05:05:12 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 05:05:12 - mmengine - INFO - Epoch(train)  [17][23/23]  lr: 1.9239e-02  eta: 3:25:23  time: 4.0779  data_time: 3.5961  memory: 6308  grad_norm: 3.9215  loss: 3.0530  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 3.0530
+07/12 05:07:35 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 05:07:35 - mmengine - INFO - Epoch(train)  [18][23/23]  lr: 1.9142e-02  eta: 3:26:43  time: 3.8333  data_time: 3.3613  memory: 6308  grad_norm: 4.1783  loss: 2.9930  top1_acc: 0.5000  top5_acc: 0.5000  loss_cls: 2.9930
+07/12 05:09:46 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 05:09:46 - mmengine - INFO - Epoch(train)  [19][23/23]  lr: 1.9040e-02  eta: 3:26:40  time: 4.6153  data_time: 4.1172  memory: 6308  grad_norm: 4.2870  loss: 3.0323  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 3.0323
+07/12 05:11:53 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 05:11:53 - mmengine - INFO - Epoch(train)  [20][23/23]  lr: 1.8932e-02  eta: 3:25:54  time: 4.2342  data_time: 3.7454  memory: 6308  grad_norm: 3.8410  loss: 2.8893  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.8893
+07/12 05:11:53 - mmengine - INFO - Saving checkpoint at 20 epochs
+07/12 05:15:42 - mmengine - INFO - Epoch(val)  [20][ 50/123]    eta: 0:05:32  time: 4.7227  data_time: 4.5983  memory: 989  
+07/12 05:19:57 - mmengine - INFO - Epoch(val)  [20][100/123]    eta: 0:01:50  time: 5.6523  data_time: 5.5320  memory: 989  
+07/12 05:21:21 - mmengine - INFO - Epoch(val) [20][123/123]    acc/top1: 0.0420  acc/top5: 0.3132  acc/mean1: 0.0556  data_time: 4.4497  time: 4.5671
+07/12 05:23:30 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 05:23:30 - mmengine - INFO - Epoch(train)  [21][23/23]  lr: 1.8819e-02  eta: 3:25:12  time: 4.4851  data_time: 4.0091  memory: 6308  grad_norm: 4.1032  loss: 3.0333  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 3.0333
+07/12 05:25:38 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 05:25:38 - mmengine - INFO - Epoch(train)  [22][23/23]  lr: 1.8701e-02  eta: 3:24:22  time: 4.0450  data_time: 3.5474  memory: 6308  grad_norm: 3.8822  loss: 2.8887  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.8887
+07/12 05:27:51 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 05:27:51 - mmengine - INFO - Epoch(train)  [23][23/23]  lr: 1.8577e-02  eta: 3:23:44  time: 4.0995  data_time: 3.6310  memory: 6308  grad_norm: 4.6153  loss: 2.9355  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.9355
+07/12 05:30:04 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 05:30:04 - mmengine - INFO - Epoch(train)  [24][23/23]  lr: 1.8449e-02  eta: 3:22:58  time: 4.2091  data_time: 3.7289  memory: 6308  grad_norm: 4.6007  loss: 3.0640  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 3.0640
+07/12 05:30:04 - mmengine - INFO - Saving checkpoint at 24 epochs
+07/12 05:32:22 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 05:32:22 - mmengine - INFO - Epoch(train)  [25][23/23]  lr: 1.8315e-02  eta: 3:22:18  time: 4.5033  data_time: 4.0199  memory: 6308  grad_norm: 3.7735  loss: 2.9751  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.9751
+07/12 05:36:03 - mmengine - INFO - Epoch(val)  [25][ 50/123]    eta: 0:05:23  time: 4.6670  data_time: 4.5561  memory: 989  
+07/12 05:39:43 - mmengine - INFO - Epoch(val)  [25][100/123]    eta: 0:01:41  time: 4.8002  data_time: 4.6882  memory: 989  
+07/12 05:40:59 - mmengine - INFO - Epoch(val) [25][123/123]    acc/top1: 0.1279  acc/top5: 0.3490  acc/mean1: 0.1076  data_time: 4.0584  time: 4.1724
+07/12 05:42:57 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 05:42:57 - mmengine - INFO - Epoch(train)  [26][23/23]  lr: 1.8176e-02  eta: 3:20:23  time: 3.6592  data_time: 3.1976  memory: 6308  grad_norm: 3.9107  loss: 3.0127  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 3.0127
+07/12 05:44:50 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 05:44:50 - mmengine - INFO - Epoch(train)  [27][23/23]  lr: 1.8032e-02  eta: 3:18:07  time: 3.8145  data_time: 3.3550  memory: 6308  grad_norm: 3.5924  loss: 2.8591  top1_acc: 0.0000  top5_acc: 0.7500  loss_cls: 2.8591
+07/12 05:46:50 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 05:46:50 - mmengine - INFO - Epoch(train)  [28][23/23]  lr: 1.7883e-02  eta: 3:16:15  time: 3.7856  data_time: 3.3224  memory: 6308  grad_norm: 3.9583  loss: 3.0020  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 3.0020
+07/12 05:46:50 - mmengine - INFO - Saving checkpoint at 28 epochs
+07/12 05:48:46 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 05:48:46 - mmengine - INFO - Epoch(train)  [29][23/23]  lr: 1.7730e-02  eta: 3:14:06  time: 3.5960  data_time: 3.1403  memory: 6308  grad_norm: 4.0197  loss: 3.0471  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 3.0471
+07/12 05:50:48 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 05:50:48 - mmengine - INFO - Epoch(train)  [30][23/23]  lr: 1.7572e-02  eta: 3:12:25  time: 3.8787  data_time: 3.4203  memory: 6308  grad_norm: 4.4323  loss: 2.9549  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.9549
+07/12 05:54:09 - mmengine - INFO - Epoch(val)  [30][ 50/123]    eta: 0:04:52  time: 3.5679  data_time: 3.4616  memory: 989  
+07/12 05:57:59 - mmengine - INFO - Epoch(val)  [30][100/123]    eta: 0:01:39  time: 4.9583  data_time: 4.8523  memory: 989  
+07/12 05:58:58 - mmengine - INFO - Epoch(val) [30][123/123]    acc/top1: 0.0399  acc/top5: 0.3193  acc/mean1: 0.0759  data_time: 3.8370  time: 3.9451
+07/12 06:00:53 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 06:00:53 - mmengine - INFO - Epoch(train)  [31][23/23]  lr: 1.7410e-02  eta: 3:10:18  time: 3.5340  data_time: 3.0845  memory: 6308  grad_norm: 5.8825  loss: 3.1742  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 3.1742
+07/12 06:02:58 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 06:02:58 - mmengine - INFO - Epoch(train)  [32][23/23]  lr: 1.7242e-02  eta: 3:08:44  time: 4.0781  data_time: 3.6095  memory: 6308  grad_norm: 4.5803  loss: 3.2113  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 3.2113
+07/12 06:02:58 - mmengine - INFO - Saving checkpoint at 32 epochs
+07/12 06:04:59 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 06:04:59 - mmengine - INFO - Epoch(train)  [33][23/23]  lr: 1.7071e-02  eta: 3:06:48  time: 3.7441  data_time: 3.2913  memory: 6308  grad_norm: 4.1131  loss: 3.0180  top1_acc: 0.2500  top5_acc: 0.5000  loss_cls: 3.0180
+07/12 06:07:01 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 06:07:01 - mmengine - INFO - Epoch(train)  [34][23/23]  lr: 1.6895e-02  eta: 3:05:01  time: 3.9015  data_time: 3.4407  memory: 6308  grad_norm: 4.9158  loss: 2.9588  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.9588
+07/12 06:09:01 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 06:09:01 - mmengine - INFO - Epoch(train)  [35][23/23]  lr: 1.6716e-02  eta: 3:03:09  time: 4.0732  data_time: 3.6139  memory: 6308  grad_norm: 4.4085  loss: 3.1453  top1_acc: 0.2500  top5_acc: 0.2500  loss_cls: 3.1453
+07/12 06:12:14 - mmengine - INFO - Epoch(val)  [35][ 50/123]    eta: 0:04:41  time: 4.0418  data_time: 3.9317  memory: 989  
+07/12 06:15:44 - mmengine - INFO - Epoch(val)  [35][100/123]    eta: 0:01:32  time: 4.5962  data_time: 4.4865  memory: 989  
+07/12 06:16:56 - mmengine - INFO - Epoch(val) [35][123/123]    acc/top1: 0.0921  acc/top5: 0.3675  acc/mean1: 0.0832  data_time: 3.7233  time: 3.8342
+07/12 06:18:59 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 06:18:59 - mmengine - INFO - Epoch(train)  [36][23/23]  lr: 1.6532e-02  eta: 3:01:21  time: 3.9562  data_time: 3.4965  memory: 6308  grad_norm: 4.2661  loss: 3.1098  top1_acc: 0.0000  top5_acc: 0.7500  loss_cls: 3.1098
+07/12 06:18:59 - mmengine - INFO - Saving checkpoint at 36 epochs
+07/12 06:21:02 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 06:21:02 - mmengine - INFO - Epoch(train)  [37][23/23]  lr: 1.6344e-02  eta: 2:59:30  time: 3.9778  data_time: 3.5218  memory: 6308  grad_norm: 3.9926  loss: 3.0176  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 3.0176
+07/12 06:23:05 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 06:23:05 - mmengine - INFO - Epoch(train)  [38][23/23]  lr: 1.6152e-02  eta: 2:57:43  time: 3.7175  data_time: 3.2558  memory: 6308  grad_norm: 3.6970  loss: 2.9340  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.9340
+07/12 06:25:00 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 06:25:00 - mmengine - INFO - Epoch(train)  [39][23/23]  lr: 1.5957e-02  eta: 2:55:37  time: 3.6852  data_time: 3.2289  memory: 6308  grad_norm: 3.7906  loss: 2.9036  top1_acc: 0.2500  top5_acc: 0.5000  loss_cls: 2.9036
+07/12 06:26:57 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 06:26:57 - mmengine - INFO - Epoch(train)  [40][23/23]  lr: 1.5758e-02  eta: 2:53:36  time: 3.4041  data_time: 2.9499  memory: 6308  grad_norm: 3.9626  loss: 2.9093  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.9093
+07/12 06:26:57 - mmengine - INFO - Saving checkpoint at 40 epochs
+07/12 06:30:10 - mmengine - INFO - Epoch(val)  [40][ 50/123]    eta: 0:04:39  time: 3.8649  data_time: 3.7529  memory: 989  
+07/12 06:33:51 - mmengine - INFO - Epoch(val)  [40][100/123]    eta: 0:01:34  time: 5.0891  data_time: 4.9785  memory: 989  
+07/12 06:35:11 - mmengine - INFO - Epoch(val) [40][123/123]    acc/top1: 0.0696  acc/top5: 0.4514  acc/mean1: 0.0911  data_time: 3.8584  time: 3.9689
+07/12 06:37:09 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 06:37:09 - mmengine - INFO - Epoch(train)  [41][23/23]  lr: 1.5556e-02  eta: 2:51:37  time: 3.8134  data_time: 3.3701  memory: 6308  grad_norm: 3.6416  loss: 2.8336  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.8336
+07/12 06:39:06 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 06:39:06 - mmengine - INFO - Epoch(train)  [42][23/23]  lr: 1.5350e-02  eta: 2:49:37  time: 3.6181  data_time: 3.1780  memory: 6308  grad_norm: 3.5647  loss: 2.8525  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.8525
+07/12 06:40:56 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 06:40:56 - mmengine - INFO - Epoch(train)  [43][23/23]  lr: 1.5141e-02  eta: 2:47:22  time: 3.6400  data_time: 3.1994  memory: 6308  grad_norm: 3.7485  loss: 2.8517  top1_acc: 0.2500  top5_acc: 0.5000  loss_cls: 2.8517
+07/12 06:42:15 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 06:42:52 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 06:42:52 - mmengine - INFO - Epoch(train)  [44][23/23]  lr: 1.4929e-02  eta: 2:45:18  time: 3.7972  data_time: 3.3506  memory: 6308  grad_norm: 3.4153  loss: 2.8668  top1_acc: 0.2500  top5_acc: 0.5000  loss_cls: 2.8668
+07/12 06:42:52 - mmengine - INFO - Saving checkpoint at 44 epochs
+07/12 06:44:48 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 06:44:48 - mmengine - INFO - Epoch(train)  [45][23/23]  lr: 1.4714e-02  eta: 2:43:14  time: 3.8353  data_time: 3.3871  memory: 6308  grad_norm: 3.2666  loss: 2.8265  top1_acc: 0.5000  top5_acc: 0.7500  loss_cls: 2.8265
+07/12 06:48:09 - mmengine - INFO - Epoch(val)  [45][ 50/123]    eta: 0:04:53  time: 4.2219  data_time: 4.1102  memory: 989  
+07/12 06:51:54 - mmengine - INFO - Epoch(val)  [45][100/123]    eta: 0:01:37  time: 4.8846  data_time: 4.7744  memory: 989  
+07/12 06:53:15 - mmengine - INFO - Epoch(val) [45][123/123]    acc/top1: 0.0594  acc/top5: 0.4023  acc/mean1: 0.1433  data_time: 3.9762  time: 4.0849
+07/12 06:55:12 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 06:55:12 - mmengine - INFO - Epoch(train)  [46][23/23]  lr: 1.4496e-02  eta: 2:41:14  time: 3.7694  data_time: 3.3151  memory: 6308  grad_norm: 3.6084  loss: 2.7435  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.7435
+07/12 06:57:06 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 06:57:06 - mmengine - INFO - Epoch(train)  [47][23/23]  lr: 1.4276e-02  eta: 2:39:10  time: 3.4839  data_time: 3.0397  memory: 6308  grad_norm: 4.2767  loss: 2.8143  top1_acc: 0.2500  top5_acc: 0.7500  loss_cls: 2.8143
+07/12 06:59:04 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 06:59:04 - mmengine - INFO - Epoch(train)  [48][23/23]  lr: 1.4052e-02  eta: 2:37:12  time: 3.7906  data_time: 3.3373  memory: 6308  grad_norm: 3.3207  loss: 2.8145  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.8145
+07/12 06:59:04 - mmengine - INFO - Saving checkpoint at 48 epochs
+07/12 07:01:04 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 07:01:04 - mmengine - INFO - Epoch(train)  [49][23/23]  lr: 1.3827e-02  eta: 2:35:14  time: 3.8079  data_time: 3.3636  memory: 6308  grad_norm: 3.2852  loss: 2.7303  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.7303
+07/12 07:03:05 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 07:03:05 - mmengine - INFO - Epoch(train)  [50][23/23]  lr: 1.3599e-02  eta: 2:33:21  time: 4.1546  data_time: 3.7127  memory: 6308  grad_norm: 3.3679  loss: 2.8264  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.8264
+07/12 07:06:42 - mmengine - INFO - Epoch(val)  [50][ 50/123]    eta: 0:05:15  time: 4.7676  data_time: 4.6557  memory: 989  
+07/12 07:10:19 - mmengine - INFO - Epoch(val)  [50][100/123]    eta: 0:01:39  time: 4.7985  data_time: 4.6849  memory: 989  
+07/12 07:11:37 - mmengine - INFO - Epoch(val) [50][123/123]    acc/top1: 0.1116  acc/top5: 0.5128  acc/mean1: 0.1235  data_time: 4.0135  time: 4.1262
+07/12 07:13:27 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 07:13:27 - mmengine - INFO - Epoch(train)  [51][23/23]  lr: 1.3369e-02  eta: 2:31:12  time: 3.5844  data_time: 3.1216  memory: 6308  grad_norm: 3.3997  loss: 2.7533  top1_acc: 0.5000  top5_acc: 0.7500  loss_cls: 2.7533
+07/12 07:15:22 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 07:15:22 - mmengine - INFO - Epoch(train)  [52][23/23]  lr: 1.3137e-02  eta: 2:29:10  time: 3.7185  data_time: 3.2559  memory: 6308  grad_norm: 3.1730  loss: 2.8473  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.8473
+07/12 07:15:22 - mmengine - INFO - Saving checkpoint at 52 epochs
+07/12 07:17:21 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 07:17:21 - mmengine - INFO - Epoch(train)  [53][23/23]  lr: 1.2903e-02  eta: 2:27:12  time: 3.5650  data_time: 3.1107  memory: 6308  grad_norm: 4.7080  loss: 2.8949  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.8949
+07/12 07:19:22 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 07:19:22 - mmengine - INFO - Epoch(train)  [54][23/23]  lr: 1.2667e-02  eta: 2:25:18  time: 3.9255  data_time: 3.4802  memory: 6308  grad_norm: 3.4508  loss: 2.8117  top1_acc: 0.2500  top5_acc: 0.7500  loss_cls: 2.8117
+07/12 07:21:20 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 07:21:20 - mmengine - INFO - Epoch(train)  [55][23/23]  lr: 1.2430e-02  eta: 2:23:20  time: 3.6298  data_time: 3.1802  memory: 6308  grad_norm: 3.0791  loss: 2.6320  top1_acc: 0.0000  top5_acc: 0.7500  loss_cls: 2.6320
+07/12 07:24:50 - mmengine - INFO - Epoch(val)  [55][ 50/123]    eta: 0:05:06  time: 4.2082  data_time: 4.0992  memory: 989  
+07/12 07:28:19 - mmengine - INFO - Epoch(val)  [55][100/123]    eta: 0:01:36  time: 4.1918  data_time: 4.0781  memory: 989  
+07/12 07:29:34 - mmengine - INFO - Epoch(val) [55][123/123]    acc/top1: 0.0993  acc/top5: 0.4084  acc/mean1: 0.1178  data_time: 3.8759  time: 3.9863
+07/12 07:31:33 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 07:31:33 - mmengine - INFO - Epoch(train)  [56][23/23]  lr: 1.2191e-02  eta: 2:21:23  time: 3.6017  data_time: 3.1549  memory: 6308  grad_norm: 3.2330  loss: 2.6992  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.6992
+07/12 07:31:33 - mmengine - INFO - Saving checkpoint at 56 epochs
+07/12 07:33:30 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 07:33:30 - mmengine - INFO - Epoch(train)  [57][23/23]  lr: 1.1951e-02  eta: 2:19:22  time: 3.6493  data_time: 3.1974  memory: 6308  grad_norm: 3.2152  loss: 2.7525  top1_acc: 0.2500  top5_acc: 0.2500  loss_cls: 2.7525
+07/12 07:35:29 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 07:35:29 - mmengine - INFO - Epoch(train)  [58][23/23]  lr: 1.1710e-02  eta: 2:17:27  time: 3.9231  data_time: 3.4760  memory: 6308  grad_norm: 3.0882  loss: 2.7659  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.7659
+07/12 07:37:34 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 07:37:34 - mmengine - INFO - Epoch(train)  [59][23/23]  lr: 1.1467e-02  eta: 2:15:36  time: 4.0676  data_time: 3.6160  memory: 6308  grad_norm: 3.8986  loss: 2.7563  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.7563
+07/12 07:39:41 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 07:39:41 - mmengine - INFO - Epoch(train)  [60][23/23]  lr: 1.1224e-02  eta: 2:13:49  time: 4.1599  data_time: 3.7131  memory: 6308  grad_norm: 3.2086  loss: 2.7667  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.7667
+07/12 07:39:41 - mmengine - INFO - Saving checkpoint at 60 epochs
+07/12 07:43:03 - mmengine - INFO - Epoch(val)  [60][ 50/123]    eta: 0:04:51  time: 3.9171  data_time: 3.8103  memory: 989  
+07/12 07:46:31 - mmengine - INFO - Epoch(val)  [60][100/123]    eta: 0:01:33  time: 4.1000  data_time: 3.9905  memory: 989  
+07/12 07:47:47 - mmengine - INFO - Epoch(val) [60][123/123]    acc/top1: 0.0839  acc/top5: 0.4197  acc/mean1: 0.1154  data_time: 3.7950  time: 3.9046
+07/12 07:49:51 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 07:49:51 - mmengine - INFO - Epoch(train)  [61][23/23]  lr: 1.0980e-02  eta: 2:11:58  time: 4.0477  data_time: 3.6007  memory: 6308  grad_norm: 3.3436  loss: 2.7260  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.7260
+07/12 07:51:57 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 07:51:57 - mmengine - INFO - Epoch(train)  [62][23/23]  lr: 1.0736e-02  eta: 2:10:08  time: 4.1216  data_time: 3.6740  memory: 6308  grad_norm: 3.2387  loss: 2.8060  top1_acc: 0.2500  top5_acc: 0.2500  loss_cls: 2.8060
+07/12 07:53:53 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 07:53:53 - mmengine - INFO - Epoch(train)  [63][23/23]  lr: 1.0491e-02  eta: 2:08:07  time: 3.7635  data_time: 3.3069  memory: 6308  grad_norm: 3.1671  loss: 2.6488  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.6488
+07/12 07:55:52 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 07:55:52 - mmengine - INFO - Epoch(train)  [64][23/23]  lr: 1.0245e-02  eta: 2:06:09  time: 3.9207  data_time: 3.4732  memory: 6308  grad_norm: 2.8663  loss: 2.7506  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.7506
+07/12 07:55:52 - mmengine - INFO - Saving checkpoint at 64 epochs
+07/12 07:57:50 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 07:57:50 - mmengine - INFO - Epoch(train)  [65][23/23]  lr: 1.0000e-02  eta: 2:04:10  time: 3.8228  data_time: 3.3671  memory: 6308  grad_norm: 2.6729  loss: 2.6335  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.6335
+07/12 08:01:05 - mmengine - INFO - Epoch(val)  [65][ 50/123]    eta: 0:04:43  time: 3.7190  data_time: 3.6109  memory: 989  
+07/12 08:04:34 - mmengine - INFO - Epoch(val)  [65][100/123]    eta: 0:01:32  time: 4.3826  data_time: 4.2725  memory: 989  
+07/12 08:05:57 - mmengine - INFO - Epoch(val) [65][123/123]    acc/top1: 0.0809  acc/top5: 0.4452  acc/mean1: 0.1220  data_time: 3.8150  time: 3.9233
+07/12 08:07:59 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 08:07:59 - mmengine - INFO - Epoch(train)  [66][23/23]  lr: 9.7546e-03  eta: 2:02:15  time: 3.9785  data_time: 3.5316  memory: 6308  grad_norm: 3.1540  loss: 2.6814  top1_acc: 0.2500  top5_acc: 0.2500  loss_cls: 2.6814
+07/12 08:10:01 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 08:10:01 - mmengine - INFO - Epoch(train)  [67][23/23]  lr: 9.5093e-03  eta: 2:00:21  time: 3.9277  data_time: 3.4803  memory: 6308  grad_norm: 3.0901  loss: 2.6555  top1_acc: 0.0000  top5_acc: 0.7500  loss_cls: 2.6555
+07/12 08:12:00 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 08:12:00 - mmengine - INFO - Epoch(train)  [68][23/23]  lr: 9.2644e-03  eta: 1:58:23  time: 3.9339  data_time: 3.4796  memory: 6308  grad_norm: 3.3918  loss: 2.6522  top1_acc: 0.2500  top5_acc: 0.5000  loss_cls: 2.6522
+07/12 08:12:00 - mmengine - INFO - Saving checkpoint at 68 epochs
+07/12 08:13:57 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 08:13:57 - mmengine - INFO - Epoch(train)  [69][23/23]  lr: 9.0198e-03  eta: 1:56:22  time: 3.7752  data_time: 3.3276  memory: 6308  grad_norm: 3.8594  loss: 2.6697  top1_acc: 0.2500  top5_acc: 0.5000  loss_cls: 2.6697
+07/12 08:15:54 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 08:15:54 - mmengine - INFO - Epoch(train)  [70][23/23]  lr: 8.7759e-03  eta: 1:54:22  time: 3.7082  data_time: 3.2546  memory: 6308  grad_norm: 3.3551  loss: 2.7207  top1_acc: 0.0000  top5_acc: 0.7500  loss_cls: 2.7207
+07/12 08:19:09 - mmengine - INFO - Epoch(val)  [70][ 50/123]    eta: 0:04:43  time: 3.5495  data_time: 3.4403  memory: 989  
+07/12 08:22:50 - mmengine - INFO - Epoch(val)  [70][100/123]    eta: 0:01:35  time: 4.0972  data_time: 3.9858  memory: 989  
+07/12 08:24:15 - mmengine - INFO - Epoch(val) [70][123/123]    acc/top1: 0.0809  acc/top5: 0.4074  acc/mean1: 0.1172  data_time: 3.9321  time: 4.0411
+07/12 08:26:14 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 08:26:14 - mmengine - INFO - Epoch(train)  [71][23/23]  lr: 8.5327e-03  eta: 1:52:25  time: 4.0998  data_time: 3.6404  memory: 6308  grad_norm: 3.2291  loss: 2.7153  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.7153
+07/12 08:28:13 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 08:28:13 - mmengine - INFO - Epoch(train)  [72][23/23]  lr: 8.2904e-03  eta: 1:50:26  time: 3.8124  data_time: 3.3631  memory: 6308  grad_norm: 3.0916  loss: 2.6122  top1_acc: 0.2500  top5_acc: 0.7500  loss_cls: 2.6122
+07/12 08:28:13 - mmengine - INFO - Saving checkpoint at 72 epochs
+07/12 08:30:08 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 08:30:08 - mmengine - INFO - Epoch(train)  [73][23/23]  lr: 8.0491e-03  eta: 1:48:24  time: 3.7788  data_time: 3.3318  memory: 6308  grad_norm: 3.1215  loss: 2.6351  top1_acc: 0.0000  top5_acc: 0.7500  loss_cls: 2.6351
+07/12 08:32:02 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 08:32:02 - mmengine - INFO - Epoch(train)  [74][23/23]  lr: 7.8090e-03  eta: 1:46:23  time: 3.7195  data_time: 3.2720  memory: 6308  grad_norm: 2.8933  loss: 2.5862  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.5862
+07/12 08:33:53 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 08:33:53 - mmengine - INFO - Epoch(train)  [75][23/23]  lr: 7.5702e-03  eta: 1:44:19  time: 3.5604  data_time: 3.1075  memory: 6308  grad_norm: 3.1575  loss: 2.6482  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.6482
+07/12 08:37:13 - mmengine - INFO - Epoch(val)  [75][ 50/123]    eta: 0:04:51  time: 3.8847  data_time: 3.7764  memory: 989  
+07/12 08:40:57 - mmengine - INFO - Epoch(val)  [75][100/123]    eta: 0:01:37  time: 4.2524  data_time: 4.1401  memory: 989  
+07/12 08:42:18 - mmengine - INFO - Epoch(val) [75][123/123]    acc/top1: 0.0624  acc/top5: 0.3715  acc/mean1: 0.1420  data_time: 3.9606  time: 4.0697
+07/12 08:44:09 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 08:44:09 - mmengine - INFO - Epoch(train)  [76][23/23]  lr: 7.3329e-03  eta: 1:42:16  time: 3.5584  data_time: 3.1132  memory: 6308  grad_norm: 3.3236  loss: 2.7147  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.7147
+07/12 08:44:09 - mmengine - INFO - Saving checkpoint at 76 epochs
+07/12 08:46:04 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 08:46:04 - mmengine - INFO - Epoch(train)  [77][23/23]  lr: 7.0972e-03  eta: 1:40:16  time: 3.3613  data_time: 2.9180  memory: 6308  grad_norm: 3.2608  loss: 2.6626  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.6626
+07/12 08:47:59 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 08:47:59 - mmengine - INFO - Epoch(train)  [78][23/23]  lr: 6.8632e-03  eta: 1:38:16  time: 3.7648  data_time: 3.3184  memory: 6308  grad_norm: 2.8751  loss: 2.6154  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.6154
+07/12 08:49:55 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 08:49:55 - mmengine - INFO - Epoch(train)  [79][23/23]  lr: 6.6311e-03  eta: 1:36:17  time: 3.6264  data_time: 3.1764  memory: 6308  grad_norm: 2.9697  loss: 2.5858  top1_acc: 0.2500  top5_acc: 0.5000  loss_cls: 2.5858
+07/12 08:51:55 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 08:51:55 - mmengine - INFO - Epoch(train)  [80][23/23]  lr: 6.4010e-03  eta: 1:34:20  time: 3.8678  data_time: 3.4266  memory: 6308  grad_norm: 2.9874  loss: 2.6372  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.6372
+07/12 08:51:55 - mmengine - INFO - Saving checkpoint at 80 epochs
+07/12 08:55:24 - mmengine - INFO - Epoch(val)  [80][ 50/123]    eta: 0:05:01  time: 3.8497  data_time: 3.7393  memory: 989  
+07/12 08:59:02 - mmengine - INFO - Epoch(val)  [80][100/123]    eta: 0:01:37  time: 4.0548  data_time: 3.9484  memory: 989  
+07/12 09:00:17 - mmengine - INFO - Epoch(val) [80][123/123]    acc/top1: 0.0829  acc/top5: 0.4350  acc/mean1: 0.1150  data_time: 3.9231  time: 4.0315
+07/12 09:02:15 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 09:02:15 - mmengine - INFO - Epoch(train)  [81][23/23]  lr: 6.1732e-03  eta: 1:32:22  time: 3.7443  data_time: 3.2966  memory: 6308  grad_norm: 3.0525  loss: 2.6823  top1_acc: 0.0000  top5_acc: 0.7500  loss_cls: 2.6823
+07/12 09:04:08 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 09:04:08 - mmengine - INFO - Epoch(train)  [82][23/23]  lr: 5.9476e-03  eta: 1:30:22  time: 3.6225  data_time: 3.1772  memory: 6308  grad_norm: 2.8487  loss: 2.6019  top1_acc: 0.5000  top5_acc: 0.5000  loss_cls: 2.6019
+07/12 09:06:04 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 09:06:04 - mmengine - INFO - Epoch(train)  [83][23/23]  lr: 5.7244e-03  eta: 1:28:23  time: 3.7191  data_time: 3.2773  memory: 6308  grad_norm: 3.1482  loss: 2.7324  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.7324
+07/12 09:08:05 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 09:08:05 - mmengine - INFO - Epoch(train)  [84][23/23]  lr: 5.5039e-03  eta: 1:26:26  time: 3.8448  data_time: 3.3953  memory: 6308  grad_norm: 2.9558  loss: 2.6525  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.6525
+07/12 09:08:05 - mmengine - INFO - Saving checkpoint at 84 epochs
+07/12 09:10:11 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 09:10:11 - mmengine - INFO - Epoch(train)  [85][23/23]  lr: 5.2860e-03  eta: 1:24:32  time: 4.0179  data_time: 3.5738  memory: 6308  grad_norm: 3.0749  loss: 2.5439  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.5439
+07/12 09:13:32 - mmengine - INFO - Epoch(val)  [85][ 50/123]    eta: 0:04:53  time: 3.7517  data_time: 3.6443  memory: 989  
+07/12 09:17:04 - mmengine - INFO - Epoch(val)  [85][100/123]    eta: 0:01:34  time: 4.1217  data_time: 4.0136  memory: 989  
+07/12 09:18:15 - mmengine - INFO - Epoch(val) [85][123/123]    acc/top1: 0.0747  acc/top5: 0.4309  acc/mean1: 0.1576  data_time: 3.7966  time: 3.9048
+07/12 09:20:09 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 09:20:09 - mmengine - INFO - Epoch(train)  [86][23/23]  lr: 5.0710e-03  eta: 1:22:32  time: 3.4211  data_time: 2.9762  memory: 6308  grad_norm: 2.7621  loss: 2.6038  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.6038
+07/12 09:22:13 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 09:22:13 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 09:22:13 - mmengine - INFO - Epoch(train)  [87][23/23]  lr: 4.8590e-03  eta: 1:20:37  time: 4.0694  data_time: 3.6248  memory: 6308  grad_norm: 2.9003  loss: 2.5780  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.5780
+07/12 09:24:16 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 09:24:16 - mmengine - INFO - Epoch(train)  [88][23/23]  lr: 4.6500e-03  eta: 1:18:41  time: 3.9913  data_time: 3.5515  memory: 6308  grad_norm: 2.9850  loss: 2.6124  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.6124
+07/12 09:24:16 - mmengine - INFO - Saving checkpoint at 88 epochs
+07/12 09:26:16 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 09:26:16 - mmengine - INFO - Epoch(train)  [89][23/23]  lr: 4.4443e-03  eta: 1:16:43  time: 3.8124  data_time: 3.3720  memory: 6308  grad_norm: 3.0163  loss: 2.6290  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 2.6290
+07/12 09:28:19 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 09:28:19 - mmengine - INFO - Epoch(train)  [90][23/23]  lr: 4.2419e-03  eta: 1:14:47  time: 3.9684  data_time: 3.5180  memory: 6308  grad_norm: 2.8289  loss: 2.6084  top1_acc: 0.2500  top5_acc: 0.5000  loss_cls: 2.6084
+07/12 09:31:36 - mmengine - INFO - Epoch(val)  [90][ 50/123]    eta: 0:04:47  time: 3.6964  data_time: 3.5829  memory: 989  
+07/12 09:35:07 - mmengine - INFO - Epoch(val)  [90][100/123]    eta: 0:01:33  time: 4.1232  data_time: 4.0162  memory: 989  
+07/12 09:36:28 - mmengine - INFO - Epoch(val) [90][123/123]    acc/top1: 0.0931  acc/top5: 0.4217  acc/mean1: 0.1000  data_time: 3.8362  time: 3.9444
+07/12 09:38:29 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 09:38:29 - mmengine - INFO - Epoch(train)  [91][23/23]  lr: 4.0430e-03  eta: 1:12:50  time: 3.9452  data_time: 3.4958  memory: 6308  grad_norm: 3.0385  loss: 2.5999  top1_acc: 0.0000  top5_acc: 0.7500  loss_cls: 2.5999
+07/12 09:40:29 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 09:40:29 - mmengine - INFO - Epoch(train)  [92][23/23]  lr: 3.8477e-03  eta: 1:10:53  time: 3.9631  data_time: 3.5157  memory: 6308  grad_norm: 3.5088  loss: 2.7173  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.7173
+07/12 09:40:29 - mmengine - INFO - Saving checkpoint at 92 epochs
+07/12 09:42:33 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 09:42:33 - mmengine - INFO - Epoch(train)  [93][23/23]  lr: 3.6561e-03  eta: 1:08:57  time: 4.1635  data_time: 3.7188  memory: 6308  grad_norm: 3.0600  loss: 2.6219  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.6219
+07/12 09:44:25 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 09:44:25 - mmengine - INFO - Epoch(train)  [94][23/23]  lr: 3.4683e-03  eta: 1:06:56  time: 3.6451  data_time: 3.1969  memory: 6308  grad_norm: 2.8765  loss: 2.5457  top1_acc: 0.2500  top5_acc: 0.7500  loss_cls: 2.5457
+07/12 09:46:18 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 09:46:18 - mmengine - INFO - Epoch(train)  [95][23/23]  lr: 3.2844e-03  eta: 1:04:56  time: 3.7516  data_time: 3.3099  memory: 6308  grad_norm: 2.7838  loss: 2.5045  top1_acc: 0.2500  top5_acc: 0.5000  loss_cls: 2.5045
+07/12 09:49:40 - mmengine - INFO - Epoch(val)  [95][ 50/123]    eta: 0:04:54  time: 3.9126  data_time: 3.7999  memory: 989  
+07/12 09:53:26 - mmengine - INFO - Epoch(val)  [95][100/123]    eta: 0:01:38  time: 5.0140  data_time: 4.9054  memory: 989  
+07/12 09:54:48 - mmengine - INFO - Epoch(val) [95][123/123]    acc/top1: 0.1136  acc/top5: 0.4493  acc/mean1: 0.1057  data_time: 4.0048  time: 4.1133
+07/12 09:56:49 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 09:56:49 - mmengine - INFO - Epoch(train)  [96][23/23]  lr: 3.1046e-03  eta: 1:02:59  time: 4.0403  data_time: 3.5906  memory: 6308  grad_norm: 2.7880  loss: 2.5265  top1_acc: 0.2500  top5_acc: 1.0000  loss_cls: 2.5265
+07/12 09:56:49 - mmengine - INFO - Saving checkpoint at 96 epochs
+07/12 09:58:48 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 09:58:48 - mmengine - INFO - Epoch(train)  [97][23/23]  lr: 2.9289e-03  eta: 1:01:01  time: 3.6122  data_time: 3.1691  memory: 6308  grad_norm: 2.9563  loss: 2.5477  top1_acc: 0.2500  top5_acc: 0.5000  loss_cls: 2.5477
+07/12 10:00:39 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 10:00:39 - mmengine - INFO - Epoch(train)  [98][23/23]  lr: 2.7575e-03  eta: 0:59:00  time: 3.5588  data_time: 3.1161  memory: 6308  grad_norm: 3.0978  loss: 2.5777  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.5777
+07/12 10:02:34 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 10:02:34 - mmengine - INFO - Epoch(train)  [99][23/23]  lr: 2.5905e-03  eta: 0:57:01  time: 3.8864  data_time: 3.4336  memory: 6308  grad_norm: 3.3609  loss: 2.5627  top1_acc: 0.2500  top5_acc: 0.5000  loss_cls: 2.5627
+07/12 10:04:29 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 10:04:29 - mmengine - INFO - Epoch(train) [100][23/23]  lr: 2.4279e-03  eta: 0:55:03  time: 3.9591  data_time: 3.5108  memory: 6308  grad_norm: 2.9508  loss: 2.6330  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.6330
+07/12 10:04:29 - mmengine - INFO - Saving checkpoint at 100 epochs
+07/12 10:07:54 - mmengine - INFO - Epoch(val) [100][ 50/123]    eta: 0:04:56  time: 4.1571  data_time: 4.0502  memory: 989  
+07/12 10:11:40 - mmengine - INFO - Epoch(val) [100][100/123]    eta: 0:01:38  time: 4.6368  data_time: 4.5288  memory: 989  
+07/12 10:13:01 - mmengine - INFO - Epoch(val) [100][123/123]    acc/top1: 0.1034  acc/top5: 0.4289  acc/mean1: 0.1364  data_time: 4.0108  time: 4.1182
+07/12 10:14:59 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 10:14:59 - mmengine - INFO - Epoch(train) [101][23/23]  lr: 2.2699e-03  eta: 0:53:05  time: 4.0541  data_time: 3.6041  memory: 6308  grad_norm: 2.8467  loss: 2.4959  top1_acc: 0.2500  top5_acc: 0.7500  loss_cls: 2.4959
+07/12 10:16:51 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 10:16:51 - mmengine - INFO - Epoch(train) [102][23/23]  lr: 2.1165e-03  eta: 0:51:05  time: 3.4911  data_time: 3.0438  memory: 6308  grad_norm: 2.9837  loss: 2.5557  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.5557
+07/12 10:18:48 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 10:18:48 - mmengine - INFO - Epoch(train) [103][23/23]  lr: 1.9679e-03  eta: 0:49:07  time: 3.8174  data_time: 3.3697  memory: 6308  grad_norm: 2.8761  loss: 2.4655  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.4655
+07/12 10:20:43 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 10:20:43 - mmengine - INFO - Epoch(train) [104][23/23]  lr: 1.8242e-03  eta: 0:47:08  time: 3.7110  data_time: 3.2647  memory: 6308  grad_norm: 3.0556  loss: 2.5898  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.5898
+07/12 10:20:43 - mmengine - INFO - Saving checkpoint at 104 epochs
+07/12 10:22:42 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 10:22:42 - mmengine - INFO - Epoch(train) [105][23/23]  lr: 1.6853e-03  eta: 0:45:10  time: 3.7923  data_time: 3.3478  memory: 6308  grad_norm: 2.9809  loss: 2.5949  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.5949
+07/12 10:26:08 - mmengine - INFO - Epoch(val) [105][ 50/123]    eta: 0:05:00  time: 3.8300  data_time: 3.7201  memory: 989  
+07/12 10:29:51 - mmengine - INFO - Epoch(val) [105][100/123]    eta: 0:01:38  time: 4.2269  data_time: 4.1205  memory: 989  
+07/12 10:31:09 - mmengine - INFO - Epoch(val) [105][123/123]    acc/top1: 0.0839  acc/top5: 0.4176  acc/mean1: 0.1699  data_time: 3.9760  time: 4.0847
+07/12 10:33:06 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 10:33:06 - mmengine - INFO - Epoch(train) [106][23/23]  lr: 1.5515e-03  eta: 0:43:12  time: 3.5035  data_time: 3.0564  memory: 6308  grad_norm: 2.9021  loss: 2.4920  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 2.4920
+07/12 10:35:03 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 10:35:03 - mmengine - INFO - Epoch(train) [107][23/23]  lr: 1.4227e-03  eta: 0:41:14  time: 3.7958  data_time: 3.3452  memory: 6308  grad_norm: 2.8386  loss: 2.5342  top1_acc: 0.2500  top5_acc: 0.7500  loss_cls: 2.5342
+07/12 10:36:57 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 10:36:57 - mmengine - INFO - Epoch(train) [108][23/23]  lr: 1.2991e-03  eta: 0:39:16  time: 3.7314  data_time: 3.2756  memory: 6308  grad_norm: 3.0849  loss: 2.5910  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.5910
+07/12 10:36:57 - mmengine - INFO - Saving checkpoint at 108 epochs
+07/12 10:39:00 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 10:39:00 - mmengine - INFO - Epoch(train) [109][23/23]  lr: 1.1808e-03  eta: 0:37:19  time: 4.1786  data_time: 3.7301  memory: 6308  grad_norm: 2.7657  loss: 2.5329  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.5329
+07/12 10:40:55 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 10:40:55 - mmengine - INFO - Epoch(train) [110][23/23]  lr: 1.0678e-03  eta: 0:35:20  time: 3.6659  data_time: 3.2192  memory: 6308  grad_norm: 3.2043  loss: 2.5887  top1_acc: 0.2500  top5_acc: 1.0000  loss_cls: 2.5887
+07/12 10:44:25 - mmengine - INFO - Epoch(val) [110][ 50/123]    eta: 0:05:06  time: 4.0275  data_time: 3.9213  memory: 989  
+07/12 10:48:07 - mmengine - INFO - Epoch(val) [110][100/123]    eta: 0:01:39  time: 4.6818  data_time: 4.5767  memory: 989  
+07/12 10:49:14 - mmengine - INFO - Epoch(val) [110][123/123]    acc/top1: 0.0809  acc/top5: 0.4033  acc/mean1: 0.1595  data_time: 3.9161  time: 4.0247
+07/12 10:51:11 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 10:51:11 - mmengine - INFO - Epoch(train) [111][23/23]  lr: 9.6011e-04  eta: 0:33:22  time: 3.4917  data_time: 3.0405  memory: 6308  grad_norm: 3.5908  loss: 2.5706  top1_acc: 0.0000  top5_acc: 0.7500  loss_cls: 2.5706
+07/12 10:53:10 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 10:53:10 - mmengine - INFO - Epoch(train) [112][23/23]  lr: 8.5790e-04  eta: 0:31:25  time: 3.7426  data_time: 3.2866  memory: 6308  grad_norm: 2.7992  loss: 2.5430  top1_acc: 0.2500  top5_acc: 1.0000  loss_cls: 2.5430
+07/12 10:53:10 - mmengine - INFO - Saving checkpoint at 112 epochs
+07/12 10:55:12 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 10:55:12 - mmengine - INFO - Epoch(train) [113][23/23]  lr: 7.6120e-04  eta: 0:29:27  time: 3.9029  data_time: 3.4559  memory: 6308  grad_norm: 3.0734  loss: 2.5387  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.5387
+07/12 10:57:13 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 10:57:13 - mmengine - INFO - Epoch(train) [114][23/23]  lr: 6.7007e-04  eta: 0:27:30  time: 3.8651  data_time: 3.4227  memory: 6308  grad_norm: 2.9456  loss: 2.5096  top1_acc: 0.2500  top5_acc: 1.0000  loss_cls: 2.5096
+07/12 10:59:17 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 10:59:17 - mmengine - INFO - Epoch(train) [115][23/23]  lr: 5.8456e-04  eta: 0:25:33  time: 4.0288  data_time: 3.5821  memory: 6308  grad_norm: 2.7047  loss: 2.5251  top1_acc: 0.5000  top5_acc: 0.5000  loss_cls: 2.5251
+07/12 11:02:45 - mmengine - INFO - Epoch(val) [115][ 50/123]    eta: 0:05:03  time: 4.2180  data_time: 4.1060  memory: 989  
+07/12 11:06:15 - mmengine - INFO - Epoch(val) [115][100/123]    eta: 0:01:36  time: 4.6268  data_time: 4.5190  memory: 989  
+07/12 11:07:33 - mmengine - INFO - Epoch(val) [115][123/123]    acc/top1: 0.0706  acc/top5: 0.3869  acc/mean1: 0.1797  data_time: 3.8937  time: 4.0017
+07/12 11:09:25 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 11:09:25 - mmengine - INFO - Epoch(train) [116][23/23]  lr: 5.0472e-04  eta: 0:23:34  time: 3.5853  data_time: 3.1365  memory: 6308  grad_norm: 2.8929  loss: 2.5523  top1_acc: 0.0000  top5_acc: 0.7500  loss_cls: 2.5523
+07/12 11:09:25 - mmengine - INFO - Saving checkpoint at 116 epochs
+07/12 11:11:28 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 11:11:28 - mmengine - INFO - Epoch(train) [117][23/23]  lr: 4.3060e-04  eta: 0:21:36  time: 3.7297  data_time: 3.2739  memory: 6308  grad_norm: 2.9178  loss: 2.5572  top1_acc: 0.0000  top5_acc: 0.2500  loss_cls: 2.5572
+07/12 11:13:31 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 11:13:31 - mmengine - INFO - Epoch(train) [118][23/23]  lr: 3.6224e-04  eta: 0:19:39  time: 4.0870  data_time: 3.6428  memory: 6308  grad_norm: 3.0178  loss: 2.5379  top1_acc: 0.5000  top5_acc: 0.7500  loss_cls: 2.5379
+07/12 11:15:29 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 11:15:29 - mmengine - INFO - Epoch(train) [119][23/23]  lr: 2.9969e-04  eta: 0:17:41  time: 3.7707  data_time: 3.3157  memory: 6308  grad_norm: 2.9951  loss: 2.5179  top1_acc: 0.2500  top5_acc: 1.0000  loss_cls: 2.5179
+07/12 11:17:27 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 11:17:27 - mmengine - INFO - Epoch(train) [120][23/23]  lr: 2.4298e-04  eta: 0:15:43  time: 3.8535  data_time: 3.4072  memory: 6308  grad_norm: 2.7693  loss: 2.4762  top1_acc: 0.0000  top5_acc: 0.7500  loss_cls: 2.4762
+07/12 11:17:27 - mmengine - INFO - Saving checkpoint at 120 epochs
+07/12 11:20:52 - mmengine - INFO - Epoch(val) [120][ 50/123]    eta: 0:04:56  time: 3.9871  data_time: 3.8787  memory: 989  
+07/12 11:24:20 - mmengine - INFO - Epoch(val) [120][100/123]    eta: 0:01:34  time: 4.2156  data_time: 4.1063  memory: 989  
+07/12 11:25:43 - mmengine - INFO - Epoch(val) [120][123/123]    acc/top1: 0.0716  acc/top5: 0.4002  acc/mean1: 0.1672  data_time: 3.8702  time: 3.9796
+07/12 11:27:43 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 11:27:43 - mmengine - INFO - Epoch(train) [121][23/23]  lr: 1.9215e-04  eta: 0:13:45  time: 3.8337  data_time: 3.3874  memory: 6308  grad_norm: 2.8767  loss: 2.5392  top1_acc: 0.2500  top5_acc: 0.5000  loss_cls: 2.5392
+07/12 11:29:42 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 11:29:42 - mmengine - INFO - Epoch(train) [122][23/23]  lr: 1.4722e-04  eta: 0:11:47  time: 3.7863  data_time: 3.3434  memory: 6308  grad_norm: 2.9091  loss: 2.5237  top1_acc: 0.2500  top5_acc: 0.5000  loss_cls: 2.5237
+07/12 11:31:40 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 11:31:40 - mmengine - INFO - Epoch(train) [123][23/23]  lr: 1.0823e-04  eta: 0:09:49  time: 3.7954  data_time: 3.3510  memory: 6308  grad_norm: 3.0305  loss: 2.5303  top1_acc: 0.2500  top5_acc: 0.7500  loss_cls: 2.5303
+07/12 11:33:35 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 11:33:35 - mmengine - INFO - Epoch(train) [124][23/23]  lr: 7.5205e-05  eta: 0:07:51  time: 3.8032  data_time: 3.3630  memory: 6308  grad_norm: 2.7861  loss: 2.4962  top1_acc: 0.2500  top5_acc: 0.7500  loss_cls: 2.4962
+07/12 11:33:35 - mmengine - INFO - Saving checkpoint at 124 epochs
+07/12 11:35:28 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 11:35:28 - mmengine - INFO - Epoch(train) [125][23/23]  lr: 4.8153e-05  eta: 0:05:53  time: 3.7622  data_time: 3.3119  memory: 6308  grad_norm: 3.0054  loss: 2.5626  top1_acc: 0.2500  top5_acc: 0.5000  loss_cls: 2.5626
+07/12 11:38:46 - mmengine - INFO - Epoch(val) [125][ 50/123]    eta: 0:04:49  time: 3.7907  data_time: 3.6813  memory: 989  
+07/12 11:42:33 - mmengine - INFO - Epoch(val) [125][100/123]    eta: 0:01:37  time: 4.5804  data_time: 4.4715  memory: 989  
+07/12 11:43:55 - mmengine - INFO - Epoch(val) [125][123/123]    acc/top1: 0.0788  acc/top5: 0.3971  acc/mean1: 0.1849  data_time: 3.9823  time: 4.0899
+07/12 11:45:57 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 11:45:57 - mmengine - INFO - Epoch(train) [126][23/23]  lr: 2.7095e-05  eta: 0:03:55  time: 4.0883  data_time: 3.6420  memory: 6308  grad_norm: 2.8277  loss: 2.5210  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.5210
+07/12 11:47:50 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 11:47:50 - mmengine - INFO - Epoch(train) [127][23/23]  lr: 1.2045e-05  eta: 0:01:57  time: 3.5282  data_time: 3.0742  memory: 6308  grad_norm: 2.7930  loss: 2.4575  top1_acc: 0.2500  top5_acc: 1.0000  loss_cls: 2.4575
+07/12 11:49:46 - mmengine - INFO - Exp name: slowfast_r50_video_4x16x1_256e_badminton_video_10_per_class_20230712_040931
+07/12 11:49:46 - mmengine - INFO - Epoch(train) [128][23/23]  lr: 3.0118e-06  eta: 0:00:00  time: 3.9094  data_time: 3.4648  memory: 6308  grad_norm: 2.7882  loss: 2.5389  top1_acc: 0.2500  top5_acc: 0.5000  loss_cls: 2.5389
+07/12 11:49:46 - mmengine - INFO - Saving checkpoint at 128 epochs

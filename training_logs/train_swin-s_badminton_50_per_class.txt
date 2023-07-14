@@ -1,0 +1,1118 @@
++ CONFIG=experiments_configs/swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class.py
++ GPUS=2
++ NNODES=1
++ NODE_RANK=0
++ PORT=29500
++ MASTER_ADDR=127.0.0.1
+++ dirname tools/dist_train.sh
+++ dirname tools/dist_train.sh
++ PYTHONPATH=tools/..:
++ python -m torch.distributed.launch --nnodes=1 --node_rank=0 --master_addr=127.0.0.1 --nproc_per_node=2 --master_port=29500 tools/train.py experiments_configs/swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class.py --launcher pytorch --resume --seed 323
+/opt/conda/envs/openmmlab/lib/python3.8/site-packages/torch/distributed/launch.py:180: FutureWarning: The module torch.distributed.launch is deprecated
+and will be removed in future. Use torchrun.
+Note that --use_env is set by default in torchrun.
+If your script expects `--local_rank` argument to be set, please
+change it to read from `os.environ['LOCAL_RANK']` instead. See 
+https://pytorch.org/docs/stable/distributed.html#launch-utility for 
+further instructions
+
+  warnings.warn(
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+/opt/conda/envs/openmmlab/lib/python3.8/site-packages/mmengine/utils/dl_utils/setup_env.py:56: UserWarning: Setting MKL_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed.
+  warnings.warn(
+/opt/conda/envs/openmmlab/lib/python3.8/site-packages/mmengine/utils/dl_utils/setup_env.py:56: UserWarning: Setting MKL_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed.
+  warnings.warn(
+/bin/sh: 1: /usr/local/cuda/bin/nvcc: not found
+/bin/sh: 1: /usr/local/cuda/bin/nvcc: not found
+07/13 05:34:29 - mmengine - INFO - 
+------------------------------------------------------------
+System environment:
+    sys.platform: linux
+    Python: 3.8.17 | packaged by conda-forge | (default, Jun 16 2023, 07:06:00) [GCC 11.4.0]
+    CUDA available: True
+    numpy_random_seed: 323
+    GPU 0,1: Tesla V100-SXM2-16GB
+    CUDA_HOME: /usr/local/cuda
+    NVCC: Not Available
+    GCC: gcc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
+    PyTorch: 1.13.1
+    PyTorch compiling details: PyTorch built with:
+  - GCC 9.3
+  - C++ Version: 201402
+  - Intel(R) oneAPI Math Kernel Library Version 2022.1-Product Build 20220311 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v2.6.0 (Git Hash 52b5f107dd9cf10910aaa19cb47f3abf9b349815)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 11.7
+  - NVCC architecture flags: -gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_37,code=compute_37
+  - CuDNN 8.5
+  - Magma 2.6.1
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=11.7, CUDNN_VERSION=8.5.0, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -fabi-version=11 -Wno-deprecated -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -fopenmp -DNDEBUG -DUSE_KINETO -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DEDGE_PROFILER_USE_KINETO -O2 -fPIC -Wno-narrowing -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wunused-local-typedefs -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-strict-overflow -Wno-strict-aliasing -Wno-error=deprecated-declarations -Wno-stringop-overflow -Wno-psabi -Wno-error=pedantic -Wno-error=redundant-decls -Wno-error=old-style-cast -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Werror=cast-function-type -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=1.13.1, USE_CUDA=ON, USE_CUDNN=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, 
+
+    TorchVision: 0.14.1
+    OpenCV: 4.7.0
+    MMEngine: 0.7.4
+
+Runtime environment:
+    cudnn_benchmark: False
+    mp_cfg: {'mp_start_method': 'fork', 'opencv_num_threads': 0}
+    dist_cfg: {'backend': 'nccl'}
+    seed: 323
+    diff_rank_seed: False
+    deterministic: False
+    Distributed launcher: pytorch
+    Distributed training: True
+    GPU number: 2
+------------------------------------------------------------
+
+07/13 05:34:29 - mmengine - INFO - Config:
+model = dict(
+    type='Recognizer3D',
+    backbone=dict(
+        type='SwinTransformer3D',
+        arch='small',
+        pretrained=
+        'https://download.openmmlab.com/mmaction/v1.0/recognition/swin/swin_small_patch4_window7_224.pth',
+        pretrained2d=True,
+        patch_size=(2, 4, 4),
+        window_size=(8, 7, 7),
+        mlp_ratio=4.0,
+        qkv_bias=True,
+        qk_scale=None,
+        drop_rate=0.0,
+        attn_drop_rate=0.0,
+        drop_path_rate=0.2,
+        patch_norm=True),
+    data_preprocessor=dict(
+        type='ActionDataPreprocessor',
+        mean=[123.675, 116.28, 103.53],
+        std=[58.395, 57.12, 57.375],
+        format_shape='NCTHW'),
+    cls_head=dict(
+        type='I3DHead',
+        in_channels=768,
+        num_classes=18,
+        spatial_type='avg',
+        dropout_ratio=0.5,
+        average_clips='prob'))
+default_scope = 'mmaction'
+default_hooks = dict(
+    runtime_info=dict(type='RuntimeInfoHook'),
+    timer=dict(type='IterTimerHook'),
+    logger=dict(type='LoggerHook', interval=100, ignore_last=False),
+    param_scheduler=dict(type='ParamSchedulerHook'),
+    checkpoint=dict(
+        type='CheckpointHook', interval=3, save_best='auto', max_keep_ckpts=5),
+    sampler_seed=dict(type='DistSamplerSeedHook'),
+    sync_buffers=dict(type='SyncBuffersHook'))
+env_cfg = dict(
+    cudnn_benchmark=False,
+    mp_cfg=dict(mp_start_method='fork', opencv_num_threads=0),
+    dist_cfg=dict(backend='nccl'))
+log_processor = dict(type='LogProcessor', window_size=20, by_epoch=True)
+vis_backends = [dict(type='LocalVisBackend')]
+visualizer = dict(
+    type='ActionVisualizer', vis_backends=[dict(type='LocalVisBackend')])
+log_level = 'INFO'
+load_from = None
+resume = True
+dataset_type = 'VideoDataset'
+data_root = 'badminton_dataset_for_classification_ncu_coach_ver_final'
+data_root_val = 'badminton_dataset_for_classification_ncu_coach_ver_final'
+ann_file_train = 'badminton_dataset_ncu_coach_train_labels_50_per_class.txt'
+ann_file_val = 'badminton_dataset_ncu_coach_val_labels.txt'
+ann_file_test = 'badminton_dataset_ncu_coach_test_labels.txt'
+file_client_args = dict(io_backend='disk')
+train_pipeline = [
+    dict(type='DecordInit', io_backend='disk'),
+    dict(type='SampleFrames', clip_len=32, frame_interval=2, num_clips=1),
+    dict(type='DecordDecode'),
+    dict(type='Resize', scale=(-1, 256)),
+    dict(type='RandomResizedCrop'),
+    dict(type='Resize', scale=(224, 224), keep_ratio=False),
+    dict(type='Flip', flip_ratio=0.5),
+    dict(type='FormatShape', input_format='NCTHW'),
+    dict(type='PackActionInputs')
+]
+val_pipeline = [
+    dict(type='DecordInit', io_backend='disk'),
+    dict(
+        type='SampleFrames',
+        clip_len=32,
+        frame_interval=2,
+        num_clips=1,
+        test_mode=True),
+    dict(type='DecordDecode'),
+    dict(type='Resize', scale=(-1, 256)),
+    dict(type='CenterCrop', crop_size=224),
+    dict(type='FormatShape', input_format='NCTHW'),
+    dict(type='PackActionInputs')
+]
+test_pipeline = [
+    dict(type='DecordInit', io_backend='disk'),
+    dict(
+        type='SampleFrames',
+        clip_len=32,
+        frame_interval=2,
+        num_clips=4,
+        test_mode=True),
+    dict(type='DecordDecode'),
+    dict(type='Resize', scale=(-1, 224)),
+    dict(type='ThreeCrop', crop_size=224),
+    dict(type='FormatShape', input_format='NCTHW'),
+    dict(type='PackActionInputs')
+]
+train_dataloader = dict(
+    batch_size=2,
+    num_workers=2,
+    persistent_workers=True,
+    sampler=dict(type='DefaultSampler', shuffle=True),
+    dataset=dict(
+        type='VideoDataset',
+        ann_file='badminton_dataset_ncu_coach_train_labels_50_per_class.txt',
+        data_prefix=dict(
+            video='badminton_dataset_for_classification_ncu_coach_ver_final'),
+        pipeline=[
+            dict(type='DecordInit', io_backend='disk'),
+            dict(
+                type='SampleFrames',
+                clip_len=32,
+                frame_interval=2,
+                num_clips=1),
+            dict(type='DecordDecode'),
+            dict(type='Resize', scale=(-1, 256)),
+            dict(type='RandomResizedCrop'),
+            dict(type='Resize', scale=(224, 224), keep_ratio=False),
+            dict(type='Flip', flip_ratio=0.5),
+            dict(type='FormatShape', input_format='NCTHW'),
+            dict(type='PackActionInputs')
+        ]))
+val_dataloader = dict(
+    batch_size=2,
+    num_workers=2,
+    persistent_workers=True,
+    sampler=dict(type='DefaultSampler', shuffle=False),
+    dataset=dict(
+        type='VideoDataset',
+        ann_file='badminton_dataset_ncu_coach_val_labels.txt',
+        data_prefix=dict(
+            video='badminton_dataset_for_classification_ncu_coach_ver_final'),
+        pipeline=[
+            dict(type='DecordInit', io_backend='disk'),
+            dict(
+                type='SampleFrames',
+                clip_len=32,
+                frame_interval=2,
+                num_clips=1,
+                test_mode=True),
+            dict(type='DecordDecode'),
+            dict(type='Resize', scale=(-1, 256)),
+            dict(type='CenterCrop', crop_size=224),
+            dict(type='FormatShape', input_format='NCTHW'),
+            dict(type='PackActionInputs')
+        ],
+        test_mode=True))
+test_dataloader = dict(
+    batch_size=1,
+    num_workers=2,
+    persistent_workers=True,
+    sampler=dict(type='DefaultSampler', shuffle=False),
+    dataset=dict(
+        type='VideoDataset',
+        ann_file='badminton_dataset_ncu_coach_test_labels.txt',
+        data_prefix=dict(
+            video='badminton_dataset_for_classification_ncu_coach_ver_final'),
+        pipeline=[
+            dict(type='DecordInit', io_backend='disk'),
+            dict(
+                type='SampleFrames',
+                clip_len=32,
+                frame_interval=2,
+                num_clips=4,
+                test_mode=True),
+            dict(type='DecordDecode'),
+            dict(type='Resize', scale=(-1, 224)),
+            dict(type='ThreeCrop', crop_size=224),
+            dict(type='FormatShape', input_format='NCTHW'),
+            dict(type='PackActionInputs')
+        ],
+        test_mode=True))
+val_evaluator = dict(
+    type='AccMetric', metric_list=('top_k_accuracy', 'mean_class_accuracy'))
+test_evaluator = dict(
+    type='AccMetric', metric_list=('top_k_accuracy', 'mean_class_accuracy'))
+train_cfg = dict(
+    type='EpochBasedTrainLoop', max_epochs=15, val_begin=1, val_interval=3)
+val_cfg = dict(type='ValLoop')
+test_cfg = dict(type='TestLoop')
+optim_wrapper = dict(
+    type='AmpOptimWrapper',
+    optimizer=dict(
+        type='AdamW', lr=0.0002, betas=(0.9, 0.999), weight_decay=0.02),
+    constructor='SwinOptimWrapperConstructor',
+    paramwise_cfg=dict(
+        absolute_pos_embed=dict(decay_mult=0.0),
+        relative_position_bias_table=dict(decay_mult=0.0),
+        norm=dict(decay_mult=0.0),
+        backbone=dict(lr_mult=0.1)))
+param_scheduler = [
+    dict(
+        type='LinearLR',
+        start_factor=0.1,
+        by_epoch=True,
+        begin=0,
+        end=2.5,
+        convert_to_iter_based=True),
+    dict(
+        type='CosineAnnealingLR',
+        T_max=15,
+        eta_min=0,
+        by_epoch=True,
+        begin=0,
+        end=15)
+]
+auto_scale_lr = dict(enable=False, base_batch_size=16)
+work_dir = 'experiments/badminton_swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_50_per_class'
+launcher = 'pytorch'
+randomness = dict(seed=323, diff_rank_seed=False, deterministic=False)
+
+/opt/conda/envs/openmmlab/lib/python3.8/site-packages/torch/functional.py:504: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at /opt/conda/conda-bld/pytorch_1670525541702/work/aten/src/ATen/native/TensorShape.cpp:3190.)
+  return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+/opt/conda/envs/openmmlab/lib/python3.8/site-packages/torch/functional.py:504: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at /opt/conda/conda-bld/pytorch_1670525541702/work/aten/src/ATen/native/TensorShape.cpp:3190.)
+  return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+07/13 05:34:32 - mmengine - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+before_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DistSamplerSeedHook                
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) SyncBuffersHook                    
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_val_epoch:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) SyncBuffersHook                    
+ -------------------- 
+before_val_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_val_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train:
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_test_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_test_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_test_iter:
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_run:
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.patch_embed.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.patch_embed.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.patch_embed.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.patch_embed.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.patch_embed.norm.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.patch_embed.norm.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.patch_embed.norm.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.patch_embed.norm.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.0.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.blocks.1.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.downsample.reduction.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.downsample.reduction.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.downsample.norm.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.downsample.norm.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.downsample.norm.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.0.downsample.norm.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.0.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.blocks.1.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.downsample.reduction.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.downsample.reduction.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.downsample.norm.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.downsample.norm.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.downsample.norm.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.1.downsample.norm.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.0.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.1.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.2.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.3.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.4.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.5.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.6.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.7.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.8.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.9.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.10.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.11.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.12.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.13.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.14.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.15.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.16.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.blocks.17.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.downsample.reduction.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.downsample.reduction.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.downsample.norm.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.downsample.norm.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.downsample.norm.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.2.downsample.norm.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.0.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.norm1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.norm1.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.norm1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.norm1.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.attn.relative_position_bias_table: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.attn.relative_position_bias_table: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.attn.qkv.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.attn.qkv.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.attn.qkv.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.attn.qkv.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.attn.proj.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.attn.proj.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.attn.proj.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.attn.proj.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.norm2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.norm2.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.norm2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.norm2.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.mlp.fc1.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.mlp.fc1.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.mlp.fc1.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.mlp.fc1.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.mlp.fc2.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.mlp.fc2.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.mlp.fc2.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.layers.3.blocks.1.mlp.fc2.bias: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.norm3.weight: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.norm3.weight: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.norm3.bias: lr = 2e-05
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.backbone.norm3.bias: weight_decay = 0.0
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.cls_head.fc_cls.weight: lr = 0.0002
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.cls_head.fc_cls.weight: weight_decay = 0.02
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.cls_head.fc_cls.bias: lr = 0.0002
+07/13 05:34:33 - mmengine - INFO - paramwise_options -- base.cls_head.fc_cls.bias: weight_decay = 0.02
+Loads checkpoint by http backend from path: https://download.openmmlab.com/mmaction/v1.0/recognition/swin/swin_small_patch4_window7_224.pth
+07/13 05:34:34 - mmengine - INFO - load model from: https://download.openmmlab.com/mmaction/v1.0/recognition/swin/swin_small_patch4_window7_224.pth
+Loads checkpoint by http backend from path: https://download.openmmlab.com/mmaction/v1.0/recognition/swin/swin_small_patch4_window7_224.pth
+07/13 05:34:34 - mmengine - INFO - _IncompatibleKeys(missing_keys=['layers.0.blocks.0.attn.relative_position_index', 'layers.0.blocks.1.attn.relative_position_index', 'layers.1.blocks.0.attn.relative_position_index', 'layers.1.blocks.1.attn.relative_position_index', 'layers.2.blocks.0.attn.relative_position_index', 'layers.2.blocks.1.attn.relative_position_index', 'layers.2.blocks.2.attn.relative_position_index', 'layers.2.blocks.3.attn.relative_position_index', 'layers.2.blocks.4.attn.relative_position_index', 'layers.2.blocks.5.attn.relative_position_index', 'layers.2.blocks.6.attn.relative_position_index', 'layers.2.blocks.7.attn.relative_position_index', 'layers.2.blocks.8.attn.relative_position_index', 'layers.2.blocks.9.attn.relative_position_index', 'layers.2.blocks.10.attn.relative_position_index', 'layers.2.blocks.11.attn.relative_position_index', 'layers.2.blocks.12.attn.relative_position_index', 'layers.2.blocks.13.attn.relative_position_index', 'layers.2.blocks.14.attn.relative_position_index', 'layers.2.blocks.15.attn.relative_position_index', 'layers.2.blocks.16.attn.relative_position_index', 'layers.2.blocks.17.attn.relative_position_index', 'layers.3.blocks.0.attn.relative_position_index', 'layers.3.blocks.1.attn.relative_position_index'], unexpected_keys=['head.weight', 'head.bias'])
+Did not find last_checkpoint to be resumed.
+07/13 05:34:34 - mmengine - INFO - Auto resumed from the latest checkpoint None.
+07/13 05:34:34 - mmengine - WARNING - "FileClient" will be deprecated in future. Please use io functions in https://mmengine.readthedocs.io/en/latest/api/fileio.html#file-io
+07/13 05:34:34 - mmengine - WARNING - "HardDiskBackend" is the alias of "LocalBackend" and the former will be deprecated in future.
+07/13 05:34:34 - mmengine - INFO - Checkpoints will be saved to /home/jovyan/local/mmaction2_badminton/experiments/badminton_swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_50_per_class.
+Did not find last_checkpoint to be resumed.
+07/13 05:45:00 - mmengine - INFO - Epoch(train)  [1][100/225]  lr: 5.1765e-06  eta: 5:41:37  time: 6.5524  data_time: 0.1219  memory: 9305  loss: 2.9030  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.9030
+07/13 05:55:52 - mmengine - INFO - Epoch(train)  [1][200/225]  lr: 8.3850e-06  eta: 5:38:11  time: 6.7587  data_time: 0.0083  memory: 9305  loss: 2.8627  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.8627
+07/13 05:58:23 - mmengine - INFO - Exp name: swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class_20230713_053425
+07/13 05:58:23 - mmengine - INFO - Epoch(train)  [1][225/225]  lr: 9.1872e-06  eta: 5:33:30  time: 5.8728  data_time: 1.6151  memory: 9305  loss: 2.8913  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.8913
+07/13 06:09:01 - mmengine - INFO - Epoch(train)  [2][100/225]  lr: 1.2260e-05  eta: 5:23:17  time: 5.8907  data_time: 5.5872  memory: 9305  loss: 2.7306  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 2.7306
+07/13 06:19:45 - mmengine - INFO - Epoch(train)  [2][200/225]  lr: 1.5434e-05  eta: 5:13:37  time: 6.3991  data_time: 6.0938  memory: 9305  loss: 2.4904  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.4904
+07/13 06:22:20 - mmengine - INFO - Exp name: swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class_20230713_053425
+07/13 06:22:20 - mmengine - INFO - Epoch(train)  [2][225/225]  lr: 1.6227e-05  eta: 5:10:26  time: 6.3811  data_time: 5.1434  memory: 9305  loss: 2.7055  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.7055
+07/13 06:32:51 - mmengine - INFO - Epoch(train)  [3][100/225]  lr: 1.8767e-05  eta: 4:59:22  time: 6.5234  data_time: 6.2270  memory: 9305  loss: 2.7072  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.7072
+07/13 06:43:23 - mmengine - INFO - Epoch(train)  [3][200/225]  lr: 1.9135e-05  eta: 4:48:30  time: 6.5159  data_time: 0.0078  memory: 9305  loss: 2.6092  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.6092
+07/13 06:45:57 - mmengine - INFO - Exp name: swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class_20230713_053425
+07/13 06:45:57 - mmengine - INFO - Epoch(train)  [3][225/225]  lr: 1.9135e-05  eta: 4:45:29  time: 5.4962  data_time: 0.1036  memory: 9305  loss: 2.5647  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 2.5647
+07/13 06:45:57 - mmengine - INFO - Saving checkpoint at 3 epochs
+07/13 06:55:41 - mmengine - INFO - Epoch(val)  [3][100/245]    eta: 0:14:03  time: 5.8264  data_time: 5.7005  memory: 2401  
+07/13 07:06:51 - mmengine - INFO - Epoch(val)  [3][200/245]    eta: 0:04:41  time: 6.4114  data_time: 6.2866  memory: 2401  
+07/13 07:11:12 - mmengine - INFO - Epoch(val) [3][245/245]    acc/top1: 0.1679  acc/top5: 0.5742  acc/mean1: 0.2094  data_time: 6.0508  time: 6.1756
+07/13 07:11:13 - mmengine - INFO - The best checkpoint with 0.1679 acc/top1 at 3 epoch is saved to best_acc_top1_epoch_3.pth.
+07/13 07:22:08 - mmengine - INFO - Epoch(train)  [4][100/225]  lr: 1.8090e-05  eta: 4:35:54  time: 6.2628  data_time: 5.9586  memory: 9305  loss: 2.3855  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 2.3855
+07/13 07:32:20 - mmengine - INFO - Epoch(train)  [4][200/225]  lr: 1.8090e-05  eta: 4:24:05  time: 6.4739  data_time: 0.0069  memory: 9305  loss: 2.4582  top1_acc: 0.5000  top5_acc: 0.5000  loss_cls: 2.4582
+07/13 07:34:32 - mmengine - INFO - Exp name: swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class_20230713_053425
+07/13 07:34:32 - mmengine - INFO - Epoch(train)  [4][225/225]  lr: 1.8090e-05  eta: 4:20:14  time: 5.5789  data_time: 0.0063  memory: 9305  loss: 2.2932  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 2.2932
+07/13 07:44:59 - mmengine - INFO - Exp name: swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class_20230713_053425
+07/13 07:44:59 - mmengine - INFO - Epoch(train)  [5][100/225]  lr: 1.6691e-05  eta: 4:09:35  time: 6.3859  data_time: 4.7460  memory: 9305  loss: 2.1391  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.1391
+07/13 07:55:27 - mmengine - INFO - Epoch(train)  [5][200/225]  lr: 1.6691e-05  eta: 3:58:59  time: 6.3009  data_time: 0.1566  memory: 9305  loss: 2.0256  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.0256
+07/13 07:57:54 - mmengine - INFO - Exp name: swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class_20230713_053425
+07/13 07:57:54 - mmengine - INFO - Epoch(train)  [5][225/225]  lr: 1.6691e-05  eta: 3:56:00  time: 6.0732  data_time: 0.0231  memory: 9305  loss: 2.5010  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 2.5010
+07/13 08:08:31 - mmengine - INFO - Epoch(train)  [6][100/225]  lr: 1.5000e-05  eta: 3:45:43  time: 6.8839  data_time: 0.0071  memory: 9305  loss: 2.0222  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 2.0222
+07/13 08:18:05 - mmengine - INFO - Epoch(train)  [6][200/225]  lr: 1.5000e-05  eta: 3:33:47  time: 4.7457  data_time: 0.0108  memory: 9305  loss: 2.1308  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.1308
+07/13 08:20:05 - mmengine - INFO - Exp name: swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class_20230713_053425
+07/13 08:20:05 - mmengine - INFO - Epoch(train)  [6][225/225]  lr: 1.5000e-05  eta: 3:30:16  time: 4.6953  data_time: 0.0917  memory: 9305  loss: 2.0154  top1_acc: 0.5000  top5_acc: 0.5000  loss_cls: 2.0154
+07/13 08:20:05 - mmengine - INFO - Saving checkpoint at 6 epochs
+07/13 08:26:54 - mmengine - INFO - Epoch(val)  [6][100/245]    eta: 0:09:49  time: 4.1529  data_time: 4.0293  memory: 2401  
+07/13 08:34:43 - mmengine - INFO - Epoch(val)  [6][200/245]    eta: 0:03:17  time: 4.4978  data_time: 4.3733  memory: 2401  
+07/13 08:37:51 - mmengine - INFO - Epoch(val) [6][245/245]    acc/top1: 0.3572  acc/top5: 0.7359  acc/mean1: 0.3399  data_time: 4.2008  time: 4.3245
+07/13 08:37:51 - mmengine - INFO - The previous best checkpoint /home/jovyan/local/mmaction2_badminton/experiments/badminton_swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_50_per_class/best_acc_top1_epoch_3.pth is removed
+07/13 08:37:52 - mmengine - INFO - The best checkpoint with 0.3572 acc/top1 at 6 epoch is saved to best_acc_top1_epoch_6.pth.
+07/13 08:45:18 - mmengine - INFO - Epoch(train)  [7][100/225]  lr: 1.3090e-05  eta: 3:15:53  time: 4.6585  data_time: 0.1795  memory: 9305  loss: 2.0247  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.0247
+07/13 08:52:29 - mmengine - INFO - Epoch(train)  [7][200/225]  lr: 1.3090e-05  eta: 3:02:12  time: 3.8478  data_time: 1.5473  memory: 9305  loss: 2.3150  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.3150
+07/13 08:54:26 - mmengine - INFO - Exp name: swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class_20230713_053425
+07/13 08:54:26 - mmengine - INFO - Epoch(train)  [7][225/225]  lr: 1.3090e-05  eta: 2:59:04  time: 4.6581  data_time: 2.0128  memory: 9305  loss: 2.2883  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 2.2883
+07/13 09:01:36 - mmengine - INFO - Epoch(train)  [8][100/225]  lr: 1.1045e-05  eta: 2:46:18  time: 4.4900  data_time: 4.1652  memory: 9305  loss: 2.2597  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.2597
+07/13 09:09:05 - mmengine - INFO - Epoch(train)  [8][200/225]  lr: 1.1045e-05  eta: 2:34:26  time: 4.7289  data_time: 4.4318  memory: 9305  loss: 2.1279  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 2.1279
+07/13 09:11:04 - mmengine - INFO - Exp name: swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class_20230713_053425
+07/13 09:11:04 - mmengine - INFO - Epoch(train)  [8][225/225]  lr: 1.1045e-05  eta: 2:31:39  time: 4.4806  data_time: 4.1812  memory: 9305  loss: 1.7316  top1_acc: 0.5000  top5_acc: 0.5000  loss_cls: 1.7316
+07/13 09:18:27 - mmengine - INFO - Epoch(train)  [9][100/225]  lr: 8.9547e-06  eta: 2:20:17  time: 4.9179  data_time: 1.1977  memory: 9305  loss: 2.0468  top1_acc: 0.5000  top5_acc: 0.5000  loss_cls: 2.0468
+07/13 09:25:59 - mmengine - INFO - Exp name: swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class_20230713_053425
+07/13 09:25:59 - mmengine - INFO - Epoch(train)  [9][200/225]  lr: 8.9547e-06  eta: 2:09:24  time: 4.6752  data_time: 0.4058  memory: 9305  loss: 1.7898  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 1.7898
+07/13 09:27:45 - mmengine - INFO - Exp name: swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class_20230713_053425
+07/13 09:27:45 - mmengine - INFO - Epoch(train)  [9][225/225]  lr: 8.9547e-06  eta: 2:06:40  time: 4.2536  data_time: 1.5743  memory: 9305  loss: 2.1398  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 2.1398
+07/13 09:27:45 - mmengine - INFO - Saving checkpoint at 9 epochs
+07/13 09:34:32 - mmengine - INFO - Epoch(val)  [9][100/245]    eta: 0:09:46  time: 4.2415  data_time: 4.1169  memory: 2401  
+07/13 09:42:48 - mmengine - INFO - Epoch(val)  [9][200/245]    eta: 0:03:22  time: 4.6593  data_time: 4.5352  memory: 2401  
+07/13 09:45:58 - mmengine - INFO - Epoch(val) [9][245/245]    acc/top1: 0.4759  acc/top5: 0.8454  acc/mean1: 0.4287  data_time: 4.3030  time: 4.4270
+07/13 09:45:58 - mmengine - INFO - The previous best checkpoint /home/jovyan/local/mmaction2_badminton/experiments/badminton_swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_50_per_class/best_acc_top1_epoch_6.pth is removed
+07/13 09:45:59 - mmengine - INFO - The best checkpoint with 0.4759 acc/top1 at 9 epoch is saved to best_acc_top1_epoch_9.pth.
+07/13 09:53:16 - mmengine - INFO - Epoch(train) [10][100/225]  lr: 6.9098e-06  eta: 1:56:01  time: 4.2498  data_time: 0.1747  memory: 9305  loss: 2.1248  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 2.1248
+07/13 10:01:03 - mmengine - INFO - Epoch(train) [10][200/225]  lr: 6.9098e-06  eta: 1:45:57  time: 5.5174  data_time: 1.4746  memory: 9305  loss: 2.0159  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 2.0159
+07/13 10:02:58 - mmengine - INFO - Exp name: swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class_20230713_053425
+07/13 10:02:58 - mmengine - INFO - Epoch(train) [10][225/225]  lr: 6.9098e-06  eta: 1:43:28  time: 4.3909  data_time: 0.9177  memory: 9305  loss: 1.7966  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 1.7966
+07/13 10:11:09 - mmengine - INFO - Epoch(train) [11][100/225]  lr: 5.0000e-06  eta: 1:33:49  time: 5.0342  data_time: 0.0075  memory: 9305  loss: 2.0095  top1_acc: 0.0000  top5_acc: 0.5000  loss_cls: 2.0095
+07/13 10:18:37 - mmengine - INFO - Epoch(train) [11][200/225]  lr: 5.0000e-06  eta: 1:24:02  time: 4.8669  data_time: 0.0086  memory: 9305  loss: 1.9684  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 1.9684
+07/13 10:20:36 - mmengine - INFO - Exp name: swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class_20230713_053425
+07/13 10:20:36 - mmengine - INFO - Epoch(train) [11][225/225]  lr: 5.0000e-06  eta: 1:21:39  time: 4.5986  data_time: 0.3235  memory: 9305  loss: 1.8118  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 1.8118
+07/13 10:28:06 - mmengine - INFO - Epoch(train) [12][100/225]  lr: 3.3087e-06  eta: 1:12:05  time: 4.3575  data_time: 1.9620  memory: 9305  loss: 1.6037  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 1.6037
+07/13 10:35:30 - mmengine - INFO - Epoch(train) [12][200/225]  lr: 3.3087e-06  eta: 1:02:39  time: 4.1104  data_time: 3.8095  memory: 9305  loss: 2.1012  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 2.1012
+07/13 10:37:19 - mmengine - INFO - Exp name: swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class_20230713_053425
+07/13 10:37:19 - mmengine - INFO - Epoch(train) [12][225/225]  lr: 3.3087e-06  eta: 1:00:19  time: 4.3895  data_time: 3.7626  memory: 9305  loss: 1.9146  top1_acc: 0.5000  top5_acc: 0.5000  loss_cls: 1.9146
+07/13 10:37:19 - mmengine - INFO - Saving checkpoint at 12 epochs
+07/13 10:44:31 - mmengine - INFO - Epoch(val) [12][100/245]    eta: 0:10:22  time: 4.5769  data_time: 4.4520  memory: 2401  
+07/13 10:53:10 - mmengine - INFO - Epoch(val) [12][200/245]    eta: 0:03:33  time: 4.5820  data_time: 4.4572  memory: 2401  
+07/13 10:56:24 - mmengine - INFO - Epoch(val) [12][245/245]    acc/top1: 0.5230  acc/top5: 0.8680  acc/mean1: 0.4891  data_time: 4.5158  time: 4.6400
+07/13 10:56:24 - mmengine - INFO - The previous best checkpoint /home/jovyan/local/mmaction2_badminton/experiments/badminton_swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_50_per_class/best_acc_top1_epoch_9.pth is removed
+07/13 10:56:25 - mmengine - INFO - The best checkpoint with 0.5230 acc/top1 at 12 epoch is saved to best_acc_top1_epoch_12.pth.
+07/13 11:04:05 - mmengine - INFO - Epoch(train) [13][100/225]  lr: 1.9098e-06  eta: 0:51:06  time: 4.5940  data_time: 3.6206  memory: 9305  loss: 1.9735  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 1.9735
+07/13 11:11:31 - mmengine - INFO - Epoch(train) [13][200/225]  lr: 1.9098e-06  eta: 0:41:59  time: 4.9540  data_time: 2.8097  memory: 9305  loss: 1.7313  top1_acc: 0.5000  top5_acc: 0.5000  loss_cls: 1.7313
+07/13 11:13:29 - mmengine - INFO - Exp name: swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class_20230713_053425
+07/13 11:13:29 - mmengine - INFO - Epoch(train) [13][225/225]  lr: 1.9098e-06  eta: 0:39:44  time: 4.8181  data_time: 1.5050  memory: 9305  loss: 1.6251  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 1.6251
+07/13 11:19:17 - mmengine - INFO - Exp name: swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class_20230713_053425
+07/13 11:21:16 - mmengine - INFO - Epoch(train) [14][100/225]  lr: 8.6455e-07  eta: 0:30:47  time: 4.5992  data_time: 4.2987  memory: 9305  loss: 1.6689  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 1.6689
+07/13 11:28:51 - mmengine - INFO - Epoch(train) [14][200/225]  lr: 8.6455e-07  eta: 0:21:53  time: 4.4828  data_time: 3.8420  memory: 9305  loss: 1.8173  top1_acc: 0.5000  top5_acc: 0.5000  loss_cls: 1.8173
+07/13 11:30:42 - mmengine - INFO - Exp name: swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class_20230713_053425
+07/13 11:30:42 - mmengine - INFO - Epoch(train) [14][225/225]  lr: 8.6455e-07  eta: 0:19:40  time: 4.4202  data_time: 0.2375  memory: 9305  loss: 1.8886  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 1.8886
+07/13 11:38:21 - mmengine - INFO - Epoch(train) [15][100/225]  lr: 2.1852e-07  eta: 0:10:53  time: 4.2172  data_time: 3.9163  memory: 9305  loss: 1.8318  top1_acc: 0.0000  top5_acc: 0.0000  loss_cls: 1.8318
+07/13 11:45:58 - mmengine - INFO - Epoch(train) [15][200/225]  lr: 2.1852e-07  eta: 0:02:10  time: 4.2449  data_time: 3.9476  memory: 9305  loss: 1.5230  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 1.5230
+07/13 11:47:58 - mmengine - INFO - Exp name: swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_badminton_video_50_per_class_20230713_053425
+07/13 11:47:58 - mmengine - INFO - Epoch(train) [15][225/225]  lr: 2.1852e-07  eta: 0:00:00  time: 4.6929  data_time: 4.3936  memory: 9305  loss: 2.1461  top1_acc: 0.0000  top5_acc: 1.0000  loss_cls: 2.1461
+07/13 11:47:58 - mmengine - INFO - Saving checkpoint at 15 epochs
+07/13 11:54:52 - mmengine - INFO - Epoch(val) [15][100/245]    eta: 0:09:57  time: 4.0676  data_time: 3.9428  memory: 2401  
+07/13 12:03:08 - mmengine - INFO - Epoch(val) [15][200/245]    eta: 0:03:24  time: 4.0240  data_time: 3.8993  memory: 2401  
+07/13 12:06:20 - mmengine - INFO - Epoch(val) [15][245/245]    acc/top1: 0.5353  acc/top5: 0.8751  acc/mean1: 0.4892  data_time: 4.3436  time: 4.4678
+07/13 12:06:20 - mmengine - INFO - The previous best checkpoint /home/jovyan/local/mmaction2_badminton/experiments/badminton_swin-small-p244-w877_in1k-pre_8xb8-amp-32x2x1-30e_kinetics400-rgb_50_per_class/best_acc_top1_epoch_12.pth is removed
+07/13 12:06:21 - mmengine - INFO - The best checkpoint with 0.5353 acc/top1 at 15 epoch is saved to best_acc_top1_epoch_15.pth.
